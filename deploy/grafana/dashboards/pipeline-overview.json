@@ -1,0 +1,108 @@
+{
+  "title": "Pipeline Overview (local)",
+  "uid": "pipeline-overview-local",
+  "tags": ["dashflow", "local"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "templating": {
+    "list": [
+      {
+        "name": "tenant_id",
+        "type": "query",
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "query": "label_values(pipeline_completeness_ratio, tenant_id)",
+        "includeAll": true,
+        "multi": false,
+        "current": { "text": "All", "value": "$__all" },
+        "refresh": 2
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Completeness ratio",
+      "type": "gauge",
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "max": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 0.8 },
+              { "color": "green", "value": 0.95 }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "expr": "pipeline_completeness_ratio{tenant_id=~\"$tenant_id\"}",
+          "legendFormat": "{{pipeline_id}}"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Records in / out",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 16, "x": 8, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "sum by (pipeline_id) (rate(pipelet_records_in_total{tenant_id=~\"$tenant_id\"}[1m]))",
+          "legendFormat": "in {{pipeline_id}}"
+        },
+        {
+          "expr": "sum by (pipeline_id) (rate(pipelet_records_out_total{tenant_id=~\"$tenant_id\"}[1m]))",
+          "legendFormat": "out {{pipeline_id}}"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Heartbeat age (seconds)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "time() - pipelet_heartbeat_timestamp{tenant_id=~\"$tenant_id\"}",
+          "legendFormat": "{{pipelet_id}}"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Pipelet errors",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "sum by (error_type) (rate(pipelet_errors_total{tenant_id=~\"$tenant_id\"}[1m]))",
+          "legendFormat": "{{error_type}}"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "JVM memory used",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 16 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "jvm_memory_used_bytes{area=\"heap\"}",
+          "legendFormat": "{{id}}"
+        }
+      ]
+    }
+  ]
+}

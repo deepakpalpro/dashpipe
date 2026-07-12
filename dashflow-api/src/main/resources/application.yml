@@ -1,0 +1,118 @@
+spring:
+  application:
+    name: dashflow-api
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+logging:
+  structured:
+    format:
+      console: logstash
+
+# Cloud assembly knobs (see docs/ASSEMBLIES.md). Default = local RabbitMQ + MySQL.
+dashflow:
+  platform:
+    broker: rabbitmq
+    runtime: kubernetes
+    database: mysql
+    observability: prometheus
+
+pipeline:
+  ingress:
+    base-url: http://localhost:8080
+  observability:
+    # Leave blank to hide portal links (customers without these tools).
+    # Env overrides: PIPELINE_OBSERVABILITY_GRAFANA_BASE_URL, PIPELINE_OBSERVABILITY_ELASTICSEARCH_BASE_URL
+    grafana-base-url: ${PIPELINE_OBSERVABILITY_GRAFANA_BASE_URL:}
+    elasticsearch-base-url: ${PIPELINE_OBSERVABILITY_ELASTICSEARCH_BASE_URL:}
+    grafana-label: Grafana
+    elasticsearch-label: Elasticsearch
+  orchestration:
+    # Wave 2 stub advances stages for platform status/metrics. Set false for real queue-mode I/O.
+    stub-stage-worker: true
+    # Optional override; otherwise derived from spring.rabbitmq.*
+    # For Rancher pods reaching Compose RabbitMQ on the host, use host.docker.internal:
+    # amqp-url: amqp://pipeline:pipeline@host.docker.internal:5672/
+    amqp-url: ""
+  k8s:
+    # Set true to spawn real Jobs via Fabric8 (Rancher Desktop / Kind / kubeconfig).
+    enabled: false
+    image-pull-policy: IfNotPresent
+    default-image-pattern: "dashflow/{pipeletId}:local"
+    create-namespace: true
+    ttl-seconds-after-finished: 600
+    backoff-limit: 2
+    job-status-poll-interval-ms: 2000
+    images:
+      plet-s3-source: dashflow/plet-s3-source:local
+      plet-csv-source: dashflow/plet-csv-source:local
+      plet-rest-source: dashflow/plet-rest-source:local
+      plet-csv-to-json: dashflow/plet-csv-to-json:local
+      plet-python-filter: dashflow/plet-python-filter:local
+      plet-field-mapper: dashflow/plet-field-mapper:local
+      plet-webhook-destination: dashflow/plet-webhook-destination:local
+      inventory-batch: dashflow/inventory-pipelet:local
+      webhook-processor: dashflow/plet-python-filter:local
+  webhook:
+    queue-trigger:
+      enabled: false
+      poll-interval-ms: 500
+    rate-limit:
+      enabled: true
+      requests-per-window: 120
+      window-seconds: 60
+      retry-after-seconds: 60
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      enabled: true
+  health:
+    db:
+      enabled: true
+    # Lazy AMQP; avoid failing actuator when broker is down during non-messaging ITs.
+    rabbit:
+      enabled: false
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/pipeline?allowPublicKeyRetrieval=true&useSSL=false
+    username: pipeline
+    password: pipeline
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: false
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: pipeline
+    password: pipeline
+
+server:
+  port: 8080

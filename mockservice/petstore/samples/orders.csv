@@ -1,0 +1,9 @@
+order_id,invoice_number,customer_username,customer_email,customer_name,pet_id,pet_name,quantity,unit_price,line_total,currency,status,complete,ship_date,notes
+1,INV-0001,user1,john@email.com,John James,1,doggie,1,99.99,99.99,USD,placed,false,2026-07-13T12:00:00.000Z,Standard pet adoption order
+2,INV-0002,theUser,jane@email.com,Jane Doe,3,polly,2,49.50,99.00,USD,approved,false,2026-07-16T12:00:00.000Z,Bulk bird order
+3,INV-0003,user1,john@email.com,John James,2,kitty,1,79.00,79.00,USD,delivered,true,2026-07-12T12:00:00.000Z,Cat adoption — ready to invoice
+4,INV-0004,theUser,jane@email.com,Jane Doe,1,doggie,1,99.99,99.99,USD,approved,false,2026-07-14T12:00:00.000Z,Second dog order
+5,INV-0005,user1,john@email.com,John James,3,polly,3,45.00,135.00,USD,placed,false,2026-07-18T12:00:00.000Z,Multi-qty bird order
+6,INV-0006,theUser,jane@email.com,Jane Doe,2,kitty,1,79.00,79.00,USD,delivered,true,2026-07-09T12:00:00.000Z,Completed — invoice candidate
+7,INV-0007,user1,john@email.com,John James,1,doggie,2,89.99,179.98,USD,approved,false,2026-07-15T12:00:00.000Z,Family dog package
+8,INV-0008,theUser,jane@email.com,Jane Doe,3,polly,1,55.00,55.00,USD,delivered,true,2026-07-10T12:00:00.000Z,Delivered bird — invoice candidate

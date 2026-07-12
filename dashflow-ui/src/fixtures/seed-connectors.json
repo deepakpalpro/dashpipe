@@ -1,0 +1,2422 @@
+[
+  {
+    "id": "conn-plet-rest-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "REST Source (plet-rest-source)",
+    "config": {
+      "baseUrl": "http://host.docker.internal:4011/api/v3",
+      "timeoutMs": 30000,
+      "pingPath": "/inventory/summary"
+    },
+    "deployment_config": {
+      "cloud": "local",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "http://host.docker.internal:4011/api/v3",
+      "timeoutMs": 30000,
+      "pingPath": "/inventory/summary"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-webhook-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-event-listener",
+    "name": "Webhook Source (plet-webhook-source)",
+    "config": {
+      "path": "/hooks/plet-webhook-source",
+      "secret": "seed-webhook-secret",
+      "signature_header": "X-Hub-Signature-256"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "path": "/hooks/plet-webhook-source",
+      "secret": "seed-webhook-secret",
+      "signature_header": "X-Hub-Signature-256"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-json-transform",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "JSON Transform (plet-json-transform)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-json-transform",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-json-transform",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-python-filter",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Python Filter (plet-python-filter)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-python-filter",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-python-filter",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-adls-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-storage",
+    "name": "ADLS Destination (plet-adls-destination)",
+    "config": {
+      "bucket": "demo-adls-destination",
+      "region": "us-east-1",
+      "prefix": "inbound/"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "bucket": "demo-adls-destination",
+      "region": "us-east-1",
+      "prefix": "inbound/"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-s3-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-storage",
+    "name": "S3 Destination (plet-s3-destination)",
+    "config": {
+      "bucket": "demo-s3-destination",
+      "region": "us-east-1",
+      "prefix": "inbound/"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "bucket": "demo-s3-destination",
+      "region": "us-east-1",
+      "prefix": "inbound/"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-kafka-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-message-bus",
+    "name": "Kafka Source (plet-kafka-source)",
+    "config": {
+      "queueUrl": "https://sqs.us-east-1.amazonaws.com/000000000000/plet-kafka-source",
+      "region": "us-east-1",
+      "waitTimeSeconds": 10
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "queueUrl": "https://sqs.us-east-1.amazonaws.com/000000000000/plet-kafka-source",
+      "region": "us-east-1",
+      "waitTimeSeconds": 10
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-s3-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-storage",
+    "name": "S3 Source (plet-s3-source)",
+    "config": {
+      "bucket": "demo-s3-source",
+      "region": "us-east-1",
+      "prefix": "inbound/"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "bucket": "demo-s3-source",
+      "region": "us-east-1",
+      "prefix": "inbound/"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-gcs-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-storage",
+    "name": "GCS Source (plet-gcs-source)",
+    "config": {
+      "bucket": "demo-gcs-source",
+      "region": "us-east-1",
+      "prefix": "inbound/"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "bucket": "demo-gcs-source",
+      "region": "us-east-1",
+      "prefix": "inbound/"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-jdbc-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "JDBC Source (plet-jdbc-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-jdbc-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-jdbc-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-mongodb-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "MongoDB Source (plet-mongodb-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-mongodb-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-mongodb-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-salesforce-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Salesforce Source (plet-salesforce-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-salesforce-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-salesforce-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-file-watch-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "File Watch Source (plet-file-watch-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-file-watch-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-file-watch-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-ftp-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "FTP Source (plet-ftp-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-ftp-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-ftp-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-pub-sub-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Pub/Sub Source (plet-pub-sub-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-pub-sub-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-pub-sub-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-sqs-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-message-bus",
+    "name": "SQS Source (plet-sqs-source)",
+    "config": {
+      "queueUrl": "https://sqs.us-east-1.amazonaws.com/000000000000/plet-sqs-source",
+      "region": "us-east-1",
+      "waitTimeSeconds": 10
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "queueUrl": "https://sqs.us-east-1.amazonaws.com/000000000000/plet-sqs-source",
+      "region": "us-east-1",
+      "waitTimeSeconds": 10
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-event-hub-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Event Hub Source (plet-event-hub-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-event-hub-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-event-hub-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-snowflake-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Snowflake Source (plet-snowflake-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-snowflake-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-snowflake-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-bigquery-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "BigQuery Source (plet-bigquery-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-bigquery-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-bigquery-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-csv-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-storage",
+    "name": "CSV Source (plet-csv-source)",
+    "config": {
+      "bucket": "demo-csv-source",
+      "region": "us-east-1",
+      "endpoint": "http://host.docker.internal:4567",
+      "accessKeyId": "test",
+      "secretAccessKey": "test"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "endpoint": "http://host.docker.internal:4567"
+    },
+    "execution_config": {
+      "bucket": "demo-csv-source",
+      "region": "us-east-1",
+      "endpoint": "http://host.docker.internal:4567",
+      "accessKeyId": "test",
+      "secretAccessKey": "test"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-avro-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Avro Source (plet-avro-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-avro-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-avro-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-parquet-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Parquet Source (plet-parquet-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-parquet-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-parquet-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-graphql-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "GraphQL Source (plet-graphql-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-graphql-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-graphql-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-imap-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "IMAP Source (plet-imap-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-imap-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-imap-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-iot-hub-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "IoT Hub Source (plet-iot-hub-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-iot-hub-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-iot-hub-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-cdc-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "CDC Source (plet-cdc-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-cdc-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-cdc-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-schedule-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Schedule Source (plet-schedule-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-schedule-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-schedule-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-manual-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Manual Source (plet-manual-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-manual-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-manual-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-redis-stream-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Redis Stream Source (plet-redis-stream-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-redis-stream-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-redis-stream-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-nats-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "NATS Source (plet-nats-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-nats-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-nats-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-amqp-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-message-bus",
+    "name": "AMQP Source (plet-amqp-source)",
+    "config": {
+      "queueUrl": "https://sqs.us-east-1.amazonaws.com/000000000000/plet-amqp-source",
+      "region": "us-east-1",
+      "waitTimeSeconds": 10
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "queueUrl": "https://sqs.us-east-1.amazonaws.com/000000000000/plet-amqp-source",
+      "region": "us-east-1",
+      "waitTimeSeconds": 10
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-http-poll-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "HTTP Poll Source (plet-http-poll-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-http-poll-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-http-poll-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-sharepoint-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "SharePoint Source (plet-sharepoint-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-sharepoint-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-sharepoint-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-dropbox-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Dropbox Source (plet-dropbox-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-dropbox-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-dropbox-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-onedrive-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "OneDrive Source (plet-onedrive-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-onedrive-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-onedrive-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-slack-source",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Slack Source (plet-slack-source)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-slack-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-slack-source",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-field-mapper",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Field Mapper (plet-field-mapper)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-field-mapper",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-field-mapper",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-schema-validator",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Schema Validator (plet-schema-validator)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-schema-validator",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-schema-validator",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-deduplicator",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Deduplicator (plet-deduplicator)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-deduplicator",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-deduplicator",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-aggregator",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Aggregator (plet-aggregator)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-aggregator",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-aggregator",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-joiner",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Joiner (plet-joiner)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-joiner",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-joiner",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-splitter",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Splitter (plet-splitter)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-splitter",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-splitter",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-enricher",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Enricher (plet-enricher)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-enricher",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-enricher",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-masker",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Masker (plet-masker)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-masker",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-masker",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-hasher",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Hasher (plet-hasher)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-hasher",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-hasher",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-rate-limiter",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Rate Limiter (plet-rate-limiter)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-rate-limiter",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-rate-limiter",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-retry-buffer",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Retry Buffer (plet-retry-buffer)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-retry-buffer",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-retry-buffer",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-branch-router",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Branch Router (plet-branch-router)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-branch-router",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-branch-router",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-xml-to-json",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "XML to JSON (plet-xml-to-json)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-xml-to-json",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-xml-to-json",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-csv-to-json",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "CSV to JSON (plet-csv-to-json)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-csv-to-json",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-csv-to-json",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-avro-codec",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Avro Codec (plet-avro-codec)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-avro-codec",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-avro-codec",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-compression",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Compression (plet-compression)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-compression",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-compression",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-encryption",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Encryption (plet-encryption)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-encryption",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-encryption",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-geo-enrich",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Geo Enrich (plet-geo-enrich)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-geo-enrich",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-geo-enrich",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-time-window",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Time Window (plet-time-window)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-time-window",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-time-window",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-sample-filter",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Sample Filter (plet-sample-filter)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-sample-filter",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-sample-filter",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-null-drop",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Null Drop (plet-null-drop)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-null-drop",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-null-drop",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-type-coercer",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Type Coercer (plet-type-coercer)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-type-coercer",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-type-coercer",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-regex-extract",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Regex Extract (plet-regex-extract)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-regex-extract",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-regex-extract",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-lookup-cache",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Lookup Cache (plet-lookup-cache)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-lookup-cache",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-lookup-cache",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-script-transform",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Script Transform (plet-script-transform)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-script-transform",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-script-transform",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-ml-scorer",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "ML Scorer (plet-ml-scorer)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-ml-scorer",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-ml-scorer",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-anomaly-flag",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Anomaly Flag (plet-anomaly-flag)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-anomaly-flag",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-anomaly-flag",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-unit-converter",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Unit Converter (plet-unit-converter)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-unit-converter",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-unit-converter",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-currency-fx",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Currency FX (plet-currency-fx)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-currency-fx",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-currency-fx",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-html-strip",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "HTML Strip (plet-html-strip)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-html-strip",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-html-strip",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-language-detect",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Language Detect (plet-language-detect)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-language-detect",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-language-detect",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-sentiment-tag",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Sentiment Tag (plet-sentiment-tag)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-sentiment-tag",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-sentiment-tag",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-entity-extract",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Entity Extract (plet-entity-extract)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-entity-extract",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-entity-extract",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-json-path",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "JSON Path (plet-json-path)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-json-path",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-json-path",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-flatten",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Flatten (plet-flatten)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-flatten",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-flatten",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-kafka-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-message-bus",
+    "name": "Kafka Destination (plet-kafka-destination)",
+    "config": {
+      "queueUrl": "https://sqs.us-east-1.amazonaws.com/000000000000/plet-kafka-destination",
+      "region": "us-east-1",
+      "waitTimeSeconds": 10
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "queueUrl": "https://sqs.us-east-1.amazonaws.com/000000000000/plet-kafka-destination",
+      "region": "us-east-1",
+      "waitTimeSeconds": 10
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-jdbc-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "JDBC Destination (plet-jdbc-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-jdbc-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-jdbc-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-mongodb-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "MongoDB Destination (plet-mongodb-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-mongodb-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-mongodb-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-elasticsearch-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Elasticsearch Destination (plet-elasticsearch-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-elasticsearch-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-elasticsearch-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-snowflake-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Snowflake Destination (plet-snowflake-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-snowflake-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-snowflake-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-bigquery-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "BigQuery Destination (plet-bigquery-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-bigquery-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-bigquery-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-gcs-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-storage",
+    "name": "GCS Destination (plet-gcs-destination)",
+    "config": {
+      "bucket": "demo-gcs-destination",
+      "region": "us-east-1",
+      "prefix": "inbound/"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "bucket": "demo-gcs-destination",
+      "region": "us-east-1",
+      "prefix": "inbound/"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-azure-blob-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-storage",
+    "name": "Azure Blob Destination (plet-azure-blob-destination)",
+    "config": {
+      "bucket": "demo-azure-blob-destination",
+      "region": "us-east-1",
+      "prefix": "inbound/"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "bucket": "demo-azure-blob-destination",
+      "region": "us-east-1",
+      "prefix": "inbound/"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-webhook-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-event-listener",
+    "name": "Webhook Destination (plet-webhook-destination)",
+    "config": {
+      "path": "/hooks/plet-webhook-destination",
+      "secret": "seed-webhook-secret",
+      "signature_header": "X-Hub-Signature-256"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "path": "/hooks/plet-webhook-destination",
+      "secret": "seed-webhook-secret",
+      "signature_header": "X-Hub-Signature-256"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-email-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Email Destination (plet-email-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-email-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-email-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-slack-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Slack Destination (plet-slack-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-slack-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-slack-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-teams-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Teams Destination (plet-teams-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-teams-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-teams-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-pub-sub-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Pub/Sub Destination (plet-pub-sub-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-pub-sub-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-pub-sub-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-sqs-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-message-bus",
+    "name": "SQS Destination (plet-sqs-destination)",
+    "config": {
+      "queueUrl": "https://sqs.us-east-1.amazonaws.com/000000000000/plet-sqs-destination",
+      "region": "us-east-1",
+      "waitTimeSeconds": 10
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "queueUrl": "https://sqs.us-east-1.amazonaws.com/000000000000/plet-sqs-destination",
+      "region": "us-east-1",
+      "waitTimeSeconds": 10
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-event-hub-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Event Hub Destination (plet-event-hub-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-event-hub-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-event-hub-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-redis-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Redis Destination (plet-redis-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-redis-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-redis-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-dynamodb-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "DynamoDB Destination (plet-dynamodb-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-dynamodb-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-dynamodb-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-cosmos-db-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Cosmos DB Destination (plet-cosmos-db-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-cosmos-db-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-cosmos-db-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-ftp-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "FTP Destination (plet-ftp-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-ftp-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-ftp-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-sharepoint-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "SharePoint Destination (plet-sharepoint-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-sharepoint-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-sharepoint-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-dropbox-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Dropbox Destination (plet-dropbox-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-dropbox-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-dropbox-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-onedrive-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "OneDrive Destination (plet-onedrive-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-onedrive-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-onedrive-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-salesforce-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Salesforce Destination (plet-salesforce-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-salesforce-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-salesforce-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-hubspot-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "HubSpot Destination (plet-hubspot-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-hubspot-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-hubspot-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-databricks-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Databricks Destination (plet-databricks-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-databricks-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-databricks-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-redshift-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Redshift Destination (plet-redshift-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-redshift-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-redshift-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-clickhouse-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "ClickHouse Destination (plet-clickhouse-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-clickhouse-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-clickhouse-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-prometheus-push",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Prometheus Push (plet-prometheus-push)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-prometheus-push",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-prometheus-push",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-opensearch-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "OpenSearch Destination (plet-opensearch-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-opensearch-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-opensearch-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-file-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-storage",
+    "name": "File Destination (plet-file-destination)",
+    "config": {
+      "bucket": "demo-file-destination",
+      "region": "us-east-1",
+      "prefix": "inbound/"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "bucket": "demo-file-destination",
+      "region": "us-east-1",
+      "prefix": "inbound/"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-null-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Null Destination (plet-null-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-null-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-null-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-archive-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Archive Destination (plet-archive-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-archive-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-archive-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-pagerduty-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "PagerDuty Destination (plet-pagerduty-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-pagerduty-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-pagerduty-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  },
+  {
+    "id": "conn-plet-datadog-destination",
+    "tenantId": "T001",
+    "connectorTypeId": "ct-rest",
+    "name": "Datadog Destination (plet-datadog-destination)",
+    "config": {
+      "baseUrl": "https://demo.example.local/plet-datadog-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "deployment_config": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "baseUrl": "https://demo.example.local/plet-datadog-destination",
+      "timeoutMs": 30000,
+      "api_key": "seed-demo-key"
+    },
+    "status": "ACTIVE",
+    "lastTestedAt": null,
+    "createdAt": "2026-07-01T00:00:00Z"
+  }
+]

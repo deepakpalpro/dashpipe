@@ -1,0 +1,128 @@
+[
+  {
+    "sku": "FOOD-001",
+    "name": "Dog Kibble 5kg",
+    "category": "food",
+    "quantity": 120,
+    "unit_price": 29.99,
+    "description": "Adult dog dry food",
+    "status": "in_stock"
+  },
+  {
+    "sku": "FOOD-002",
+    "name": "Cat Salmon Pate",
+    "category": "food",
+    "quantity": 80,
+    "unit_price": 2.49,
+    "description": "Wet food pouch 85g",
+    "status": "in_stock"
+  },
+  {
+    "sku": "FOOD-003",
+    "name": "Puppy Formula 2kg",
+    "category": "food",
+    "quantity": 200,
+    "unit_price": 24.99,
+    "description": "Grain-free puppy food",
+    "status": "in_stock"
+  },
+  {
+    "sku": "FOOD-004",
+    "name": "Senior Dog Stew",
+    "category": "food",
+    "quantity": 45,
+    "unit_price": 3.99,
+    "description": "Wet food for senior dogs",
+    "status": "in_stock"
+  },
+  {
+    "sku": "FOOD-005",
+    "name": "Bird Seed Mix 1kg",
+    "category": "food",
+    "quantity": 0,
+    "unit_price": 8.5,
+    "description": "Out of stock seed blend",
+    "status": "out_of_stock"
+  },
+  {
+    "sku": "TOY-001",
+    "name": "Rubber Ball",
+    "category": "toys",
+    "quantity": 50,
+    "unit_price": 4.99,
+    "description": "Fetch toy for dogs",
+    "status": "in_stock"
+  },
+  {
+    "sku": "TOY-002",
+    "name": "Catnip Mouse",
+    "category": "toys",
+    "quantity": 8,
+    "unit_price": 3.5,
+    "description": "Soft toy with catnip",
+    "status": "low_stock"
+  },
+  {
+    "sku": "TOY-003",
+    "name": "Squeaky Bone",
+    "category": "toys",
+    "quantity": 75,
+    "unit_price": 6.5,
+    "description": "Durable chew toy",
+    "status": "in_stock"
+  },
+  {
+    "sku": "TOY-004",
+    "name": "Feather Wand",
+    "category": "toys",
+    "quantity": 22,
+    "unit_price": 7.25,
+    "description": "Interactive cat toy",
+    "status": "in_stock"
+  },
+  {
+    "sku": "ACC-001",
+    "name": "Leather Leash",
+    "category": "accessories",
+    "quantity": 35,
+    "unit_price": 19.5,
+    "description": "1.5m leather leash",
+    "status": "in_stock"
+  },
+  {
+    "sku": "ACC-002",
+    "name": "Stainless Bowl",
+    "category": "accessories",
+    "quantity": 0,
+    "unit_price": 9.99,
+    "description": "Medium pet bowl",
+    "status": "out_of_stock"
+  },
+  {
+    "sku": "ACC-003",
+    "name": "Nylon Collar M",
+    "category": "accessories",
+    "quantity": 40,
+    "unit_price": 12.0,
+    "description": "Adjustable medium collar",
+    "status": "in_stock"
+  },
+  {
+    "sku": "ACC-004",
+    "name": "Travel Carrier",
+    "category": "accessories",
+    "quantity": 12,
+    "unit_price": 49.0,
+    "description": "Airline-approved soft carrier",
+    "status": "in_stock"
+  },
+  {
+    "sku": "ACC-005",
+    "name": "Grooming Brush",
+    "category": "accessories",
+    "quantity": 5,
+    "unit_price": 11.25,
+    "description": "Low stock brush",
+    "status": "low_stock"
+  }
+]

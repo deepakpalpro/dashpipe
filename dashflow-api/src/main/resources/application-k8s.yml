@@ -1,0 +1,18 @@
+---
+# Activate with: --spring.profiles.active=local,k8s
+# Requires Rancher Desktop / Kind and kubeconfig (~/.kube/config).
+spring:
+  config:
+    activate:
+      on-profile: k8s
+
+pipeline:
+  k8s:
+    enabled: true
+    image-pull-policy: IfNotPresent
+    create-namespace: true
+  orchestration:
+    # Real pipelets own stage advancement when Jobs run with IO_MODE=queue.
+    stub-stage-worker: false
+    # Pods on Rancher reach Compose RabbitMQ on the host via host.docker.internal.
+    amqp-url: amqp://pipeline:pipeline@host.docker.internal:5672/

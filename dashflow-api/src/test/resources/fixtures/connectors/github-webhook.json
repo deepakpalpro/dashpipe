@@ -1,0 +1,8 @@
+{
+  "connector_type_id": "ct-event-listener",
+  "name": "github-webhook",
+  "config": {
+    "path_hint": "/github",
+    "signing_secret": "test-secret"
+  }
+}

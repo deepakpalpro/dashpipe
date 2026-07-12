@@ -1,0 +1,20 @@
+# Azure assembly pin
+name: azure
+description: First cloud assembly for Dashflow (platform only)
+platform:
+  broker: servicebus
+  runtime: kubernetes          # AKS
+  database: mysql           # Azure Database for MySQL Flexible Server
+  observability: azure-monitor
+infra:
+  iac: deploy/azure/main.bicep
+  services:
+    - aks
+    - mysql-flexible
+    - service-bus
+    - acr
+    - log-analytics
+out_of_scope:
+  - azure-blob-connectors
+  - event-hubs
+  - pipelet-cloud-providers

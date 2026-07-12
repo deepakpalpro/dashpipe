@@ -1,0 +1,30 @@
+{
+  "title": "Pipeline Overview — ${tenant_id}",
+  "uid": "pipeline-overview-${tenant_id}",
+  "tags": ["dashflow", "tenant"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "panels": [
+    {
+      "id": 1,
+      "title": "Completeness ratio",
+      "type": "gauge",
+      "targets": [
+        {
+          "expr": "pipeline_completeness_ratio{tenant_id=\"${tenant_id}\"}"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Heartbeat age",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "time() - pipelet_heartbeat_timestamp{tenant_id=\"${tenant_id}\"}"
+        }
+      ]
+    }
+  ]
+}

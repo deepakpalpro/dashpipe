@@ -1,0 +1,15 @@
+sku,name,category,quantity,unit_price,description
+FOOD-001,Dog Kibble 5kg,food,120,29.99,Adult dog dry food
+FOOD-002,Cat Salmon Pate,food,80,2.49,Wet food pouch 85g
+FOOD-003,Puppy Formula 2kg,food,200,24.99,Grain-free puppy food
+FOOD-004,Senior Dog Stew,food,45,3.99,Wet food for senior dogs
+FOOD-005,Bird Seed Mix 1kg,food,0,8.50,Out of stock seed blend
+TOY-001,Rubber Ball,toys,50,4.99,Fetch toy for dogs
+TOY-002,Catnip Mouse,toys,8,3.50,Soft toy with catnip
+TOY-003,Squeaky Bone,toys,75,6.50,Durable chew toy
+TOY-004,Feather Wand,toys,22,7.25,Interactive cat toy
+ACC-001,Leather Leash,accessories,35,19.50,1.5m leather leash
+ACC-002,Stainless Bowl,accessories,0,9.99,Medium pet bowl
+ACC-003,Nylon Collar M,accessories,40,12.00,Adjustable medium collar
+ACC-004,Travel Carrier,accessories,12,49.00,Airline-approved soft carrier
+ACC-005,Grooming Brush,accessories,5,11.25,Low stock brush

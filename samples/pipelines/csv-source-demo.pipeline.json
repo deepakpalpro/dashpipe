@@ -1,0 +1,105 @@
+{
+  "format_version": "1",
+  "exported_at": "2026-07-12T10:00:00Z",
+  "pipeline": {
+    "name": "CSV Source Demo",
+    "description": "Fetch inventory CSV via plet-csv-source (storage) → field mapper → Petstore webhook",
+    "visibility": "private",
+    "execution_mode": "async",
+    "deployment_config": {
+      "cloud": "local",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "ioMode": "queue",
+      "batchSize": "1"
+    }
+  },
+  "connectors": [
+    {
+      "export_key": "ct-storage::CSV Source LocalStack",
+      "connectorTypeId": "ct-storage",
+      "name": "CSV Source LocalStack",
+      "deployment_config": {
+        "cloud": "aws",
+        "region": "us-east-1"
+      },
+      "execution_config": {
+        "bucket": "demo-csv-source",
+        "endpoint": "http://host.docker.internal:4567",
+        "region": "us-east-1",
+        "accessKeyId": "test",
+        "secretAccessKey": "test",
+        "createBucketIfMissing": true,
+        "prefix": "inventory/"
+      }
+    },
+    {
+      "export_key": "ct-rest::Petstore Inventory API",
+      "connectorTypeId": "ct-rest",
+      "name": "Petstore Inventory API",
+      "deployment_config": {
+        "cloud": "aws",
+        "region": "us-east-1"
+      },
+      "execution_config": {
+        "baseUrl": "http://host.docker.internal:4010/api/v3",
+        "timeoutMs": 30000,
+        "pingPath": "/health"
+      }
+    }
+  ],
+  "services": [],
+  "steps": [
+    {
+      "pipelet_id": "plet-csv-source",
+      "step_order": 1,
+      "deployment_config": {
+        "cloud": "aws",
+        "region": "us-east-1",
+        "endpoint": "http://host.docker.internal:4567"
+      },
+      "execution_config": {
+        "objectKey": "inventory/daily.csv",
+        "delimiter": ",",
+        "hasHeader": "true"
+      },
+      "connector_refs": ["ct-storage::CSV Source LocalStack"],
+      "service_refs": [],
+      "input_queue": null,
+      "output_queue": null
+    },
+    {
+      "pipelet_id": "plet-field-mapper",
+      "step_order": 2,
+      "deployment_config": {
+        "cloud": "aws",
+        "region": "us-east-1"
+      },
+      "execution_config": {
+        "mode": "upsert",
+        "mapping": "sku=sku,name=name,category=category,quantity=quantity,unit_price=unitPrice,description=description"
+      },
+      "connector_refs": [],
+      "service_refs": [],
+      "input_queue": null,
+      "output_queue": null
+    },
+    {
+      "pipelet_id": "plet-webhook-destination",
+      "step_order": 3,
+      "deployment_config": {
+        "cloud": "aws",
+        "region": "us-east-1"
+      },
+      "execution_config": {
+        "path": "/inventory/upload",
+        "method": "POST"
+      },
+      "connector_refs": ["ct-rest::Petstore Inventory API"],
+      "service_refs": [],
+      "input_queue": null,
+      "output_queue": null
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+# Local / default assembly pin
+name: local
+description: Developer assembly (Compose + optional local Kubernetes)
+platform:
+  broker: rabbitmq
+  runtime: kubernetes
+  database: mysql
+  observability: prometheus
+infra:
+  compose: docker-compose.yml
+  services:
+    - mysql
+    - rabbitmq
+    - localstack   # connectors only (not platform bus)
+out_of_scope:
+  - production HA

@@ -1,0 +1,9 @@
+{
+  "id": "sd-auth-stub",
+  "serviceTypeId": "st-auth",
+  "vendor": "StubAuth",
+  "issuer": "https://auth.example.local/stub",
+  "audience": "dashflow",
+  "signature_header": "X-Hub-Signature-256",
+  "clock_skew_seconds": 300
+}

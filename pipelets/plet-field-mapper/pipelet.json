@@ -1,0 +1,16 @@
+{
+  "id": "plet-field-mapper",
+  "name": "Field Mapper",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashflow/plet-field-mapper:local",
+  "requiredDeploymentKeys": ["region"],
+  "requiredExecutionKeys": ["mode"],
+  "deploymentConfiguration": { "cloud": "aws", "region": "" },
+  "executionConfiguration": {
+    "mode": "map",
+    "mapping": "",
+    "itemsKey": "items",
+    "wrapKey": "payload"
+  }
+}

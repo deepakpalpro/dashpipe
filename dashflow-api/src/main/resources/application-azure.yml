@@ -1,0 +1,39 @@
+# Azure assembly profile — AKS + Azure MySQL + Service Bus + Monitor.
+# Activate: spring.profiles.active=azure
+spring:
+  config:
+    activate:
+      on-profile: azure
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+  datasource:
+    url: ${DASHFLOW_MYSQL_URL:jdbc:mysql://localhost:3306/dashflow?useSSL=true&requireSSL=true}
+    username: ${DASHFLOW_MYSQL_USER:dashflow}
+    password: ${DASHFLOW_MYSQL_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: false
+
+dashflow:
+  platform:
+    broker: servicebus
+    runtime: kubernetes
+    database: mysql
+    observability: azure-monitor
+    servicebus:
+      connection-string: ${DASHFLOW_SERVICEBUS_CONNECTION_STRING:}
+      fully-qualified-namespace: ${DASHFLOW_SERVICEBUS_NAMESPACE:}
+
+pipeline:
+  orchestration:
+    stub-stage-worker: false
+    amqp-url: ""
+  k8s:
+    enabled: true
+    image-pull-policy: IfNotPresent
+    default-image-pattern: "dashflow/{pipeletId}:${DASHFLOW_IMAGE_TAG:latest}"
+    create-namespace: true
+
+server:
+  port: 8080

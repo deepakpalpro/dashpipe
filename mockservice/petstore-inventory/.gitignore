@@ -1,0 +1,2 @@
+# Ignore lock until npm install generates it in CI/local
+node_modules/

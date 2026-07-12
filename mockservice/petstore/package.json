@@ -1,0 +1,25 @@
+{
+  "name": "petstore-service",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "End-to-end Swagger Petstore API with MySQL persistence",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "db:migrate": "node src/migrate.js",
+    "db:seed": "node src/migrate.js --seed",
+    "mock": "prism mock openapi.json --host 0.0.0.0 --port 4011 --dynamic"
+  },
+  "engines": {
+    "node": ">=18.20.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1"
+  },
+  "devDependencies": {
+    "@stoplight/prism-cli": "^5.14.2"
+  }
+}

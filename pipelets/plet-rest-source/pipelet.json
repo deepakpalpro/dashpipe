@@ -1,0 +1,29 @@
+{
+  "id": "plet-rest-source",
+  "name": "REST Source",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashflow/plet-rest-source:local",
+  "category": "Source",
+  "description": "HTTP GET/POST against a REST connector baseUrl + path; emit JSON payload (and records when the body is an array).",
+  "requiredDeploymentKeys": ["region"],
+  "requiredExecutionKeys": ["path"],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": ""
+  },
+  "executionConfiguration": {
+    "path": "/",
+    "method": "GET",
+    "timeoutMs": "30000",
+    "batchSize": "100"
+  },
+  "connectorType": "rest",
+  "env": {
+    "CONNECTOR_CONFIG": "REST connector JSON (required: baseUrl; optional: timeoutMs, api_key, headers)",
+    "SERVICE_CONFIG": "Auth service JSON (optional: api_key, bearerToken)",
+    "DEPLOYMENT_CONFIG": "Step/pipeline deployment overrides (required after merge: region)",
+    "EXECUTION_CONFIG": "Step overrides (required: path; optional: method, query, headers, timeoutMs)",
+    "PIPELET_DEFAULTS": "Optional JSON with deploymentConfiguration / executionConfiguration defaults"
+  }
+}

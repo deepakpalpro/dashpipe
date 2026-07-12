@@ -1,0 +1,17 @@
+{
+  "name": "petstore-inventory",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Mock Petstore inventory catalog API (GET) for Dashflow REST source demos",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "engines": {
+    "node": ">=18.20.1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

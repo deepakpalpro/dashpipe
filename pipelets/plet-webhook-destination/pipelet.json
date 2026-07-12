@@ -1,0 +1,16 @@
+{
+  "id": "plet-webhook-destination",
+  "name": "Webhook Destination",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashflow/plet-webhook-destination:local",
+  "requiredDeploymentKeys": ["region"],
+  "requiredExecutionKeys": ["path"],
+  "deploymentConfiguration": { "cloud": "aws", "region": "" },
+  "executionConfiguration": {
+    "path": "",
+    "method": "POST",
+    "bodyKey": "",
+    "timeoutMs": "30000"
+  }
+}
