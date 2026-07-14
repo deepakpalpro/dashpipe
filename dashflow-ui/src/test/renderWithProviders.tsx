@@ -4,6 +4,7 @@ import type { ReactElement, ReactNode } from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import { AuthProvider } from '../contexts/AuthContext'
 import { TenantProvider } from '../contexts/TenantContext'
+import { PipeletCatalogProvider } from '../features/pipelets/PipeletCatalogContext'
 
 type Options = {
   initialEntries?: string[]
@@ -26,7 +27,9 @@ function Providers({
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <TenantProvider initialTenantId={tenantId}>{children}</TenantProvider>
+        <TenantProvider initialTenantId={tenantId}>
+          <PipeletCatalogProvider>{children}</PipeletCatalogProvider>
+        </TenantProvider>
       </AuthProvider>
     </QueryClientProvider>
   )

@@ -493,8 +493,8 @@ export const serviceHandlers = [
 
 export const pipeletHandlers = [
   http.get('/api/v1/pipelets', async () => {
-    const { PIPELET_FIXTURE } = await import('../features/pipelets/fixture')
-    return HttpResponse.json(PIPELET_FIXTURE)
+    const { getPipeletCatalog } = await import('../features/pipelets/fixture')
+    return HttpResponse.json(getPipeletCatalog())
   }),
 
   http.post('/api/v1/pipelets/register', async ({ request }) => {

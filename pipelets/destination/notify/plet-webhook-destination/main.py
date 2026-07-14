@@ -6,7 +6,17 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "_common"))
+_here = Path(__file__).resolve().parent
+_COMMON = next(
+    (
+        c
+        for c in (Path("/app/_common"), *(_p / "_common" for _p in _here.parents))
+        if c.is_dir()
+    ),
+    None,
+)
+if _COMMON is not None:
+    sys.path.insert(0, str(_COMMON))
 
 from config_merge import log, resolve_from_env  # noqa: E402
 from io_transport import read_message, write_message  # noqa: E402
@@ -26,7 +36,12 @@ def main() -> int:
     out = run(message, execution, connector)
     out["deployment"] = deployment
     write_message(out)
-    log(f"posted to {out.get('http', {}).get('url')}")
+    record_count = out.get("recordCount")
+    if record_count is None and isinstance(out.get("records"), list):
+        record_count = len(out["records"])
+    log(
+        f"posted recordCount={record_count} to {out.get('http', {}).get('url')}"
+    )
     return 0
 
 

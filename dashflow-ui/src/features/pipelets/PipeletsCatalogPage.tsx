@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import {
   catalogFilter,
@@ -6,7 +6,7 @@ import {
   type PipeletCategory,
   type PipeletStatusFilter,
 } from './catalogFilter'
-import { PIPELET_FIXTURE } from './fixture'
+import { usePipeletCatalog } from './PipeletCatalogContext'
 import { PipeletCard } from './PipeletCard'
 import { PipeletDetailModal } from './PipeletDetailModal'
 import {
@@ -32,16 +32,22 @@ type Props = {
 }
 
 export function PipeletsCatalogPage({
-  catalog = PIPELET_FIXTURE,
+  catalog: catalogProp,
   onRegister,
 }: Props) {
   const { isAdmin } = useAuth()
+  const { catalog: contextCatalog, activatePipelets } = usePipeletCatalog()
+  const catalog = catalogProp ?? contextCatalog
   const [category, setCategory] = useState<PipeletCategory | 'All'>('All')
   const [status, setStatus] = useState<PipeletStatusFilter>('Active')
   const [search, setSearch] = useState('')
   const [registerOpen, setRegisterOpen] = useState(false)
   const [selected, setSelected] = useState<PipeletCatalogEntry | null>(null)
   const [items, setItems] = useState(catalog)
+
+  useEffect(() => {
+    setItems(catalog)
+  }, [catalog])
 
   const filtered = useMemo(
     () => catalogFilter(items, { category, search, status }),
@@ -58,9 +64,11 @@ export function PipeletsCatalogPage({
         body: JSON.stringify(input),
       })
     }
+    const id = `plet-${input.name.toLowerCase().replace(/\s+/g, '-')}`
+    activatePipelets([id])
     setItems((prev) => [
       {
-        id: `plet-${input.name.toLowerCase().replace(/\s+/g, '-')}`,
+        id,
         name: input.name,
         category: input.category as PipeletCategory,
         version: '0.1.0',

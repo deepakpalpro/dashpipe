@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import type { PipelineStepResponse } from '../../api/types'
-import { PIPELET_FIXTURE } from '../pipelets/fixture'
 import type { PipeletCatalogEntry } from '../pipelets/catalogFilter'
+import { usePipeletCatalog } from '../pipelets/PipeletCatalogContext'
 import { displayConfigValue } from '../../api/secrets'
 
 type Props = {
@@ -25,8 +25,10 @@ function formatValue(value: unknown): string {
 
 export function PipelineStepsDetail({
   steps,
-  catalog = PIPELET_FIXTURE,
+  catalog: catalogProp,
 }: Props) {
+  const { catalog: contextCatalog } = usePipeletCatalog()
+  const catalog = catalogProp ?? contextCatalog
   const byId = useMemo(() => {
     const map = new Map(catalog.map((c) => [c.id, c]))
     return map

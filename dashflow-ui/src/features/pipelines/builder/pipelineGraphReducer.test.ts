@@ -22,6 +22,8 @@ function node(
       connectorIds: [],
       serviceIds: [],
       config: {},
+      deploymentConfig: {},
+      executionConfig: {},
     },
   }
 }

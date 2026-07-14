@@ -1,4 +1,4 @@
-import type { ObservabilityPortalLinks } from '../../../api/types'
+import type { ObservabilityPortalLinks } from '../../api/types'
 
 type Props = {
   links: ObservabilityPortalLinks | null | undefined

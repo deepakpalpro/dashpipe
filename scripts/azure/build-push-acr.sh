@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# Build platform + pipelet + mock images and push to Azure Container Registry.
+# Build platform images and optionally mirror deps into Azure Container Registry.
 #
 # Usage:
-#   ./scripts/azure/build-push-acr.sh <acrName> [tag]
-# Example:
-#   ./scripts/azure/build-push-acr.sh dfdevacrxxxx 0.1.0
+#   ./scripts/azure/build-push-acr.sh <acrName> [tag] [--platform-only|--all]
+#
+#   --platform-only  (default) api, ui, petstore mocks + mirror MySQL/Rabbit/Grafana/Prometheus
+#   --all            also build every pipelet image (slow)
 #
 # Prerequisites: az login, docker, az acr login permission.
 
@@ -13,9 +14,20 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 ACR_NAME="${1:-}"
 TAG="${2:-0.1.0}"
+MODE="${3:---platform-only}"
 
 if [[ -z "$ACR_NAME" ]]; then
-  printf 'Usage: %s <acrName> [tag]\n' "$(basename "$0")" >&2
+  printf 'Usage: %s <acrName> [tag] [--platform-only|--all]\n' "$(basename "$0")" >&2
+  exit 1
+fi
+
+if [[ "$TAG" == --* ]]; then
+  MODE="$TAG"
+  TAG="0.1.0"
+fi
+
+if [[ "$MODE" != "--platform-only" && "$MODE" != "--all" ]]; then
+  printf 'Unknown mode %s (use --platform-only or --all)\n' "$MODE" >&2
   exit 1
 fi
 
@@ -40,8 +52,19 @@ build_push() {
   echo "==> Building $full"
   docker build -f "$dockerfile" -t "$full" "$context"
   docker push "$full"
-  # Also tag unprefixed local name for kustomize edit convenience
   docker tag "$full" "${image}:${TAG}"
+}
+
+# Mirror a public image into ACR (no local docker pull required when import works).
+acr_import() {
+  local source="$1"
+  local target="$2"
+  echo "==> Importing $source → ${LOGIN_SERVER}/${target}"
+  az acr import \
+    --name "$ACR_NAME" \
+    --source "$source" \
+    --image "$target" \
+    --force
 }
 
 cd "$ROOT"
@@ -54,28 +77,45 @@ build_push dashflow-ui/Dockerfile . "dashflow/ui"
 build_push mockservice/petstore/Dockerfile mockservice/petstore "dashflow/petstore"
 build_push mockservice/petstore-inventory/Dockerfile mockservice/petstore-inventory "dashflow/petstore-inventory"
 
-# Pipelets (Jobs created by API) — nested source|transformer|destination/<group>/<id>
-while IFS= read -r _df; do
-  _p="$(basename "$(dirname "$_df")")"
-  build_push "$_df" pipelets "dashflow/${_p}"
-done < <(
-  find pipelets/source pipelets/transformer pipelets/destination \
-    -mindepth 2 -maxdepth 2 -type d -name 'plet-*' -exec test -f '{}/Dockerfile' \; \
-    -print 2>/dev/null | sort | while read -r _d; do printf '%s/Dockerfile\n' "$_d"; done
-)
+# Runtime deps (Wave A empty stack)
+acr_import "docker.io/library/mysql:8.4" "dashflow/mysql:8.4"
+acr_import "docker.io/library/rabbitmq:3.13-management" "dashflow/rabbitmq:3.13-management"
+acr_import "docker.io/prom/prometheus:v2.55.1" "dashflow/prometheus:v2.55.1"
+acr_import "docker.io/grafana/grafana:11.3.1" "dashflow/grafana:11.3.1"
 
-# Optional composite demo pipelet
-if [[ -f pipelets/inventory/Dockerfile ]]; then
-  build_push pipelets/inventory/Dockerfile pipelets/inventory "dashflow/inventory-pipelet"
+if [[ "$MODE" == "--all" ]]; then
+  echo "==> Building all pipelet images (--all)"
+  while IFS= read -r _df; do
+    _p="$(basename "$(dirname "$_df")")"
+    build_push "$_df" pipelets "dashflow/${_p}"
+  done < <(
+    find pipelets/source pipelets/transformer pipelets/destination \
+      -mindepth 2 -maxdepth 2 -type d -name 'plet-*' -exec test -f '{}/Dockerfile' \; \
+      -print 2>/dev/null | sort | while read -r _d; do printf '%s/Dockerfile\n' "$_d"; done
+  )
+  if [[ -f pipelets/inventory/Dockerfile ]]; then
+    build_push pipelets/inventory/Dockerfile pipelets/inventory "dashflow/inventory-pipelet"
+  fi
+else
+  echo "==> Skipping pipelet images (--platform-only). Catalog is inactive until you activate + push."
 fi
 
 cat <<EOF
 
-Pushed images to ${LOGIN_SERVER} with tag ${TAG}.
+Pushed images to ${LOGIN_SERVER} (tag ${TAG} for custom images).
+
+Custom:
+  ${LOGIN_SERVER}/dashflow/api:${TAG}
+  ${LOGIN_SERVER}/dashflow/ui:${TAG}
+  ${LOGIN_SERVER}/dashflow/petstore:${TAG}
+  ${LOGIN_SERVER}/dashflow/petstore-inventory:${TAG}
+
+Mirrored:
+  ${LOGIN_SERVER}/dashflow/mysql:8.4
+  ${LOGIN_SERVER}/dashflow/rabbitmq:3.13-management
+  ${LOGIN_SERVER}/dashflow/prometheus:v2.55.1
+  ${LOGIN_SERVER}/dashflow/grafana:11.3.1
 
 Next:
   ./scripts/azure/apply-aks.sh ${ACR_NAME} ${TAG}
-
-Pipelet image pattern for API:
-  ${LOGIN_SERVER}/dashflow/{pipeletId}:${TAG}
 EOF

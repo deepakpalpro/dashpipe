@@ -219,7 +219,7 @@ export type PipelineRunResponse = {
 export type ExecutionStepStatusDto = {
   step_order: number
   node_id?: string
-  status: 'PENDING' | 'RUNNING' | 'COMPLETED' | 'FAILED'
+  status: 'PENDING' | 'RUNNING' | 'COMPLETED' | 'FAILED' | 'CANCELLED'
 }
 
 export type PipelineExecutionSummary = {

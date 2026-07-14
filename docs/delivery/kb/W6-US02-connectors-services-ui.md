@@ -12,7 +12,7 @@
 - W6-US01 shell (`dashflow-ui`)
 - Node 20+ / npm
 - Optional: MSW (`npm run dev`) or live API (`npm run dev:api`)
-- Live API: Flyway through **V19** for seeded connectors/auth vendors
+- Live API: Flyway schema + **V19 seed** when Spring profile `local` is on (`classpath:db/seed`); Azure empty stack skips seed
 
 ## Feature overview
 

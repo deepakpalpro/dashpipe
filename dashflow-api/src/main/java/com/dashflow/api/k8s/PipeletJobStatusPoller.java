@@ -56,7 +56,7 @@ public class PipeletJobStatusPoller {
 
   private static final Pattern RECORDS_PATTERN =
       Pattern.compile(
-          "(?:emitted records=|recordCount[\"'\\s:=]+|items=|kept )(\\d+)",
+          "(?:emitted records=|recordCount[\"'\\s:=]+|items=|kept[=:\\s]+)(\\d+)",
           Pattern.CASE_INSENSITIVE);
 
   private final KubernetesClient kubernetesClient;

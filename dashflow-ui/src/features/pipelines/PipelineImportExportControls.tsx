@@ -4,6 +4,8 @@ import {
   importPipeline,
 } from '../../api/resources'
 import type { PipelineBundle } from '../../api/types'
+import { usePipeletCatalog } from '../pipelets/PipeletCatalogContext'
+import { pipeletIdsFromBundleSteps } from '../pipelets/pipeletActivation'
 
 type Props = {
   tenantId: string
@@ -36,6 +38,7 @@ export function PipelineImportExportControls({
   const fileRef = useRef<HTMLInputElement>(null)
   const [busy, setBusy] = useState(false)
   const [reuse, setReuse] = useState(true)
+  const { activatePipelets } = usePipeletCatalog()
 
   async function handleExport() {
     if (!pipelineId) {
@@ -67,13 +70,21 @@ export function PipelineImportExportControls({
         bundle: parsed,
         conflict_strategy: reuse ? 'reuse' : 'create',
       })
+      const referenced = pipeletIdsFromBundleSteps(parsed.steps)
+      const activated = activatePipelets(referenced)
       const warn =
         result.warnings?.length > 0
           ? ` Warnings: ${result.warnings.join('; ')}`
           : ''
+      const activatedNote =
+        activated.length > 0
+          ? ` Activated pipelets: ${activated.join(', ')}.`
+          : referenced.length > 0
+            ? ` Referenced pipelets already active: ${referenced.join(', ')}.`
+            : ''
       onImported?.(
         result.pipeline_id,
-        `Imported “${result.name}” (${result.pipeline_id}).${warn}`,
+        `Imported “${result.name}” (${result.pipeline_id}).${activatedNote}${warn}`,
       )
     } catch (err) {
       onError?.(err instanceof Error ? err.message : 'Import failed')

@@ -4,21 +4,23 @@ metadata:
   name: dashflow-api-config
   namespace: dashflow
 data:
-  # Wave A: in-cluster MySQL + RabbitMQ; Jobs pull pipelets from ACR.
-  SPRING_PROFILES_ACTIVE: "local,k8s"
+  # Empty Wave A: in-cluster MySQL + RabbitMQ. Profile k8s only (no local demo seed).
+  SPRING_PROFILES_ACTIVE: "k8s"
+  SPRING_FLYWAY_LOCATIONS: "classpath:db/migration"
   SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/pipeline?allowPublicKeyRetrieval=true&useSSL=false"
   SPRING_DATASOURCE_USERNAME: "pipeline"
   SPRING_RABBITMQ_HOST: "rabbitmq"
   SPRING_RABBITMQ_PORT: "5672"
   SPRING_RABBITMQ_USERNAME: "pipeline"
   PIPELINE_ORCHESTRATION_STUB_STAGE_WORKER: "false"
-  PIPELINE_ORCHESTRATION_AMQP_URL: "amqp://pipeline:pipeline@rabbitmq:5672/"
+  PIPELINE_ORCHESTRATION_AMQP_URL: "amqp://pipeline:pipeline@rabbitmq.dashflow.svc.cluster.local:5672/"
   PIPELINE_K8S_ENABLED: "true"
   PIPELINE_K8S_CREATE_NAMESPACE: "true"
-  PIPELINE_K8S_IMAGE_PULL_POLICY: "IfNotPresent"
+  PIPELINE_K8S_IMAGE_PULL_POLICY: "Always"
   # Overridden by apply script / kustomize replacements with real ACR host + tag.
   PIPELINE_K8S_DEFAULT_IMAGE_PATTERN: "dashflow/{pipeletId}:latest"
   PIPELINE_INGRESS_BASE_URL: "http://dashflow-ui"
+  PIPELINE_OBSERVABILITY_GRAFANA_BASE_URL: "http://grafana:3000"
 ---
 apiVersion: apps/v1
 kind: Deployment

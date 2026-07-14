@@ -2,6 +2,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider } from './contexts/AuthContext'
 import { TenantProvider } from './contexts/TenantContext'
+import { PipeletCatalogProvider } from './features/pipelets/PipeletCatalogContext'
 import { AppShell } from './app/AppShell'
 import './App.css'
 
@@ -17,7 +18,9 @@ export default function App() {
       <BrowserRouter>
         <AuthProvider>
           <TenantProvider>
-            <AppShell />
+            <PipeletCatalogProvider>
+              <AppShell />
+            </PipeletCatalogProvider>
           </TenantProvider>
         </AuthProvider>
       </BrowserRouter>

@@ -1,6 +1,7 @@
 ---
-# Activate with: --spring.profiles.active=local,k8s
-# Requires Rancher Desktop / Kind and kubeconfig (~/.kube/config).
+# Activate with: --spring.profiles.active=local,k8s (localdev) or k8s (Azure empty stack).
+# local profile also loads classpath:db/seed (demo connectors). Azure Wave A uses k8s only.
+# Requires Rancher Desktop / Kind / AKS and kubeconfig.
 spring:
   config:
     activate:

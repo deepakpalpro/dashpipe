@@ -27,7 +27,7 @@ import {
 import { useTenant } from '../../../contexts/TenantContext'
 import { KeyValueEditor } from '../../forms/KeyValueEditor'
 import { mergeExtendConfig } from '../../forms/mergeExtendConfig'
-import { PIPELET_FIXTURE } from '../../pipelets/fixture'
+import { usePipeletCatalog } from '../../pipelets/PipeletCatalogContext'
 import type { PipeletCatalogEntry } from '../../pipelets/catalogFilter'
 import { ExecutionDebugPanel } from './ExecutionDebugPanel'
 import { BuilderCollapsible } from './BuilderCollapsible'
@@ -58,13 +58,15 @@ type Props = {
   catalog?: PipeletCatalogEntry[]
 }
 
-export function PipelineBuilderPage({ catalog = PIPELET_FIXTURE }: Props) {
+export function PipelineBuilderPage({ catalog: catalogProp }: Props) {
   const { pipelineId: routePipelineId } = useParams<{ pipelineId?: string }>()
   const isNew = !routePipelineId || routePipelineId === 'new'
   const navigate = useNavigate()
   const location = useLocation()
   const [searchParams, setSearchParams] = useSearchParams()
   const { tenantId } = useTenant()
+  const { catalog: contextCatalog } = usePipeletCatalog()
+  const catalog = catalogProp ?? contextCatalog
   const queryClient = useQueryClient()
   const [state, dispatch] = useReducer(pipelineGraphReducer, initialPipelineGraph)
   const [overlay, overlayDispatch] = useReducer(

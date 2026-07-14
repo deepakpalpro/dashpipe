@@ -14,15 +14,16 @@ First cloud assembly for Dashflow.
 
 **Not in this assembly (Phase 2):** Azure Blob, Event Hubs, connector/pipelet cloud providers.
 
-## Wave A — demo on AKS (recommended first)
+## Wave A — empty control plane on AKS (recommended first)
 
-In-cluster MySQL + RabbitMQ, ACR images, UI/API/mocks on AKS.
+In-cluster MySQL + RabbitMQ, ACR platform images, UI/API/mocks/metrics on AKS.  
+**No pipelet images by default; no demo pipelines; all catalog pipelets inactive.**
 
 Full steps: [`deploy/k8s/azure/README.md`](../deploy/k8s/azure/README.md)
 
 ```bash
 # After Bicep + attach-acr + kubectl credentials:
-./scripts/azure/build-push-acr.sh <acrName> 0.1.0
+./scripts/azure/build-push-acr.sh <acrName> 0.1.0 --platform-only
 ./scripts/azure/apply-aks.sh <acrName> 0.1.0
 ```
 
@@ -51,8 +52,10 @@ Bicep entrypoint: [`deploy/azure/main.bicep`](../deploy/azure/main.bicep)
 az deployment group create \
   --resource-group rg-dashflow \
   --template-file deploy/azure/main.bicep \
-  --parameters namePrefix=dfdev mysqlAdminPassword='<strong-password>'
+  --parameters namePrefix=dfdev aksVmSize=Standard_D2s_v7 aksNodeCount=1 deployManagedDataPlane=false
 ```
+
+Wave A defaults: **AKS + ACR + Log Analytics only** (in-cluster MySQL/RabbitMQ). Set `deployManagedDataPlane=true` and `mysqlAdminPassword=…` only for Wave B.
 
 ## Local vs Azure
 

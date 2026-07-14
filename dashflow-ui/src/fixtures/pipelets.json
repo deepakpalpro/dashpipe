@@ -14,7 +14,7 @@
       "path"
     ],
     "connectorType": "rest",
-    "active": true,
+    "active": false,
     "deploymentConfiguration": {
       "cloud": "aws",
       "region": "us-east-1"
@@ -49,7 +49,7 @@
       "pollIntervalMs": "5000",
       "connectorId": ""
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-webhook-source:local",
     "connectorType": "event_listener",
     "requiredDeploymentKeys": [
@@ -82,7 +82,7 @@
       "failOnError": "true",
       "mapping": ""
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-json-transform:local",
     "requiredDeploymentKeys": [
       "region"
@@ -97,7 +97,7 @@
     "category": "Processor",
     "version": "0.9.0",
     "runtime": "Python",
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-python-filter:local",
     "description": "Filter records with a safe Python expression over each record (e.g. quantity > 0 and category in ('food','toys')). Bind connector/service as needed; set deployment.region and execution.expression on the step.",
     "requiredDeploymentKeys": [
@@ -154,7 +154,7 @@
       "serviceId": "",
       "path": ""
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-adls-destination:local",
     "connectorType": "storage",
     "requiredDeploymentKeys": [
@@ -189,7 +189,7 @@
       "serviceId": "",
       "bucket": ""
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-s3-destination:local",
     "connectorType": "storage",
     "requiredDeploymentKeys": [
@@ -215,7 +215,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-kafka-source:local",
     "connectorType": "message_bus",
     "requiredDeploymentKeys": [
@@ -231,7 +231,7 @@
     "category": "Source",
     "version": "1.0.0",
     "runtime": "Python",
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-s3-source:local",
     "description": "Ingest a single object from an S3-compatible bucket. Set deployment.region and execution.objectKey on the pipeline step; bind a storage connector (bucket) and optional auth service for credentials.",
     "requiredDeploymentKeys": [
@@ -286,7 +286,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-gcs-source:local",
     "connectorType": "storage",
     "requiredDeploymentKeys": [
@@ -312,7 +312,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-jdbc-source:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -338,7 +338,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-mongodb-source:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -364,7 +364,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-salesforce-source:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -390,7 +390,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-file-watch-source:local",
     "requiredDeploymentKeys": [
       "region"
@@ -415,7 +415,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-ftp-source:local",
     "connectorType": "storage",
     "requiredDeploymentKeys": [
@@ -441,7 +441,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-pub-sub-source:local",
     "connectorType": "message_bus",
     "requiredDeploymentKeys": [
@@ -467,7 +467,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-sqs-source:local",
     "connectorType": "message_bus",
     "requiredDeploymentKeys": [
@@ -493,7 +493,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-event-hub-source:local",
     "connectorType": "message_bus",
     "requiredDeploymentKeys": [
@@ -519,7 +519,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-snowflake-source:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -545,7 +545,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-bigquery-source:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -561,7 +561,7 @@
     "category": "Source",
     "version": "1.0.0",
     "runtime": "Python",
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-csv-source:local",
     "description": "Fetch a delimited file from object storage and emit parsed JSON records.",
     "requiredDeploymentKeys": [
@@ -599,7 +599,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-avro-source:local",
     "connectorType": "storage",
     "requiredDeploymentKeys": [
@@ -625,7 +625,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-parquet-source:local",
     "connectorType": "storage",
     "requiredDeploymentKeys": [
@@ -651,7 +651,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-graphql-source:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -677,7 +677,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-imap-source:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -703,7 +703,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-iot-hub-source:local",
     "connectorType": "message_bus",
     "requiredDeploymentKeys": [
@@ -729,7 +729,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-cdc-source:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -755,7 +755,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-schedule-source:local",
     "requiredDeploymentKeys": [
       "region"
@@ -777,7 +777,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-manual-source:local",
     "requiredDeploymentKeys": [
       "region"
@@ -799,7 +799,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-redis-stream-source:local",
     "connectorType": "message_bus",
     "requiredDeploymentKeys": [
@@ -825,7 +825,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-nats-source:local",
     "connectorType": "message_bus",
     "requiredDeploymentKeys": [
@@ -851,7 +851,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-amqp-source:local",
     "connectorType": "message_bus",
     "requiredDeploymentKeys": [
@@ -877,7 +877,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-http-poll-source:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -903,7 +903,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-sharepoint-source:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -929,7 +929,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-dropbox-source:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -955,7 +955,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-onedrive-source:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -981,7 +981,7 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-slack-source:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -997,7 +997,7 @@
     "category": "Processor",
     "version": "1.0.0",
     "runtime": "Python",
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-field-mapper:local",
     "description": "Rename/project record fields via execution.mapping. Modes: map (records only) or upsert/replace (wrap as {mode, items}). Set deployment.region and execution.mode on the step.",
     "requiredDeploymentKeys": [
@@ -1050,7 +1050,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-schema-validator:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1075,7 +1075,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-deduplicator:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1100,7 +1100,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-aggregator:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1125,7 +1125,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-joiner:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1147,7 +1147,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-splitter:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1172,7 +1172,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-enricher:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1194,7 +1194,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-masker:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1219,7 +1219,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-hasher:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1244,7 +1244,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-rate-limiter:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1266,7 +1266,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-retry-buffer:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1288,7 +1288,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-branch-router:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1310,7 +1310,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-xml-to-json:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1322,7 +1322,7 @@
     "category": "Processor",
     "version": "1.0.0",
     "runtime": "Python",
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-csv-to-json:local",
     "description": "Convert CSV text (message.csv / content) into JSON records. Set deployment.region and execution.delimiter on the step.",
     "requiredDeploymentKeys": [
@@ -1373,7 +1373,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-avro-codec:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1395,7 +1395,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-compression:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1417,7 +1417,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-encryption:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1439,7 +1439,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-geo-enrich:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1461,7 +1461,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-time-window:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1483,7 +1483,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-sample-filter:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1508,7 +1508,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-null-drop:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1530,7 +1530,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-type-coercer:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1552,7 +1552,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-regex-extract:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1577,7 +1577,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-lookup-cache:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1599,7 +1599,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-script-transform:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1621,7 +1621,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-ml-scorer:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1643,7 +1643,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-anomaly-flag:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1665,7 +1665,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-unit-converter:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1687,7 +1687,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-currency-fx:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1709,7 +1709,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-html-strip:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1731,7 +1731,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-language-detect:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1753,7 +1753,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-sentiment-tag:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1775,7 +1775,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-entity-extract:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1797,7 +1797,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-json-path:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1822,7 +1822,7 @@
       "parallelism": "1",
       "failOnError": "true"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-flatten:local",
     "requiredDeploymentKeys": [
       "region"
@@ -1844,7 +1844,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-kafka-destination:local",
     "connectorType": "message_bus",
     "requiredDeploymentKeys": [
@@ -1870,7 +1870,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-jdbc-destination:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -1896,7 +1896,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-mongodb-destination:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -1922,7 +1922,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-elasticsearch-destination:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -1948,7 +1948,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-snowflake-destination:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -1974,7 +1974,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-bigquery-destination:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -2000,7 +2000,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-gcs-destination:local",
     "connectorType": "storage",
     "requiredDeploymentKeys": [
@@ -2026,7 +2026,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-azure-blob-destination:local",
     "connectorType": "storage",
     "requiredDeploymentKeys": [
@@ -2042,7 +2042,7 @@
     "category": "Destination",
     "version": "1.0.0",
     "runtime": "Python",
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-webhook-destination:local",
     "description": "POST JSON to connector baseUrl + execution.path. Bind a REST connector; set deployment.region and execution.path on the step.",
     "requiredDeploymentKeys": [
@@ -2099,7 +2099,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-email-destination:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -2125,7 +2125,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-slack-destination:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -2151,7 +2151,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-teams-destination:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -2177,7 +2177,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-pub-sub-destination:local",
     "connectorType": "message_bus",
     "requiredDeploymentKeys": [
@@ -2203,7 +2203,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-sqs-destination:local",
     "connectorType": "message_bus",
     "requiredDeploymentKeys": [
@@ -2229,7 +2229,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-event-hub-destination:local",
     "connectorType": "message_bus",
     "requiredDeploymentKeys": [
@@ -2255,7 +2255,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-redis-destination:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -2281,7 +2281,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-dynamodb-destination:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -2307,7 +2307,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-cosmos-db-destination:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -2333,7 +2333,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-ftp-destination:local",
     "connectorType": "storage",
     "requiredDeploymentKeys": [
@@ -2359,7 +2359,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-sharepoint-destination:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -2385,7 +2385,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-dropbox-destination:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -2411,7 +2411,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-onedrive-destination:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -2437,7 +2437,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-salesforce-destination:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -2463,7 +2463,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-hubspot-destination:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -2489,7 +2489,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-databricks-destination:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -2515,7 +2515,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-redshift-destination:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -2541,7 +2541,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-clickhouse-destination:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -2567,7 +2567,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-prometheus-push:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -2593,7 +2593,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-opensearch-destination:local",
     "connectorType": "db",
     "requiredDeploymentKeys": [
@@ -2619,7 +2619,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-file-destination:local",
     "connectorType": "storage",
     "requiredDeploymentKeys": [
@@ -2645,7 +2645,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-null-destination:local",
     "requiredDeploymentKeys": [
       "region"
@@ -2667,7 +2667,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-archive-destination:local",
     "connectorType": "storage",
     "requiredDeploymentKeys": [
@@ -2693,7 +2693,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-pagerduty-destination:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [
@@ -2719,7 +2719,7 @@
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": true,
+    "active": false,
     "imageRef": "dashflow/plet-datadog-destination:local",
     "connectorType": "rest",
     "requiredDeploymentKeys": [

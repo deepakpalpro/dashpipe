@@ -6,7 +6,17 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "_common"))
+_here = Path(__file__).resolve().parent
+_COMMON = next(
+    (
+        c
+        for c in (Path("/app/_common"), *(_p / "_common" for _p in _here.parents))
+        if c.is_dir()
+    ),
+    None,
+)
+if _COMMON is not None:
+    sys.path.insert(0, str(_COMMON))
 
 from config_merge import log, resolve_from_env  # noqa: E402
 from filter_expr import run  # noqa: E402

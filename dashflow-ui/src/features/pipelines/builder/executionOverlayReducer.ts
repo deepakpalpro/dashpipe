@@ -8,7 +8,7 @@ export type OverlayNodeState =
 export type ExecutionStepStatus = {
   step_order: number
   node_id?: string
-  status: 'PENDING' | 'RUNNING' | 'COMPLETED' | 'FAILED'
+  status: 'PENDING' | 'RUNNING' | 'COMPLETED' | 'FAILED' | 'CANCELLED'
 }
 
 export type OverlayState = {
@@ -45,6 +45,8 @@ function mapStepStatus(
       return 'completed'
     case 'FAILED':
       return 'failed'
+    case 'CANCELLED':
+      return 'idle'
     default:
       return 'pending'
   }

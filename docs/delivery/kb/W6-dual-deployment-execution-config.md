@@ -49,7 +49,7 @@ APIs accept either; responses expose both where applicable.
 | V16 | `pipelines.deployment_config` |
 | V17 | `execution_config` on pipelines; dual columns on `pipeline_steps`, `connectors`, `services`; defaults on `service_defaults` / `connector_types` |
 | V18 | Auth vendor rows under `st-auth` (OAuth, OIDC, Keycloak, AAD, AWSCognito, AzureMI, CertBased, JWT) |
-| V19 | Dev seed: T001/T002, one connector per pipelet for T001, Auth service instances |
+| V19 | Dev seed (profile `local` → `classpath:db/seed`): T001/T002, connectors, Auth instances — not applied on Azure empty stack |
 
 ## UI
 
