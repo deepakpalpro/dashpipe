@@ -58,6 +58,21 @@ type Props = {
   catalog?: PipeletCatalogEntry[]
 }
 
+/** Keep pipeline scheduleCron in sync with Schedule Source step cron for the platform poller. */
+function withScheduleCronFromSteps(
+  executionConfig: Record<string, unknown>,
+  nodes: Array<{ data: { pipeletId: string; executionConfig?: Record<string, unknown> } }>,
+): Record<string, unknown> {
+  const scheduleNode = nodes.find(
+    (n) => n.data.pipeletId === 'plet-schedule-source',
+  )
+  const stepCron = scheduleNode?.data.executionConfig?.cron
+  if (typeof stepCron === 'string' && stepCron.trim()) {
+    return { ...executionConfig, scheduleCron: stepCron.trim() }
+  }
+  return executionConfig
+}
+
 export function PipelineBuilderPage({ catalog: catalogProp }: Props) {
   const { pipelineId: routePipelineId } = useParams<{ pipelineId?: string }>()
   const isNew = !routePipelineId || routePipelineId === 'new'
@@ -93,9 +108,14 @@ export function PipelineBuilderPage({ catalog: catalogProp }: Props) {
   const [stopping, setStopping] = useState(false)
   const [pollKey, setPollKey] = useState(0)
   const [deploying, setDeploying] = useState(false)
+  const [deactivating, setDeactivating] = useState(false)
   const [pipelineStatus, setPipelineStatus] = useState<string>('DRAFT')
   const [hydratedId, setHydratedId] = useState<string | null>(null)
   const [debugOpen, setDebugOpen] = useState(() => Boolean(searchParams.get('executionId')))
+  const [triggerPayloadText, setTriggerPayloadText] = useState('')
+  const hasManualSource = state.nodes.some(
+    (n) => n.data.pipeletId === 'plet-manual-source',
+  )
 
   function selectExecution(id: string | null, opts?: { resume?: boolean }) {
     setExecutionId(id)
@@ -282,11 +302,15 @@ export function PipelineBuilderPage({ catalog: catalogProp }: Props) {
 
   const saveMutation = useMutation({
     mutationFn: async () => {
+      const executionConfig = withScheduleCronFromSteps(
+        state.executionConfig,
+        state.nodes,
+      )
       if (pipelineId) {
         await updatePipeline(tenantId, pipelineId, {
           name: state.pipelineName,
           deployment_config: state.deploymentConfig,
-          execution_config: state.executionConfig,
+          execution_config: executionConfig,
         })
         const stepsBody = graphToStepsPayload(state)
         return replacePipelineSteps(tenantId, pipelineId, stepsBody)
@@ -296,7 +320,7 @@ export function PipelineBuilderPage({ catalog: catalogProp }: Props) {
         executionMode: 'ASYNC',
         visibility: 'PRIVATE',
         deployment_config: state.deploymentConfig,
-        execution_config: state.executionConfig,
+        execution_config: executionConfig,
       })
       const stepsBody = graphToStepsPayload(state)
       return replacePipelineSteps(tenantId, created.id, stepsBody)
@@ -346,21 +370,25 @@ export function PipelineBuilderPage({ catalog: catalogProp }: Props) {
     }
   }
 
-  async function handleDeploy() {
+  async function handleActivate() {
     setQuotaInfo(null)
     setDryRunMessage(null)
     setDeploying(true)
     try {
+      const executionConfig = withScheduleCronFromSteps(
+        state.executionConfig,
+        state.nodes,
+      )
       const id = await ensureSaved()
       const updated = await updatePipeline(tenantId, id, {
         name: state.pipelineName,
         status: 'ACTIVE',
         deployment_config: state.deploymentConfig,
-        execution_config: state.executionConfig,
+        execution_config: executionConfig,
       })
       setPipelineId(id)
       setPipelineStatus(updated.status ?? 'ACTIVE')
-      setSaveMessage(`Deployed ${updated.name} (${updated.id}) — status ACTIVE`)
+      setSaveMessage(`Activated ${updated.name} (${updated.id})`)
       void queryClient.invalidateQueries({ queryKey: ['pipelines', tenantId] })
       void queryClient.invalidateQueries({
         queryKey: ['pipeline', tenantId, id],
@@ -368,13 +396,42 @@ export function PipelineBuilderPage({ catalog: catalogProp }: Props) {
       if (isNew || routePipelineId !== id) {
         navigate(`/pipelines/${id}`, {
           replace: true,
-          state: { saveMessage: `Deployed ${updated.name}` },
+          state: { saveMessage: `Activated ${updated.name}` },
         })
       }
     } catch (err) {
-      setSaveMessage(err instanceof Error ? err.message : 'Deploy failed')
+      setSaveMessage(err instanceof Error ? err.message : 'Activate failed')
     } finally {
       setDeploying(false)
+    }
+  }
+
+  async function handleDeactivate() {
+    setQuotaInfo(null)
+    setDryRunMessage(null)
+    setDeactivating(true)
+    try {
+      const id = await ensureSaved()
+      const updated = await updatePipeline(tenantId, id, {
+        name: state.pipelineName,
+        status: 'DRAFT',
+        deployment_config: state.deploymentConfig,
+        execution_config: withScheduleCronFromSteps(
+          state.executionConfig,
+          state.nodes,
+        ),
+      })
+      setPipelineId(id)
+      setPipelineStatus(updated.status ?? 'DRAFT')
+      setSaveMessage(`Deactivated ${updated.name} (${updated.id}) — status DRAFT`)
+      void queryClient.invalidateQueries({ queryKey: ['pipelines', tenantId] })
+      void queryClient.invalidateQueries({
+        queryKey: ['pipeline', tenantId, id],
+      })
+    } catch (err) {
+      setSaveMessage(err instanceof Error ? err.message : 'Deactivate failed')
+    } finally {
+      setDeactivating(false)
     }
   }
 
@@ -386,7 +443,18 @@ export function PipelineBuilderPage({ catalog: catalogProp }: Props) {
     setDebugOpen(true)
     try {
       const id = await ensureSaved()
-      const run = await runPipeline(tenantId, id)
+      let payload: unknown
+      const raw = triggerPayloadText.trim()
+      if (raw) {
+        try {
+          payload = JSON.parse(raw) as unknown
+        } catch {
+          setRunning(false)
+          setSaveMessage('Trigger payload must be valid JSON')
+          return
+        }
+      }
+      const run = await runPipeline(tenantId, id, payload)
       setPipelineId(id)
       selectExecution(run.execution_id, { resume: true })
       void queryClient.invalidateQueries({
@@ -549,7 +617,8 @@ export function PipelineBuilderPage({ catalog: catalogProp }: Props) {
           <RunControls
             canRun={state.nodes.length > 0}
             saving={saveMutation.isPending}
-            deploying={deploying}
+            activating={deploying}
+            deactivating={deactivating}
             running={running}
             stopping={stopping}
             canForceStop={Boolean(
@@ -560,12 +629,18 @@ export function PipelineBuilderPage({ catalog: catalogProp }: Props) {
                     !isTerminalExecutionStatus(execution.status))),
             )}
             status={pipelineStatus}
+            showTriggerPayload={hasManualSource}
+            triggerPayloadText={triggerPayloadText}
+            onTriggerPayloadChange={setTriggerPayloadText}
             onDryRun={() => {
               void handleDryRun()
             }}
             onSave={() => saveMutation.mutate()}
-            onDeploy={() => {
-              void handleDeploy()
+            onActivate={() => {
+              void handleActivate()
+            }}
+            onDeactivate={() => {
+              void handleDeactivate()
             }}
             onRun={() => {
               void handleRun()
@@ -773,6 +848,9 @@ export function PipelineBuilderPage({ catalog: catalogProp }: Props) {
             catalog={catalog}
             connectors={connectorsQuery.data ?? []}
             services={servicesQuery.data ?? []}
+            canSave={state.nodes.length > 0}
+            saving={saveMutation.isPending}
+            onSave={() => saveMutation.mutate()}
             onChange={(nodeId, patch) =>
               dispatch({ type: 'UPDATE_STEP', nodeId, patch })
             }

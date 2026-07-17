@@ -7,6 +7,7 @@ import com.dashflow.api.pipeline.ExecutionStatus;
 import com.dashflow.api.pipeline.Pipeline;
 import com.dashflow.api.pipeline.PipelineExecution;
 import com.dashflow.api.pipeline.PipelineExecutionRepository;
+import com.dashflow.api.pipeline.PipelineExecutionStepTracker;
 import com.dashflow.api.pipeline.PipelineIoMode;
 import com.dashflow.api.pipeline.PipelineOrchestrationProperties;
 import com.dashflow.api.pipeline.PipelineRepository;
@@ -70,6 +71,7 @@ public class PipeletJobStatusPoller {
   private final PipelineOrchestrationProperties orchestrationProperties;
   private final PipeletMetricsEmitter metricsEmitter;
   private final PipelineLogEmitter logEmitter;
+  private final PipelineExecutionStepTracker stepTracker;
 
   /** Stages already published to Micrometer / log indexer for this JVM. */
   private final Set<String> observedStages = ConcurrentHashMap.newKeySet();
@@ -85,7 +87,8 @@ public class PipeletJobStatusPoller {
       PipeletAmqpUrlFactory amqpUrlFactory,
       PipelineOrchestrationProperties orchestrationProperties,
       PipeletMetricsEmitter metricsEmitter,
-      PipelineLogEmitter logEmitter) {
+      PipelineLogEmitter logEmitter,
+      PipelineExecutionStepTracker stepTracker) {
     this.kubernetesClient = kubernetesClient;
     this.executionRepository = executionRepository;
     this.pipelineRepository = pipelineRepository;
@@ -97,6 +100,7 @@ public class PipeletJobStatusPoller {
     this.orchestrationProperties = orchestrationProperties;
     this.metricsEmitter = metricsEmitter;
     this.logEmitter = logEmitter;
+    this.stepTracker = stepTracker;
     log.info("Pipelet Job status poller enabled");
   }
 
@@ -232,6 +236,7 @@ public class PipeletJobStatusPoller {
     pipeletJobClient.create(
         jobRequestFactory.build(
             pipeline, nextStep, execution.getId(), stageCount, ioMode, amqpUrl));
+    stepTracker.markRunning(execution.getId(), nextStage, Instant.now());
   }
 
   private long observeCompletedStage(
@@ -269,6 +274,8 @@ public class PipeletJobStatusPoller {
         records,
         records,
         Math.max(1L, duration.toMillis()));
+    stepTracker.markCompleted(
+        execution.getId(), stage, records, records, jobStart(job), jobCompletion(job));
     return records;
   }
 
@@ -315,6 +322,13 @@ public class PipeletJobStatusPoller {
             execution.getId(),
             pipeletId,
             reason == null ? "Kubernetes Job failed" : reason));
+    if (stage != null) {
+      stepTracker.markFailed(
+          execution.getId(),
+          stage,
+          reason == null ? "Kubernetes Job failed" : reason,
+          Instant.now());
+    }
   }
 
   private Optional<String> diagnoseStuckPods(
@@ -435,6 +449,30 @@ public class PipeletJobStatusPoller {
         .map(PipelineStep::getPipeletId)
         .findFirst()
         .orElse("unknown");
+  }
+
+  private static Instant jobStart(Job job) {
+    JobStatus status = job.getStatus();
+    if (status == null || status.getStartTime() == null) {
+      return null;
+    }
+    try {
+      return Instant.parse(status.getStartTime());
+    } catch (Exception ex) {
+      return null;
+    }
+  }
+
+  private static Instant jobCompletion(Job job) {
+    JobStatus status = job.getStatus();
+    if (status == null || status.getCompletionTime() == null) {
+      return null;
+    }
+    try {
+      return Instant.parse(status.getCompletionTime());
+    } catch (Exception ex) {
+      return null;
+    }
   }
 
   private static Duration jobDuration(Job job) {

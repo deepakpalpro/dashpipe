@@ -1,6 +1,7 @@
 package com.dashflow.api.pipeline;
 
 import com.dashflow.api.k8s.PipeletJobClient;
+import com.dashflow.api.k8s.PipeletJobRequest;
 import com.dashflow.api.k8s.PipeletJobRequestFactory;
 import com.dashflow.api.messaging.PipelineTopology;
 import com.dashflow.api.messaging.PipelineTopologyService;
@@ -8,6 +9,7 @@ import com.dashflow.api.messaging.QueueNaming;
 import com.dashflow.api.messaging.RabbitMessagingConfig;
 import com.dashflow.api.observability.CompletenessCalculator;
 import com.dashflow.api.observability.CompletenessMetricsPublisher;
+import com.fasterxml.jackson.databind.JsonNode;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -38,6 +40,7 @@ public class PipelineRunOrchestrator {
   private final PipelineOrchestrationProperties orchestrationProperties;
   private final PipeletAmqpUrlFactory amqpUrlFactory;
   private final PipeletJobRequestFactory jobRequestFactory;
+  private final PipelineExecutionStepTracker stepTracker;
 
   public PipelineRunOrchestrator(
       PipelineExecutionRepository executionRepository,
@@ -47,7 +50,8 @@ public class PipelineRunOrchestrator {
       CompletenessMetricsPublisher completenessMetricsPublisher,
       PipelineOrchestrationProperties orchestrationProperties,
       PipeletAmqpUrlFactory amqpUrlFactory,
-      PipeletJobRequestFactory jobRequestFactory) {
+      PipeletJobRequestFactory jobRequestFactory,
+      PipelineExecutionStepTracker stepTracker) {
     this.executionRepository = executionRepository;
     this.topologyService = topologyService;
     this.rabbitTemplate = rabbitTemplate;
@@ -56,11 +60,21 @@ public class PipelineRunOrchestrator {
     this.orchestrationProperties = orchestrationProperties;
     this.amqpUrlFactory = amqpUrlFactory;
     this.jobRequestFactory = jobRequestFactory;
+    this.stepTracker = stepTracker;
   }
 
   @Transactional
   public PipelineExecution start(
       Pipeline pipeline, List<PipelineStep> steps, ExecutionTrigger trigger) {
+    return start(pipeline, steps, trigger, null);
+  }
+
+  @Transactional
+  public PipelineExecution start(
+      Pipeline pipeline,
+      List<PipelineStep> steps,
+      ExecutionTrigger trigger,
+      JsonNode triggerPayload) {
     if (steps == null || steps.isEmpty()) {
       throw new PipelineValidationException("Pipeline has no steps configured");
     }
@@ -85,6 +99,7 @@ public class PipelineRunOrchestrator {
     execution.setRecordsIn(0);
     execution.setRecordsOut(0);
     PipelineExecution saved = executionRepository.save(execution);
+    stepTracker.initSteps(saved, steps);
 
     int stageCount = steps.size();
     PipelineTopology topology =
@@ -93,8 +108,13 @@ public class PipelineRunOrchestrator {
     topologyService.purgeStageQueues(topology);
 
     PipelineStep first = steps.get(0);
-    pipeletJobClient.create(
-        jobRequestFactory.build(pipeline, first, saved.getId(), stageCount, ioMode, amqpUrl));
+    PipeletJobRequest jobRequest =
+        jobRequestFactory.build(pipeline, first, saved.getId(), stageCount, ioMode, amqpUrl);
+    String payloadJson = serializeTriggerPayload(triggerPayload);
+    if (payloadJson != null) {
+      jobRequest = jobRequest.withTriggerPayload(payloadJson);
+    }
+    pipeletJobClient.create(jobRequest);
 
     StageMessage message =
         new StageMessage(
@@ -127,6 +147,13 @@ public class PipelineRunOrchestrator {
         stageCount,
         ioMode);
     return saved;
+  }
+
+  private static String serializeTriggerPayload(JsonNode triggerPayload) {
+    if (triggerPayload == null || triggerPayload.isNull() || triggerPayload.isMissingNode()) {
+      return null;
+    }
+    return triggerPayload.toString();
   }
 
   @Transactional
@@ -164,6 +191,7 @@ public class PipelineRunOrchestrator {
               execution.setCompletedAt(Instant.now());
               execution.setErrorSummary(toErrorSummaryJson(summary));
               executionRepository.save(execution);
+              stepTracker.cancelRemaining(executionId, Instant.now());
               log.warn("Marked execution {} failed: {}", executionId, summary);
             });
   }
@@ -185,6 +213,7 @@ public class PipelineRunOrchestrator {
     execution.setCompletedAt(Instant.now());
     execution.setErrorSummary(toErrorSummaryJson("Force stopped by user"));
     PipelineExecution saved = executionRepository.save(execution);
+    stepTracker.cancelRemaining(saved.getId(), Instant.now());
 
     try {
       pipeletJobClient.deleteByExecution(saved.getTenantId(), saved.getId());

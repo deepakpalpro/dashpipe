@@ -54,10 +54,49 @@ describe('PipeletsCatalog', () => {
         { name: 'Inactive' },
       ),
     )
-    await user.click(screen.getByRole('tab', { name: 'Source' }))
+    // Tree: System → Source
+    await user.click(
+      screen.getByRole('button', { name: 'System Source' }),
+    )
     expect(screen.getAllByTestId('pipelet-card')).toHaveLength(1)
     expect(screen.getByText('REST Source')).toBeInTheDocument()
     expect(screen.getByTestId('catalog-count')).toHaveTextContent('Showing 1 of 3')
+  })
+
+  it('expands and collapses navigation branches', async () => {
+    const user = userEvent.setup()
+    renderWithProviders(<PipeletsCatalogPage catalog={CATALOG} />)
+
+    const system = screen.getByRole('button', { name: 'System' })
+    expect(system).toHaveAttribute('aria-expanded', 'true')
+    expect(
+      screen.getByRole('button', { name: 'System Source' }),
+    ).toBeInTheDocument()
+
+    await user.click(system)
+    expect(system).toHaveAttribute('aria-expanded', 'false')
+    expect(
+      screen.queryByRole('button', { name: 'System Source' }),
+    ).not.toBeInTheDocument()
+
+    await user.click(system)
+    const source = screen.getByRole('button', { name: 'System Source' })
+    expect(source).toHaveAttribute('aria-expanded', 'false')
+    expect(
+      screen.queryByRole('button', { name: 'System Source Http' }),
+    ).not.toBeInTheDocument()
+
+    await user.click(source)
+    expect(source).toHaveAttribute('aria-expanded', 'true')
+    expect(
+      screen.getByRole('button', { name: 'System Source Http' }),
+    ).toBeInTheDocument()
+
+    await user.click(source)
+    expect(source).toHaveAttribute('aria-expanded', 'false')
+    expect(
+      screen.queryByRole('button', { name: 'System Source Http' }),
+    ).not.toBeInTheDocument()
   })
 
   it('filters by active / inactive status', async () => {

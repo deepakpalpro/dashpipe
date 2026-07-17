@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
   getCompleteness,
   getHeartbeat,
@@ -31,6 +31,7 @@ const TABS: { id: Tab; label: string }[] = [
 
 export function ObservabilityPage() {
   const { tenantId } = useTenant()
+  const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const [tab, setTab] = useState<Tab>('runs')
   const [range, setRange] = useState<TimeRange>('24h')
@@ -182,26 +183,14 @@ export function ObservabilityPage() {
                 }
                 selectedId={selectedExecutionId}
                 onSelect={(ex) => {
-                  setSearchParams(
-                    {
-                      pipelineId: selectedId,
-                      executionId: ex.id,
-                    },
-                    { replace: true },
+                  navigate(
+                    `/observability/runs/${encodeURIComponent(selectedId)}/${encodeURIComponent(ex.id)}`,
                   )
                 }}
               />
-              {selectedExecutionId ? (
-                <p className="muted">
-                  Selected run{' '}
-                  <code>{selectedExecutionId}</code>.{' '}
-                  <Link
-                    to={`/pipelines/${selectedId}?executionId=${encodeURIComponent(selectedExecutionId)}`}
-                  >
-                    Open in builder
-                  </Link>
-                </p>
-              ) : null}
+              <p className="muted">
+                Select a run to see per-pipelet status, timing, and logs.
+              </p>
             </>
           ) : (
             <p className="muted">Select a pipeline to view run history.</p>

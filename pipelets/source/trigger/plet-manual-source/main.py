@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""plet-manual-source — generated runnable pipelet."""
+"""plet-manual-source — emits a run-time JSON payload or a default kickoff."""
 from __future__ import annotations
 
 import json
@@ -7,7 +7,18 @@ import os
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "_common"))
+# Repo: pipelets/_common; container image: /app/_common (+ PYTHONPATH).
+_here = Path(__file__).resolve().parent
+_COMMON = next(
+    (
+        c
+        for c in (Path("/app/_common"), *(_p / "_common" for _p in _here.parents))
+        if c.is_dir()
+    ),
+    None,
+)
+if _COMMON is not None:
+    sys.path.insert(0, str(_COMMON))
 
 from config_merge import log, resolve_from_env  # noqa: E402
 from io_transport import read_message, write_message  # noqa: E402
@@ -23,23 +34,43 @@ def _connector() -> dict:
     return data if isinstance(data, dict) else {}
 
 
+def _message_from_trigger_payload(raw: str) -> dict:
+    try:
+        parsed = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"TRIGGER_PAYLOAD must be valid JSON: {exc}") from exc
+    if isinstance(parsed, dict):
+        if "payload" in parsed or "records" in parsed:
+            return parsed
+        return {"payload": parsed, "records": [parsed]}
+    if isinstance(parsed, list):
+        return {"payload": parsed, "records": parsed}
+    return {"payload": parsed, "records": [{"value": parsed}]}
+
+
 def main() -> int:
     log("plet-manual-source starting")
     deployment, execution, _ = resolve_from_env(
         required_deployment=REQUIRED_DEPLOYMENT,
         required_execution=REQUIRED_EXECUTION,
     )
-    # Sources with SOURCE_TRIGGER=once may have empty stdin / no kickoff
-    try:
-        message = read_message(source=True)
-    except SystemExit:
-        message = {}
-    if not isinstance(message, dict):
-        message = {}
-    # Ignore orchestrator kickoffs for sources
-    payload = message.get("payload")
-    if isinstance(payload, str) and payload.startswith("run-"):
-        message = {}
+    message: dict = {}
+    trigger_raw = (os.environ.get("TRIGGER_PAYLOAD") or "").strip()
+    if trigger_raw:
+        message = _message_from_trigger_payload(trigger_raw)
+        log("using TRIGGER_PAYLOAD from run API")
+    else:
+        # Sources with SOURCE_TRIGGER=once may have empty stdin / no kickoff
+        try:
+            message = read_message(source=True)
+        except SystemExit:
+            message = {}
+        if not isinstance(message, dict):
+            message = {}
+        # Ignore orchestrator kickoffs for sources
+        payload = message.get("payload")
+        if isinstance(payload, str) and payload.startswith("run-"):
+            message = {}
     out = run(message, execution, _connector(), "plet-manual-source")
     out["deployment"] = deployment
     write_message(out)

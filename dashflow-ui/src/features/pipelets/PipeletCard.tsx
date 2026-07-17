@@ -1,4 +1,5 @@
 import type { PipeletCatalogEntry } from './catalogFilter'
+import { formatGroupLabel } from './pipeletTaxonomy'
 
 type Props = {
   pipelet: PipeletCatalogEntry
@@ -7,6 +8,8 @@ type Props = {
 
 export function PipeletCard({ pipelet, onSelect }: Props) {
   const active = pipelet.active === true
+  const scopeLabel =
+    (pipelet.scope ?? 'system') === 'tenant' ? 'Tenant' : 'System'
   return (
     <article
       className={active ? 'pipelet-card' : 'pipelet-card pipelet-card-inactive'}
@@ -17,6 +20,10 @@ export function PipeletCard({ pipelet, onSelect }: Props) {
         <h3>{pipelet.name}</h3>
         <div className="pipelet-card-badges">
           <span className="badge category">{pipelet.category}</span>
+          {pipelet.group ? (
+            <span className="badge group">{formatGroupLabel(pipelet.group)}</span>
+          ) : null}
+          <span className="badge scope">{scopeLabel}</span>
           <span
             className={active ? 'badge status-active' : 'badge status-inactive'}
           >

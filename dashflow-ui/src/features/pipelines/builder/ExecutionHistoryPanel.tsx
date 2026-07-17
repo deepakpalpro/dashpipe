@@ -143,7 +143,7 @@ export function ExecutionHistoryPanel({
 
       {!loading && !error && executions.length === 0 ? (
         <p className="muted" data-testid="execution-history-empty">
-          No runs yet. Deploy and click Run to create the first execution.
+          No runs yet. Activate and click Run to create the first execution.
         </p>
       ) : null}
 
@@ -159,6 +159,7 @@ export function ExecutionHistoryPanel({
                   <th scope="col">Duration</th>
                   <th scope="col">Records</th>
                   <th scope="col">Completeness</th>
+                  {pipelineId ? <th scope="col">Detail</th> : null}
                 </tr>
               </thead>
               <tbody>
@@ -202,6 +203,17 @@ export function ExecutionHistoryPanel({
                           ? `${ex.completeness_pct}%`
                           : '—'}
                       </td>
+                      {pipelineId ? (
+                        <td>
+                          <Link
+                            className="linkish"
+                            to={`/observability/runs/${encodeURIComponent(pipelineId)}/${encodeURIComponent(ex.id)}`}
+                            title="Open pipelet status and logs"
+                          >
+                            Open →
+                          </Link>
+                        </td>
+                      ) : null}
                     </tr>
                   )
                 })}

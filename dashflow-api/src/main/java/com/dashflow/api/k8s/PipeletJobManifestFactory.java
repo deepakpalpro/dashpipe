@@ -81,6 +81,9 @@ public final class PipeletJobManifestFactory {
     if (request.executionConfig() != null && !request.executionConfig().isBlank()) {
       env.add(env("EXECUTION_CONFIG", request.executionConfig()));
     }
+    if (request.triggerPayload() != null && !request.triggerPayload().isBlank()) {
+      env.add(env("TRIGGER_PAYLOAD", request.triggerPayload()));
+    }
 
     return new JobBuilder()
         .withNewMetadata()

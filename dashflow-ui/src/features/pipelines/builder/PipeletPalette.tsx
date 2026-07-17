@@ -5,14 +5,16 @@ import {
   type PipeletCatalogEntry,
   type PipeletCategory,
 } from '../../pipelets/catalogFilter'
+import {
+  formatGroupLabel,
+  groupsFor,
+  PIPELET_CATEGORIES,
+  TENANT_CUSTOM_GROUP,
+} from '../../pipelets/pipeletTaxonomy'
 
 export const PALETTE_PREVIEW_LIMIT = 5
 
-export const PALETTE_CATEGORIES: PipeletCategory[] = [
-  'Source',
-  'Processor',
-  'Destination',
-]
+export const PALETTE_CATEGORIES: PipeletCategory[] = PIPELET_CATEGORIES
 
 type Props = {
   items: PipeletCatalogEntry[]
@@ -26,11 +28,7 @@ export function PipeletPalette({
   previewLimit = PALETTE_PREVIEW_LIMIT,
 }: Props) {
   const [search, setSearch] = useState('')
-  const [expanded, setExpanded] = useState<Record<PipeletCategory, boolean>>({
-    Source: false,
-    Processor: false,
-    Destination: false,
-  })
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({})
 
   const paletteItems = useMemo(() => activePipelets(items), [items])
 
@@ -39,19 +37,27 @@ export function PipeletPalette({
     [paletteItems, search],
   )
 
-  const byCategory = useMemo(() => {
-    const map: Record<PipeletCategory, PipeletCatalogEntry[]> = {
-      Source: [],
-      Processor: [],
-      Destination: [],
+  const searching = search.trim().length > 0
+
+  const scopes = useMemo(() => {
+    const hasSystem = filtered.some((p) => (p.scope ?? 'system') === 'system')
+    const hasTenant = filtered.some((p) => p.scope === 'tenant')
+    const out: Array<{ scope: 'system' | 'tenant'; label: string }> = []
+    if (hasSystem) {
+      out.push({ scope: 'system', label: 'System' })
     }
-    for (const item of filtered) {
-      map[item.category].push(item)
+    if (hasTenant) {
+      out.push({ scope: 'tenant', label: 'Tenant Custom' })
     }
-    return map
+    if (out.length === 0) {
+      out.push({ scope: 'system', label: 'System' })
+    }
+    return out
   }, [filtered])
 
-  const searching = search.trim().length > 0
+  function toggle(key: string) {
+    setExpanded((prev) => ({ ...prev, [key]: !prev[key] }))
+  }
 
   return (
     <aside className="builder-palette" aria-label="Pipelet palette">
@@ -79,56 +85,152 @@ export function PipeletPalette({
       ) : null}
 
       <div className="palette-categories">
-        {PALETTE_CATEGORIES.map((category) => {
-          const all = byCategory[category]
-          if (all.length === 0) {
+        {scopes.map(({ scope, label }) => {
+          const scopeItems = filtered.filter(
+            (p) => (p.scope ?? 'system') === scope,
+          )
+          if (scopeItems.length === 0) {
             return null
           }
-          const isExpanded = searching || expanded[category]
-          const visible = isExpanded ? all : all.slice(0, previewLimit)
-          const hiddenCount = all.length - visible.length
-
           return (
             <section
-              key={category}
-              className="palette-category"
-              aria-label={`${category} pipelets`}
+              key={scope}
+              className="palette-scope"
+              aria-label={`${label} pipelets`}
             >
-              <header className="palette-category-header">
-                <h3>{category}</h3>
-                <span className="palette-count">{all.length}</span>
+              <header className="palette-scope-header">
+                <h3>{label}</h3>
+                <span className="palette-count">{scopeItems.length}</span>
               </header>
-              <ul className="palette-list">
-                {visible.map((item) => (
-                  <li key={item.id}>
-                    <button
-                      type="button"
-                      className="palette-item"
-                      onClick={() => onAdd(item)}
-                      title={item.description}
-                    >
-                      <span className="list-item-title">{item.name}</span>
-                      <span className="list-item-meta">
-                        {item.runtime} · v{item.version}
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-              {!searching && all.length > previewLimit ? (
-                <button
-                  type="button"
-                  className="palette-more secondary"
-                  onClick={() =>
-                    setExpanded((prev) => ({
-                      ...prev,
-                      [category]: !prev[category],
-                    }))
-                  }
-                >
-                  {isExpanded ? `Show less` : `Show ${hiddenCount} more`}
-                </button>
-              ) : null}
+
+              {PALETTE_CATEGORIES.map((category) => {
+                const all = scopeItems.filter((p) => p.category === category)
+                if (all.length === 0) {
+                  return null
+                }
+                const catKey = `${scope}:${category}`
+                const groups = groupsFor(scopeItems, scope, category)
+                const showGroups = groups.length > 1 || scope === 'system'
+
+                return (
+                  <section
+                    key={catKey}
+                    className="palette-category"
+                    aria-label={`${category} pipelets`}
+                  >
+                    <header className="palette-category-header">
+                      <h4>{category}</h4>
+                      <span className="palette-count">{all.length}</span>
+                    </header>
+
+                    {showGroups
+                      ? groups.map((group) => {
+                          const groupItems = all.filter(
+                            (p) =>
+                              (p.group ?? TENANT_CUSTOM_GROUP) === group,
+                          )
+                          if (groupItems.length === 0) {
+                            return null
+                          }
+                          const groupKey = `${catKey}:${group}`
+                          const isExpanded =
+                            searching || expanded[groupKey] === true
+                          const visible = isExpanded
+                            ? groupItems
+                            : groupItems.slice(0, previewLimit)
+                          const hiddenCount = groupItems.length - visible.length
+
+                          return (
+                            <div
+                              key={groupKey}
+                              className="palette-group"
+                              aria-label={`${formatGroupLabel(group)} pipelets`}
+                            >
+                              <header className="palette-group-header">
+                                <h5>{formatGroupLabel(group)}</h5>
+                                <span className="palette-count">
+                                  {groupItems.length}
+                                </span>
+                              </header>
+                              <ul className="palette-list">
+                                {visible.map((item) => (
+                                  <li key={item.id}>
+                                    <button
+                                      type="button"
+                                      className="palette-item"
+                                      onClick={() => onAdd(item)}
+                                      title={item.description}
+                                    >
+                                      <span className="list-item-title">
+                                        {item.name}
+                                      </span>
+                                      <span className="list-item-meta">
+                                        {item.runtime} · v{item.version}
+                                      </span>
+                                    </button>
+                                  </li>
+                                ))}
+                              </ul>
+                              {!searching &&
+                              groupItems.length > previewLimit ? (
+                                <button
+                                  type="button"
+                                  className="palette-more secondary"
+                                  onClick={() => toggle(groupKey)}
+                                >
+                                  {isExpanded
+                                    ? 'Show less'
+                                    : `Show ${hiddenCount} more`}
+                                </button>
+                              ) : null}
+                            </div>
+                          )
+                        })
+                      : (() => {
+                          const isExpanded =
+                            searching || expanded[catKey] === true
+                          const visible = isExpanded
+                            ? all
+                            : all.slice(0, previewLimit)
+                          const hiddenCount = all.length - visible.length
+                          return (
+                            <>
+                              <ul className="palette-list">
+                                {visible.map((item) => (
+                                  <li key={item.id}>
+                                    <button
+                                      type="button"
+                                      className="palette-item"
+                                      onClick={() => onAdd(item)}
+                                      title={item.description}
+                                    >
+                                      <span className="list-item-title">
+                                        {item.name}
+                                      </span>
+                                      <span className="list-item-meta">
+                                        {item.runtime} · v{item.version}
+                                      </span>
+                                    </button>
+                                  </li>
+                                ))}
+                              </ul>
+                              {!searching && all.length > previewLimit ? (
+                                <button
+                                  type="button"
+                                  className="palette-more secondary"
+                                  onClick={() => toggle(catKey)}
+                                >
+                                  {isExpanded
+                                    ? 'Show less'
+                                    : `Show ${hiddenCount} more`}
+                                </button>
+                              ) : null}
+                            </>
+                          )
+                        })()}
+                  </section>
+                )
+              })}
             </section>
           )
         })}

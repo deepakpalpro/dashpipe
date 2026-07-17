@@ -9,6 +9,9 @@ type Props = {
   connectors: TenantConnector[]
   services: TenantService[]
   catalog?: PipeletCatalogEntry[]
+  canSave?: boolean
+  saving?: boolean
+  onSave?: () => void
   onChange: (
     nodeId: string,
     patch: Partial<PipelineGraphNode['data']>,
@@ -16,11 +19,40 @@ type Props = {
   onRemove?: (nodeId: string) => void
 }
 
+function PropertiesSaveBar({
+  canSave,
+  saving,
+  onSave,
+}: {
+  canSave?: boolean
+  saving?: boolean
+  onSave?: () => void
+}) {
+  if (!onSave) {
+    return null
+  }
+  return (
+    <div className="form-actions props-save-bar">
+      <button
+        type="button"
+        onClick={onSave}
+        disabled={!canSave || Boolean(saving)}
+        data-testid="props-save"
+      >
+        {saving ? 'Saving…' : 'Save'}
+      </button>
+    </div>
+  )
+}
+
 export function StepPropertiesPanel({
   node,
   connectors,
   services,
   catalog = [],
+  canSave,
+  saving,
+  onSave,
   onChange,
   onRemove,
 }: Props) {
@@ -29,6 +61,7 @@ export function StepPropertiesPanel({
       <aside className="builder-props" aria-label="Step properties">
         <h2>Properties</h2>
         <p className="muted">Select a step on the canvas</p>
+        <PropertiesSaveBar canSave={canSave} saving={saving} onSave={onSave} />
       </aside>
     )
   }
@@ -103,6 +136,8 @@ export function StepPropertiesPanel({
         Defaults come from the pipelet; bind a connector/service, then set or
         override Keys for this step.
       </p>
+
+      <PropertiesSaveBar canSave={canSave} saving={saving} onSave={onSave} />
 
       {onRemove ? (
         <div className="form-actions props-danger">

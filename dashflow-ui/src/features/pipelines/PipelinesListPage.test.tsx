@@ -51,9 +51,17 @@ describe('PipelinesListPage', () => {
     expect(within(steps).getByText('REST Source')).toBeInTheDocument()
     expect(within(steps).getByText('JSON Transform')).toBeInTheDocument()
     expect(within(steps).getByText('S3 Destination')).toBeInTheDocument()
+
+    await user.click(
+      within(steps).getByRole('button', { name: /Step 1: REST Source/ }),
+    )
+    expect(within(steps).getByText(/conn-plet-rest-source/)).toBeInTheDocument()
+
+    await user.click(
+      within(steps).getByRole('button', { name: /Step 2: JSON Transform/ }),
+    )
     expect(within(steps).getByText(/mode/)).toBeInTheDocument()
     expect(within(steps).getByText(/flatten/)).toBeInTheDocument()
-    expect(within(steps).getByText(/conn-plet-rest-source/)).toBeInTheDocument()
     expect(within(steps).getByText(/svc-auth-oauth/)).toBeInTheDocument()
 
     expect(

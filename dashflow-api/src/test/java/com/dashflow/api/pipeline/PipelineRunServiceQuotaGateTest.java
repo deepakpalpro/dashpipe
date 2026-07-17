@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,6 +34,7 @@ class PipelineRunServiceQuotaGateTest {
   @Mock private PipelineRepository pipelineRepository;
   @Mock private PipelineStepRepository pipelineStepRepository;
   @Mock private PipelineExecutionRepository executionRepository;
+  @Mock private PipelineExecutionStepRepository executionStepRepository;
   @Mock private PipelineRunOrchestrator orchestrator;
   @Mock private QuotaService quotaService;
   @Mock private EntityManager entityManager;
@@ -53,6 +55,7 @@ class PipelineRunServiceQuotaGateTest {
             pipelineRepository,
             pipelineStepRepository,
             executionRepository,
+            executionStepRepository,
             orchestrator,
             quotaService,
             entityManager);
@@ -95,12 +98,13 @@ class PipelineRunServiceQuotaGateTest {
     when(quotaService.evaluateTenant("T001"))
         .thenReturn(QuotaDecision.allow(new BigDecimal("10.0000")));
     when(pipelineStepRepository.findByPipelineIdOrdered("p1")).thenReturn(List.of(step));
-    when(orchestrator.start(eq(pipeline), eq(List.of(step)), eq(ExecutionTrigger.MANUAL)))
+    when(orchestrator.start(
+            eq(pipeline), eq(List.of(step)), eq(ExecutionTrigger.MANUAL), isNull()))
         .thenReturn(execution);
 
     PipelineRunResponse response = service.run("p1");
     assertThat(response.executionId()).isEqualTo("e1");
-    verify(orchestrator).start(pipeline, List.of(step), ExecutionTrigger.MANUAL);
+    verify(orchestrator).start(pipeline, List.of(step), ExecutionTrigger.MANUAL, null);
   }
 
   private static Pipeline pipeline(String id) {

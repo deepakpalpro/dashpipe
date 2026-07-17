@@ -13,7 +13,20 @@ import sys
 from pathlib import Path
 
 # Shared helpers live under pipelets/_common (Docker PYTHONPATH or local parents).
-_COMMON = Path(__file__).resolve().parents[3] / "_common"
+# Repo: pipelets/_common; container image: /app/_common (+ PYTHONPATH).
+_here = Path(__file__).resolve().parent
+_COMMON = next(
+    (
+        c
+        for c in (Path("/app/_common"), *(_p / "_common" for _p in _here.parents))
+        if c.is_dir()
+    ),
+    None,
+)
+if _COMMON is not None:
+    _COMMON_PATH = _COMMON
+if _COMMON is not None:
+    pass
 if _COMMON.is_dir():
     sys.path.insert(0, str(_COMMON))
 

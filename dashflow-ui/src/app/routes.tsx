@@ -5,6 +5,7 @@ import { PipeletsCatalogPage } from '../features/pipelets/PipeletsCatalogPage'
 import { PipelinesListPage } from '../features/pipelines/PipelinesListPage'
 import { PipelineBuilderPage } from '../features/pipelines/builder/PipelineBuilderPage'
 import { ObservabilityPage } from '../features/observability/ObservabilityPage'
+import { ExecutionDetailPage } from '../features/observability/ExecutionDetailPage'
 import { BillingPage } from '../features/billing/BillingPage'
 import { TenantsPage } from '../features/tenants/TenantsPage'
 
@@ -20,6 +21,10 @@ export function AppRoutes() {
       <Route path="/services" element={<ServicesPage />} />
       <Route path="/tenants" element={<TenantsPage />} />
       <Route path="/observability" element={<ObservabilityPage />} />
+      <Route
+        path="/observability/runs/:pipelineId/:executionId"
+        element={<ExecutionDetailPage />}
+      />
       <Route path="/billing" element={<BillingPage />} />
       <Route path="*" element={<Navigate to="/pipelets" replace />} />
     </Routes>

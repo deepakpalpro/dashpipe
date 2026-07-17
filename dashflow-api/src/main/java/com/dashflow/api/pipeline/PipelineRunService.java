@@ -6,6 +6,7 @@ import com.dashflow.api.billing.RunBlockedException;
 import com.dashflow.api.tenant.TenantContext;
 import com.dashflow.api.tenant.TenantContextRequiredException;
 import com.dashflow.api.tenant.TenantFilters;
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import org.hibernate.Session;
@@ -22,6 +23,7 @@ public class PipelineRunService {
   private final PipelineRepository pipelineRepository;
   private final PipelineStepRepository pipelineStepRepository;
   private final PipelineExecutionRepository executionRepository;
+  private final PipelineExecutionStepRepository executionStepRepository;
   private final PipelineRunOrchestrator orchestrator;
   private final QuotaService quotaService;
   private final EntityManager entityManager;
@@ -30,12 +32,14 @@ public class PipelineRunService {
       PipelineRepository pipelineRepository,
       PipelineStepRepository pipelineStepRepository,
       PipelineExecutionRepository executionRepository,
+      PipelineExecutionStepRepository executionStepRepository,
       PipelineRunOrchestrator orchestrator,
       QuotaService quotaService,
       EntityManager entityManager) {
     this.pipelineRepository = pipelineRepository;
     this.pipelineStepRepository = pipelineStepRepository;
     this.executionRepository = executionRepository;
+    this.executionStepRepository = executionStepRepository;
     this.orchestrator = orchestrator;
     this.quotaService = quotaService;
     this.entityManager = entityManager;
@@ -43,6 +47,11 @@ public class PipelineRunService {
 
   @Transactional
   public PipelineRunResponse run(String pipelineId) {
+    return run(pipelineId, null);
+  }
+
+  @Transactional
+  public PipelineRunResponse run(String pipelineId, JsonNode triggerPayload) {
     String tenantId = requireTenantId();
     enableTenantFilter(tenantId);
 
@@ -61,12 +70,14 @@ public class PipelineRunService {
     }
 
     List<PipelineStep> steps = pipelineStepRepository.findByPipelineIdOrdered(pipelineId);
-    PipelineExecution execution = orchestrator.start(pipeline, steps, ExecutionTrigger.MANUAL);
+    PipelineExecution execution =
+        orchestrator.start(pipeline, steps, ExecutionTrigger.MANUAL, triggerPayload);
     log.debug(
-        "pipeline run accepted pipelineId={} executionId={} quota={}",
+        "pipeline run accepted pipelineId={} executionId={} quota={} hasPayload={}",
         pipelineId,
         execution.getId(),
-        decision.code());
+        decision.code(),
+        triggerPayload != null && !triggerPayload.isNull());
     return PipelineRunResponse.from(execution);
   }
 
@@ -98,7 +109,8 @@ public class PipelineRunService {
             .findFilteredById(executionId)
             .filter(e -> e.getPipelineId().equals(pipelineId))
             .orElseThrow(() -> new PipelineExecutionNotFoundException(executionId));
-    return PipelineExecutionResponse.from(execution);
+    return PipelineExecutionResponse.from(
+        execution, executionStepRepository.findByExecutionIdOrdered(executionId));
   }
 
   @Transactional
@@ -123,7 +135,8 @@ public class PipelineRunService {
         pipelineId,
         cancelled.getId(),
         cancelled.getStatus());
-    return PipelineExecutionResponse.from(cancelled);
+    return PipelineExecutionResponse.from(
+        cancelled, executionStepRepository.findByExecutionIdOrdered(cancelled.getId()));
   }
 
   private static String requireTenantId() {

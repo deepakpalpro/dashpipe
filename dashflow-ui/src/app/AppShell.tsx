@@ -12,8 +12,7 @@ export function AppShell() {
     <div className="app-shell">
       <header className="app-header">
         <div className="brand">
-          <span className="brand-mark">Pipeline</span>
-          <span className="brand-sub">Platform</span>
+          <span className="brand-mark">Dashflow</span>
         </div>
         <nav className="primary-nav" aria-label="Primary">
           {NAV_ITEMS.map((item) => (

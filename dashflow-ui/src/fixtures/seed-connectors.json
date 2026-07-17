@@ -120,18 +120,24 @@
     "connectorTypeId": "ct-storage",
     "name": "S3 Destination (plet-s3-destination)",
     "config": {
-      "bucket": "demo-s3-destination",
+      "bucket": "demo-file-destination",
+      "endpoint": "http://host.docker.internal:4567",
       "region": "us-east-1",
-      "prefix": "inbound/"
+      "accessKeyId": "test",
+      "secretAccessKey": "test",
+      "prefix": "manual/"
     },
     "deployment_config": {
-      "cloud": "aws",
+      "cloud": "local",
       "region": "us-east-1"
     },
     "execution_config": {
-      "bucket": "demo-s3-destination",
+      "bucket": "demo-file-destination",
+      "endpoint": "http://host.docker.internal:4567",
       "region": "us-east-1",
-      "prefix": "inbound/"
+      "accessKeyId": "test",
+      "secretAccessKey": "test",
+      "prefix": "manual/"
     },
     "status": "ACTIVE",
     "lastTestedAt": null,
@@ -1824,21 +1830,21 @@
   {
     "id": "conn-plet-webhook-destination",
     "tenantId": "T001",
-    "connectorTypeId": "ct-event-listener",
-    "name": "Webhook Destination (plet-webhook-destination)",
+    "connectorTypeId": "ct-rest",
+    "name": "Petstore Inventory API (plet-webhook-destination)",
     "config": {
-      "path": "/hooks/plet-webhook-destination",
-      "secret": "seed-webhook-secret",
-      "signature_header": "X-Hub-Signature-256"
+      "baseUrl": "http://host.docker.internal:4010/api/v3",
+      "timeoutMs": 30000,
+      "pingPath": "/health"
     },
     "deployment_config": {
-      "cloud": "aws",
+      "cloud": "local",
       "region": "us-east-1"
     },
     "execution_config": {
-      "path": "/hooks/plet-webhook-destination",
-      "secret": "seed-webhook-secret",
-      "signature_header": "X-Hub-Signature-256"
+      "baseUrl": "http://host.docker.internal:4010/api/v3",
+      "timeoutMs": 30000,
+      "pingPath": "/health"
     },
     "status": "ACTIVE",
     "lastTestedAt": null,
@@ -2310,18 +2316,16 @@
     "connectorTypeId": "ct-storage",
     "name": "File Destination (plet-file-destination)",
     "config": {
-      "bucket": "demo-file-destination",
-      "region": "us-east-1",
-      "prefix": "inbound/"
+      "basePath": "/data/out",
+      "region": "us-east-1"
     },
     "deployment_config": {
-      "cloud": "aws",
+      "cloud": "local",
       "region": "us-east-1"
     },
     "execution_config": {
-      "bucket": "demo-file-destination",
-      "region": "us-east-1",
-      "prefix": "inbound/"
+      "basePath": "/data/out",
+      "region": "us-east-1"
     },
     "status": "ACTIVE",
     "lastTestedAt": null,

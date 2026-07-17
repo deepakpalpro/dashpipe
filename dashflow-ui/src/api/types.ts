@@ -219,7 +219,13 @@ export type PipelineRunResponse = {
 export type ExecutionStepStatusDto = {
   step_order: number
   node_id?: string
+  pipelet_id?: string
   status: 'PENDING' | 'RUNNING' | 'COMPLETED' | 'FAILED' | 'CANCELLED'
+  started_at?: string | null
+  completed_at?: string | null
+  records_in?: number | null
+  records_out?: number | null
+  error_summary?: string | null
 }
 
 export type PipelineExecutionSummary = {

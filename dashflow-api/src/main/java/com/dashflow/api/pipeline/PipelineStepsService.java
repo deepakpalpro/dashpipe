@@ -99,6 +99,24 @@ public class PipelineStepsService {
     if (pipeline.getStatus() == PipelineStatus.DRAFT) {
       pipeline.setStatus(PipelineStatus.ACTIVE);
     }
+    // Schedule Source step cron is canonical; keep schedule_cron + execution_config in sync.
+    String cronFromSteps = cronFromScheduleSourceSteps(saved);
+    String cronFromPipeline = PipelineSchedulePoller.cronFromJson(pipeline.getExecutionConfig());
+    String cron = cronFromSteps != null ? cronFromSteps : cronFromPipeline;
+    if (cron != null) {
+      pipeline.setScheduleCron(cron);
+      try {
+        JsonNode existing = readJsonObject(pipeline.getExecutionConfig());
+        var out =
+            existing != null && existing.isObject()
+                ? (com.fasterxml.jackson.databind.node.ObjectNode) existing.deepCopy()
+                : objectMapper.createObjectNode();
+        out.put("scheduleCron", cron);
+        pipeline.setExecutionConfig(objectMapper.writeValueAsString(out));
+      } catch (JsonProcessingException ex) {
+        // schedule_cron column still updated above
+      }
+    }
     pipelineRepository.save(pipeline);
 
     return PipelineResponse.from(
@@ -132,6 +150,23 @@ public class PipelineStepsService {
         throw new PipelineValidationException("Duplicate step_order: " + step.stepOrder());
       }
     }
+  }
+
+  private String cronFromScheduleSourceSteps(List<PipelineStep> steps) {
+    for (PipelineStep step : steps) {
+      if (!"plet-schedule-source".equals(step.getPipeletId())) {
+        continue;
+      }
+      String raw =
+          step.getExecutionConfig() != null && !step.getExecutionConfig().isBlank()
+              ? step.getExecutionConfig()
+              : step.getConfig();
+      String cron = PipelineSchedulePoller.cronFromJson(raw);
+      if (cron != null) {
+        return cron;
+      }
+    }
+    return null;
   }
 
   private List<PipelineStepResponse> toResponses(List<PipelineStep> steps) {

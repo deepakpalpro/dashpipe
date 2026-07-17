@@ -63,6 +63,21 @@ class PipeletJobManifestFactoryTest {
   }
 
   @Test
+  void injectsTriggerPayloadEnvWhenPresent() {
+    PipeletJobRequest request =
+        PipeletJobRequest.of(
+                "T001", "pipe-abc", "exec-1", "plet-manual-source", 1, 1, null, null)
+            .withTriggerPayload("{\"hello\":\"world\"}");
+
+    Job job = PipeletJobManifestFactory.build(request, new PipeletK8sProperties());
+    Map<String, String> env =
+        job.getSpec().getTemplate().getSpec().getContainers().get(0).getEnv().stream()
+            .collect(Collectors.toMap(EnvVar::getName, EnvVar::getValue));
+
+    assertThat(env).containsEntry("TRIGGER_PAYLOAD", "{\"hello\":\"world\"}");
+  }
+
+  @Test
   void resolvesDefaultImagePattern() {
     PipeletK8sProperties props = new PipeletK8sProperties();
     assertThat(props.resolveImage("plet-python-filter"))

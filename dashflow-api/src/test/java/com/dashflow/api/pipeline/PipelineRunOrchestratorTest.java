@@ -43,6 +43,7 @@ class PipelineRunOrchestratorTest {
   @Mock private CompletenessMetricsPublisher completenessMetricsPublisher;
   @Mock private PipeletAmqpUrlFactory amqpUrlFactory;
   @Mock private PipeletJobRequestFactory jobRequestFactory;
+  @Mock private PipelineExecutionStepTracker stepTracker;
 
   private PipelineOrchestrationProperties orchestrationProperties;
   private PipelineRunOrchestrator orchestrator;
@@ -83,7 +84,8 @@ class PipelineRunOrchestratorTest {
             completenessMetricsPublisher,
             orchestrationProperties,
             amqpUrlFactory,
-            jobRequestFactory);
+            jobRequestFactory,
+            stepTracker);
     when(executionRepository.save(any(PipelineExecution.class)))
         .thenAnswer(inv -> inv.getArgument(0));
     when(topologyService.declare(anyString(), anyString(), anyInt()))
@@ -132,8 +134,28 @@ class PipelineRunOrchestratorTest {
     assertThat(job.namespace()).isEqualTo("tenant-tenant-a");
     assertThat(job.ioMode()).isEqualTo(PipelineIoMode.QUEUE);
     assertThat(job.amqpUrl()).isEqualTo("amqp://pipeline:pipeline@localhost:5672/");
+    assertThat(job.triggerPayload()).isNull();
     verify(jobRequestFactory)
         .build(eq(pipeline), eq(steps.get(0)), eq(execution.getId()), eq(2), anyString(), anyString());
+  }
+
+  @Test
+  void start_injectsTriggerPayloadOntoFirstStageJob() {
+    Pipeline pipeline = activePipeline();
+    List<PipelineStep> steps = List.of(step(1, "plet-manual-source"));
+    com.fasterxml.jackson.databind.JsonNode payload =
+        new com.fasterxml.jackson.databind.ObjectMapper()
+            .createObjectNode()
+            .put("sku", "food-01")
+            .put("qty", 3);
+
+    PipelineExecution execution =
+        orchestrator.start(pipeline, steps, ExecutionTrigger.MANUAL, payload);
+
+    ArgumentCaptor<PipeletJobRequest> jobCaptor = ArgumentCaptor.forClass(PipeletJobRequest.class);
+    verify(pipeletJobClient).create(jobCaptor.capture());
+    assertThat(jobCaptor.getValue().triggerPayload()).isEqualTo(payload.toString());
+    assertThat(execution.getTrigger()).isEqualTo(ExecutionTrigger.MANUAL);
   }
 
   @Test

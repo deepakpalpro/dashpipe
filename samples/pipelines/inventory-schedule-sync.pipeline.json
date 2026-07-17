@@ -1,0 +1,116 @@
+{
+  "format_version": "1",
+  "exported_at": "2026-07-18T00:00:00Z",
+  "pipeline": {
+    "name": "Inventory Sync every 15m",
+    "description": "Every 15 minutes: Schedule tick → pull inventory from petstore-inventory (:4011) → filter → update petstore (:4010).",
+    "visibility": "private",
+    "execution_mode": "async",
+    "deployment_config": {
+      "cloud": "local",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "ioMode": "queue",
+      "batchSize": "1",
+      "scheduleCron": "*/15 * * * *"
+    }
+  },
+  "connectors": [
+    {
+      "export_key": "ct-rest::Petstore Inventory Catalog",
+      "connectorTypeId": "ct-rest",
+      "name": "Petstore Inventory Catalog",
+      "deployment_config": {
+        "cloud": "local",
+        "region": "us-east-1"
+      },
+      "execution_config": {
+        "baseUrl": "http://host.docker.internal:4011/api/v3",
+        "timeoutMs": 30000,
+        "pingPath": "/inventory/summary"
+      }
+    },
+    {
+      "export_key": "ct-rest::Petstore Inventory API",
+      "connectorTypeId": "ct-rest",
+      "name": "Petstore Inventory API",
+      "deployment_config": {
+        "cloud": "local",
+        "region": "us-east-1"
+      },
+      "execution_config": {
+        "baseUrl": "http://host.docker.internal:4010/api/v3",
+        "timeoutMs": 30000,
+        "pingPath": "/health"
+      }
+    }
+  ],
+  "services": [],
+  "steps": [
+    {
+      "pipelet_id": "plet-schedule-source",
+      "step_order": 1,
+      "deployment_config": {
+        "cloud": "local",
+        "region": "us-east-1"
+      },
+      "execution_config": {
+        "cron": "*/15 * * * *",
+        "batchSize": "1"
+      },
+      "connector_refs": [],
+      "service_refs": [],
+      "input_queue": null,
+      "output_queue": null
+    },
+    {
+      "pipelet_id": "plet-rest-source",
+      "step_order": 2,
+      "deployment_config": {
+        "cloud": "local",
+        "region": "us-east-1"
+      },
+      "execution_config": {
+        "path": "/inventory/items",
+        "method": "GET",
+        "timeoutMs": "30000"
+      },
+      "connector_refs": ["ct-rest::Petstore Inventory Catalog"],
+      "service_refs": [],
+      "input_queue": null,
+      "output_queue": null
+    },
+    {
+      "pipelet_id": "plet-python-filter",
+      "step_order": 3,
+      "deployment_config": {
+        "cloud": "local",
+        "region": "us-east-1"
+      },
+      "execution_config": {
+        "expression": "True"
+      },
+      "connector_refs": [],
+      "service_refs": [],
+      "input_queue": null,
+      "output_queue": null
+    },
+    {
+      "pipelet_id": "plet-webhook-destination",
+      "step_order": 4,
+      "deployment_config": {
+        "cloud": "local",
+        "region": "us-east-1"
+      },
+      "execution_config": {
+        "path": "/inventory/upload",
+        "method": "POST"
+      },
+      "connector_refs": ["ct-rest::Petstore Inventory API"],
+      "service_refs": [],
+      "input_queue": null,
+      "output_queue": null
+    }
+  ]
+}

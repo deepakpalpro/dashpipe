@@ -28,7 +28,7 @@ API_LOG="$STATE_DIR/api.log"
 UI_LOG="$STATE_DIR/ui.log"
 
 API_URL="${API_URL:-http://localhost:8080}"
-UI_URL="${UI_URL:-http://localhost:5173}"
+UI_URL="${UI_URL:-http://127.0.0.1:5173}"
 PETSTORE_URL="${PETSTORE_URL:-http://localhost:4010}"
 PETSTORE_INVENTORY_URL="${PETSTORE_INVENTORY_URL:-http://localhost:4011}"
 S3_ENDPOINT="${S3_ENDPOINT:-http://localhost:4567}"
@@ -261,11 +261,14 @@ seed_s3() {
   if command -v awslocal >/dev/null 2>&1; then
     awslocal s3 mb "s3://$S3_BUCKET" 2>/dev/null || true
     awslocal s3 cp "$CSV_FILE" "s3://$S3_BUCKET/$S3_OBJECT_KEY"
+    awslocal s3 mb "s3://demo-file-destination" 2>/dev/null || true
   elif command -v aws >/dev/null 2>&1; then
     AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test AWS_DEFAULT_REGION=us-east-1 \
       aws --endpoint-url="$S3_ENDPOINT" s3 mb "s3://$S3_BUCKET" 2>/dev/null || true
     AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test AWS_DEFAULT_REGION=us-east-1 \
       aws --endpoint-url="$S3_ENDPOINT" s3 cp "$CSV_FILE" "s3://$S3_BUCKET/$S3_OBJECT_KEY"
+    AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test AWS_DEFAULT_REGION=us-east-1 \
+      aws --endpoint-url="$S3_ENDPOINT" s3 mb "s3://demo-file-destination" 2>/dev/null || true
   else
     log "No aws/awslocal — skip S3 seed (install AWS CLI or run inventory-pipeline-e2e.sh)"
   fi
@@ -291,6 +294,18 @@ start_api() {
   local profiles="local"
   if [[ "$WITH_K8S" -eq 1 ]]; then
     profiles="local,k8s"
+    # Fabric8 reads the current kube context at API startup. Prefer Rancher Desktop
+    # for local --k8s so a stale AKS context (e.g. torn-down dfdev-aks) does not 500 /run.
+    if command -v kubectl >/dev/null 2>&1; then
+      if kubectl config get-contexts -o name 2>/dev/null | grep -qx 'rancher-desktop'; then
+        local cur
+        cur="$(kubectl config current-context 2>/dev/null || true)"
+        if [[ "$cur" != "rancher-desktop" ]]; then
+          log "Switching kubectl context $cur → rancher-desktop (local k8s)"
+          kubectl config use-context rancher-desktop >/dev/null
+        fi
+      fi
+    fi
   fi
 
   export PIPELINE_OBSERVABILITY_GRAFANA_BASE_URL="${PIPELINE_OBSERVABILITY_GRAFANA_BASE_URL:-}"
@@ -340,12 +355,37 @@ start_ui() {
   fi
 
   free_port_if_ours 5173
+  : >"$UI_LOG"
   log "Starting dashflow-ui (dev:api) → $UI_LOG"
   (
     cd "$ROOT/dashflow-ui"
-    nohup npm run dev:api >"$UI_LOG" 2>&1 &
+    # Prefer direct vite so the saved PID is the long-lived server, not an npm wrapper.
+    nohup env VITE_ENABLE_MSW=false npx vite >"$UI_LOG" 2>&1 &
     echo $! >"$UI_PID_FILE"
   )
+
+  # If optional native bindings are missing (common after cross-platform npm installs),
+  # reinstall once and retry.
+  local i
+  for i in $(seq 1 20); do
+    if curl -sf "$UI_URL" >/dev/null 2>&1; then
+      log "UI ready ($UI_URL)"
+      return 0
+    fi
+    if grep -q "Cannot find native binding\|@rolldown/binding-" "$UI_LOG" 2>/dev/null; then
+      log "UI missing native Vite/rolldown binding — reinstalling dashflow-ui deps"
+      stop_pid_file "$UI_PID_FILE" "UI"
+      (cd "$ROOT/dashflow-ui" && rm -rf node_modules && npm install)
+      : >"$UI_LOG"
+      (
+        cd "$ROOT/dashflow-ui"
+        nohup env VITE_ENABLE_MSW=false npx vite >"$UI_LOG" 2>&1 &
+        echo $! >"$UI_PID_FILE"
+      )
+      break
+    fi
+    sleep 1
+  done
   wait_http "$UI_URL" "UI" 90
 }
 

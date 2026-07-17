@@ -1,0 +1,87 @@
+{
+  "format_version": "1",
+  "exported_at": "2026-07-18T01:00:00Z",
+  "pipeline": {
+    "name": "Manual Trigger → S3 Out",
+    "description": "Click Run: Manual Source emits a trigger payload → pass-through filter → S3 Destination writes JSON to LocalStack S3 (demo-file-destination).",
+    "visibility": "private",
+    "execution_mode": "async",
+    "deployment_config": {
+      "cloud": "local",
+      "region": "us-east-1"
+    },
+    "execution_config": {
+      "ioMode": "queue",
+      "batchSize": "1"
+    }
+  },
+  "connectors": [
+    {
+      "export_key": "ct-storage::Manual Trigger LocalStack S3 Out",
+      "connectorTypeId": "ct-storage",
+      "name": "Manual Trigger LocalStack S3 Out",
+      "deployment_config": {
+        "cloud": "local",
+        "region": "us-east-1"
+      },
+      "execution_config": {
+        "bucket": "demo-file-destination",
+        "endpoint": "http://host.docker.internal:4567",
+        "region": "us-east-1",
+        "accessKeyId": "test",
+        "secretAccessKey": "test",
+        "createBucketIfMissing": true,
+        "prefix": "manual/"
+      }
+    }
+  ],
+  "services": [],
+  "steps": [
+    {
+      "pipelet_id": "plet-manual-source",
+      "step_order": 1,
+      "deployment_config": {
+        "cloud": "local",
+        "region": "us-east-1"
+      },
+      "execution_config": {
+        "batchSize": "1",
+        "note": "Emits one trigger record when you click Run (no schedule)."
+      },
+      "connector_refs": [],
+      "service_refs": [],
+      "input_queue": null,
+      "output_queue": null
+    },
+    {
+      "pipelet_id": "plet-python-filter",
+      "step_order": 2,
+      "deployment_config": {
+        "cloud": "local",
+        "region": "us-east-1"
+      },
+      "execution_config": {
+        "expression": "True"
+      },
+      "connector_refs": [],
+      "service_refs": [],
+      "input_queue": null,
+      "output_queue": null
+    },
+    {
+      "pipelet_id": "plet-s3-destination",
+      "step_order": 3,
+      "deployment_config": {
+        "cloud": "local",
+        "region": "us-east-1"
+      },
+      "execution_config": {
+        "objectKey": "manual/trigger-out.json"
+      },
+      "connector_refs": ["ct-storage::Manual Trigger LocalStack S3 Out"],
+      "service_refs": [],
+      "input_queue": null,
+      "output_queue": null
+    }
+  ]
+}

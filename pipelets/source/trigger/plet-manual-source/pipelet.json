@@ -5,7 +5,7 @@
   "runtime": "Python",
   "imageRef": "dashflow/plet-manual-source:local",
   "category": "Source",
-  "description": "Generated runnable implementation for plet-manual-source (source_manual).",
+  "description": "Accept ad-hoc JSON payloads when you click Run (or POST /run).",
   "requiredDeploymentKeys": [
     "region"
   ],

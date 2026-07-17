@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -30,6 +31,11 @@ export function PipeletCatalogProvider({ children }: { children: ReactNode }) {
   const refreshCatalog = useCallback(() => {
     setCatalog(getPipeletCatalog())
   }, [])
+
+  // Pick up HMR / fixture taxonomy updates that land after first mount.
+  useEffect(() => {
+    refreshCatalog()
+  }, [refreshCatalog])
 
   const activate = useCallback((ids: Iterable<string>) => {
     const newly = persistActivatePipelets(ids)

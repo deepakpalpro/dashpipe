@@ -54,10 +54,12 @@ public class PipelineService {
         request.executionMode() == null ? PipelineExecutionMode.ASYNC : request.executionMode());
     pipeline.setVersion(1);
     pipeline.setStatus(PipelineStatus.DRAFT);
-    pipeline.setDeploymentConfig(
-        writeJson(DualConfigSupport.normalize(objectMapper, request.deploymentConfig())));
-    pipeline.setExecutionConfig(
-        writeJson(DualConfigSupport.normalize(objectMapper, request.executionConfig())));
+    JsonNode deployment =
+        DualConfigSupport.normalize(objectMapper, request.deploymentConfig());
+    JsonNode execution = DualConfigSupport.normalize(objectMapper, request.executionConfig());
+    pipeline.setDeploymentConfig(writeJson(deployment));
+    pipeline.setExecutionConfig(writeJson(execution));
+    pipeline.setScheduleCron(extractScheduleCron(execution));
 
     return toResponse(pipelineRepository.save(pipeline), List.of());
   }
@@ -122,6 +124,7 @@ public class PipelineService {
           DualConfigSupport.mergePreservingSecrets(
               objectMapper, readJson(pipeline.getExecutionConfig()), request.executionConfig());
       pipeline.setExecutionConfig(writeJson(merged));
+      pipeline.setScheduleCron(extractScheduleCron(merged));
     }
     pipeline.setVersion(pipeline.getVersion() + 1);
     Pipeline saved = pipelineRepository.save(pipeline);
@@ -170,6 +173,11 @@ public class PipelineService {
     } catch (JsonProcessingException ex) {
       throw new PipelineValidationException("Invalid pipeline config JSON");
     }
+  }
+
+  /** Reads scheduleCron / schedule_cron / cron from execution_config into schedule_cron. */
+  static String extractScheduleCron(JsonNode executionConfig) {
+    return PipelineSchedulePoller.cronFromNode(executionConfig);
   }
 
   private static String blankToNull(String value) {

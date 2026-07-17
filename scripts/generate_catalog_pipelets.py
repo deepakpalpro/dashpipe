@@ -110,7 +110,7 @@ CATALOG: dict[str, tuple[str, str | None, str, tuple[str, ...]]] = {
     "plet-time-window": ("Processor", None, "proc_passthrough", ()),
     # Wave 4 destinations
     "plet-gcs-destination": ("Destination", "storage", "dest_storage", ("objectKey",)),
-    "plet-file-destination": ("Destination", "storage", "dest_storage", ("objectKey",)),
+    "plet-file-destination": ("Destination", "storage", "dest_file", ("objectKey",)),
     "plet-archive-destination": ("Destination", "storage", "dest_storage", ("objectKey",)),
     "plet-ftp-destination": ("Destination", "storage", "dest_storage", ("objectKey",)),
     "plet-kafka-destination": ("Destination", "message_bus", "dest_bus", ("topic",)),
@@ -150,6 +150,7 @@ import re
 import urllib.error
 import urllib.parse
 import urllib.request
+from pathlib import Path
 from typing import Any
 
 
@@ -172,6 +173,18 @@ def run(message: dict[str, Any], execution: dict[str, Any], connector: dict[str,
     out["execution"] = {{k: v for k, v in execution.items() if "password" not in k.lower() and "secret" not in k.lower()}}
 
     if behavior == "source_manual":
+        # Prefer an ad-hoc body supplied at trigger time (TRIGGER_PAYLOAD / run API).
+        if message.get("payload") is not None or message.get("records"):
+            payload = message.get("payload")
+            if payload is None:
+                payload = message.get("records")
+            records = _records({{"payload": payload, "records": message.get("records")}})
+            if not records and payload is not None:
+                records = [payload] if not isinstance(payload, list) else payload
+            out["payload"] = payload
+            out["records"] = records
+            out["recordCount"] = len(records)
+            return out
         out["payload"] = {{"trigger": pipelet_id, "execution": execution}}
         out["records"] = [out["payload"]]
         out["recordCount"] = 1
@@ -272,6 +285,62 @@ def run(message: dict[str, Any], execution: dict[str, Any], connector: dict[str,
     if behavior == "dest_null":
         n = len(_records(message))
         out.update({{"acked": True, "recordCount": n, "records": []}})
+        return out
+
+    if behavior == "dest_file":
+        base = str(
+            execution.get("basePath")
+            or execution.get("path")
+            or connector.get("basePath")
+            or connector.get("mountPath")
+            or connector.get("path")
+            or ""
+        ).strip()
+        rel = str(
+            execution.get("objectKey")
+            or execution.get("fileName")
+            or execution.get("key")
+            or ""
+        ).strip()
+        if not base:
+            raise SystemExit(
+                "execution.basePath (or CONNECTOR_CONFIG.basePath/mountPath) is required for mounted-path writes"
+            )
+        if not rel:
+            raise SystemExit("execution.objectKey (relative path under basePath) is required")
+        if Path(rel).is_absolute() or ".." in Path(rel).parts:
+            raise SystemExit("execution.objectKey must be a relative path without '..'")
+        base_path = Path(base).expanduser().resolve()
+        target = (base_path / rel).resolve()
+        try:
+            target.relative_to(base_path)
+        except ValueError as exc:
+            raise SystemExit("execution.objectKey escapes basePath") from exc
+        body_obj: Any = message.get("payload")
+        if body_obj is None:
+            body_obj = message.get("records") or message
+        fmt = str(execution.get("format") or "json").strip().lower()
+        if fmt in ("ndjson", "jsonl"):
+            records = _records(message) or ([body_obj] if body_obj is not None else [])
+            text = "".join(json.dumps(r, default=str) + "\\n" for r in records)
+        else:
+            text = json.dumps(body_obj, default=str, indent=2) + "\\n"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        append = str(execution.get("append") or "").strip().lower() in ("1", "true", "yes")
+        with target.open("a" if append else "w", encoding="utf-8") as fh:
+            fh.write(text)
+        out.update(
+            {{
+                "written": True,
+                "path": str(target),
+                "basePath": str(base_path),
+                "objectKey": rel,
+                "bytes": len(text.encode("utf-8")),
+                "recordCount": len(_records(message)),
+                "append": append,
+                "format": fmt,
+            }}
+        )
         return out
 
     if behavior == "dest_storage":
@@ -565,7 +634,18 @@ import os
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "_common"))
+# Repo: pipelets/_common; container image: /app/_common (+ PYTHONPATH).
+_here = Path(__file__).resolve().parent
+_COMMON = next(
+    (
+        c
+        for c in (Path("/app/_common"), *(_p / "_common" for _p in _here.parents))
+        if c.is_dir()
+    ),
+    None,
+)
+if _COMMON is not None:
+    sys.path.insert(0, str(_COMMON))
 
 from config_merge import log, resolve_from_env  # noqa: E402
 from io_transport import read_message, write_message  # noqa: E402

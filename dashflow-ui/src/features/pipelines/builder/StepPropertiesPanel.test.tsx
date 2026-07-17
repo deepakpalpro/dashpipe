@@ -21,6 +21,24 @@ const node: PipelineGraphNode = {
 }
 
 describe('StepPropertiesPanel', () => {
+  it('shows a Save CTA that calls onSave', async () => {
+    const user = userEvent.setup()
+    const onSave = vi.fn()
+    renderWithProviders(
+      <StepPropertiesPanel
+        node={node}
+        connectors={[]}
+        services={[]}
+        canSave
+        onSave={onSave}
+        onChange={() => undefined}
+      />,
+    )
+
+    await user.click(screen.getByTestId('props-save'))
+    expect(onSave).toHaveBeenCalledTimes(1)
+  })
+
   it('removes the selected step when Remove step is clicked', async () => {
     const user = userEvent.setup()
     const onRemove = vi.fn()

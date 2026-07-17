@@ -8,6 +8,7 @@ import com.dashflow.api.observability.PipelineLogEmitter;
 import com.dashflow.api.observability.PipeletMetricsEmitter;
 import com.dashflow.api.usage.MeterAgent;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,7 @@ public class StubStageWorker {
   private final MeterAgent meterAgent;
   private final PipelineOrchestrationProperties orchestrationProperties;
   private final PipeletJobRequestFactory jobRequestFactory;
+  private final PipelineExecutionStepTracker stepTracker;
 
   public StubStageWorker(
       RabbitTemplate rabbitTemplate,
@@ -52,7 +54,8 @@ public class StubStageWorker {
       PipelineLogEmitter pipelineLogEmitter,
       MeterAgent meterAgent,
       PipelineOrchestrationProperties orchestrationProperties,
-      PipeletJobRequestFactory jobRequestFactory) {
+      PipeletJobRequestFactory jobRequestFactory,
+      PipelineExecutionStepTracker stepTracker) {
     this.rabbitTemplate = rabbitTemplate;
     this.orchestrator = orchestrator;
     this.pipeletJobClient = pipeletJobClient;
@@ -63,6 +66,7 @@ public class StubStageWorker {
     this.meterAgent = meterAgent;
     this.orchestrationProperties = orchestrationProperties;
     this.jobRequestFactory = jobRequestFactory;
+    this.stepTracker = stepTracker;
   }
 
   @RabbitListener(queues = RabbitMessagingConfig.STUB_STAGE_WORKER_QUEUE)
@@ -80,6 +84,9 @@ public class StubStageWorker {
         message.stageCount(),
         message.executionId(),
         message.ioMode());
+
+    Instant stageStarted = Instant.now();
+    stepTracker.markRunning(message.executionId(), message.stageOrder(), stageStarted);
 
     long startedNanos = System.nanoTime();
     Duration processing = Duration.ofNanos(Math.max(1L, System.nanoTime() - startedNanos));
@@ -114,12 +121,21 @@ public class StubStageWorker {
     String ioMode = PipelineIoMode.normalize(message.ioMode());
     String amqpUrl = message.amqpUrl();
 
+    stepTracker.markCompleted(
+        message.executionId(),
+        message.stageOrder(),
+        STUB_RECORDS_PER_STAGE,
+        STUB_RECORDS_PER_STAGE,
+        stageStarted,
+        Instant.now());
+
     if (message.stageOrder() >= message.stageCount()) {
       orchestrator.markCompleted(message.executionId(), 1, 1);
       return;
     }
 
     int next = message.stageOrder() + 1;
+    stepTracker.markRunning(message.executionId(), next, Instant.now());
     List<PipelineStep> steps = pipelineStepRepository.findByPipelineIdOrdered(message.pipelineId());
     PipelineStep nextStep =
         steps.stream().filter(s -> s.getStepOrder() == next).findFirst().orElse(null);

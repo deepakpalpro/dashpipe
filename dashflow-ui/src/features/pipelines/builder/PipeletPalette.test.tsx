@@ -16,6 +16,8 @@ function makeCatalog(): PipeletCatalogEntry[] {
       runtime: 'Java',
       description: `Source pipelet ${i}`,
       active: true,
+      scope: 'system',
+      group: 'http',
     })
   }
   for (let i = 1; i <= 7; i++) {
@@ -27,6 +29,8 @@ function makeCatalog(): PipeletCatalogEntry[] {
       runtime: 'Java',
       description: `Processor pipelet ${i}`,
       active: true,
+      scope: 'system',
+      group: 'transform',
     })
   }
   for (let i = 1; i <= 6; i++) {
@@ -38,6 +42,8 @@ function makeCatalog(): PipeletCatalogEntry[] {
       runtime: 'Java',
       description: `Destination pipelet ${i}`,
       active: true,
+      scope: 'system',
+      group: 'storage',
     })
   }
   items.push({
@@ -48,6 +54,8 @@ function makeCatalog(): PipeletCatalogEntry[] {
     runtime: 'Java',
     description: 'Consume Kafka topics',
     active: true,
+    scope: 'system',
+    group: 'messaging',
   })
   items.push({
     id: 'plet-inactive-source',
@@ -57,6 +65,8 @@ function makeCatalog(): PipeletCatalogEntry[] {
     runtime: 'Java',
     description: 'Should not appear in palette',
     active: false,
+    scope: 'system',
+    group: 'http',
   })
   return items
 }
@@ -68,18 +78,19 @@ describe('PipeletPalette', () => {
     render(<PipeletPalette items={makeCatalog()} onAdd={onAdd} />)
 
     const sourceSection = screen.getByLabelText('Source pipelets')
+    const httpGroup = within(sourceSection).getByLabelText('Http pipelets')
     // 5 preview items + "Show N more"
-    expect(within(sourceSection).getAllByRole('button')).toHaveLength(
+    expect(within(httpGroup).getAllByRole('button')).toHaveLength(
       PALETTE_PREVIEW_LIMIT + 1,
     )
-    expect(within(sourceSection).queryByText('Source 6')).not.toBeInTheDocument()
+    expect(within(httpGroup).queryByText('Source 6')).not.toBeInTheDocument()
 
     await user.click(
-      within(sourceSection).getByRole('button', { name: /Show 4 more/ }),
+      within(httpGroup).getByRole('button', { name: /Show 3 more/ }),
     )
-    expect(within(sourceSection).getByText('Source 6')).toBeInTheDocument()
+    expect(within(httpGroup).getByText('Source 6')).toBeInTheDocument()
     expect(
-      within(sourceSection).getByRole('button', { name: 'Show less' }),
+      within(httpGroup).getByRole('button', { name: 'Show less' }),
     ).toBeInTheDocument()
   })
 

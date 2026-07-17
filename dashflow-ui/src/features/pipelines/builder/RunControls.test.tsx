@@ -4,41 +4,49 @@ import userEvent from '@testing-library/user-event'
 import { RunControls } from './RunControls'
 
 describe('RunControls', () => {
-  it('shows Deploy when pipeline is draft', async () => {
+  it('shows Activate when pipeline is draft', async () => {
     const user = userEvent.setup()
-    const onDeploy = vi.fn()
+    const onActivate = vi.fn()
     render(
       <RunControls
         canRun
         status="DRAFT"
         onDryRun={() => undefined}
         onSave={() => undefined}
-        onDeploy={onDeploy}
+        onActivate={onActivate}
+        onDeactivate={() => undefined}
         onRun={() => undefined}
       />,
     )
 
     expect(screen.getByTestId('pipeline-status')).toHaveTextContent('DRAFT')
-    const deploy = screen.getByRole('button', { name: 'Deploy' })
-    expect(deploy).toBeEnabled()
-    await user.click(deploy)
-    expect(onDeploy).toHaveBeenCalledOnce()
+    const activate = screen.getByRole('button', { name: 'Activate' })
+    expect(activate).toBeEnabled()
+    await user.click(activate)
+    expect(onActivate).toHaveBeenCalledOnce()
   })
 
-  it('disables Deploy when already active', () => {
+  it('shows Deactivate when pipeline is active', async () => {
+    const user = userEvent.setup()
+    const onDeactivate = vi.fn()
     render(
       <RunControls
         canRun
         status="ACTIVE"
         onDryRun={() => undefined}
         onSave={() => undefined}
-        onDeploy={() => undefined}
+        onActivate={() => undefined}
+        onDeactivate={onDeactivate}
         onRun={() => undefined}
       />,
     )
 
     expect(screen.getByTestId('pipeline-status')).toHaveTextContent('ACTIVE')
-    expect(screen.getByRole('button', { name: 'Deployed' })).toBeDisabled()
+    expect(screen.queryByRole('button', { name: 'Activate' })).not.toBeInTheDocument()
+    const deactivate = screen.getByRole('button', { name: 'Deactivate' })
+    expect(deactivate).toBeEnabled()
+    await user.click(deactivate)
+    expect(onDeactivate).toHaveBeenCalledOnce()
   })
 
   it('enables Force Stop while running', async () => {
@@ -52,7 +60,8 @@ describe('RunControls', () => {
         status="ACTIVE"
         onDryRun={() => undefined}
         onSave={() => undefined}
-        onDeploy={() => undefined}
+        onActivate={() => undefined}
+        onDeactivate={() => undefined}
         onRun={() => undefined}
         onForceStop={onForceStop}
       />,
@@ -73,12 +82,30 @@ describe('RunControls', () => {
         status="ACTIVE"
         onDryRun={() => undefined}
         onSave={() => undefined}
-        onDeploy={() => undefined}
+        onActivate={() => undefined}
+        onDeactivate={() => undefined}
         onRun={() => undefined}
         onForceStop={() => undefined}
       />,
     )
 
     expect(screen.getByTestId('force-stop')).toBeDisabled()
+  })
+
+  it('shows trigger payload editor when enabled', () => {
+    render(
+      <RunControls
+        canRun
+        showTriggerPayload
+        triggerPayloadText='{"a":1}'
+        onTriggerPayloadChange={() => undefined}
+        onDryRun={() => undefined}
+        onSave={() => undefined}
+        onActivate={() => undefined}
+        onDeactivate={() => undefined}
+        onRun={() => undefined}
+      />,
+    )
+    expect(screen.getByTestId('trigger-payload')).toHaveValue('{"a":1}')
   })
 })

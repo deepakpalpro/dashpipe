@@ -16,6 +16,7 @@ import com.dashflow.api.pipeline.ExecutionStatus;
 import com.dashflow.api.pipeline.Pipeline;
 import com.dashflow.api.pipeline.PipelineExecution;
 import com.dashflow.api.pipeline.PipelineExecutionRepository;
+import com.dashflow.api.pipeline.PipelineExecutionStepTracker;
 import com.dashflow.api.pipeline.PipelineOrchestrationProperties;
 import com.dashflow.api.pipeline.PipelineRepository;
 import com.dashflow.api.pipeline.PipelineRunOrchestrator;
@@ -65,6 +66,7 @@ class PipeletJobStatusPollerTest {
   @Mock private PipeletAmqpUrlFactory amqpUrlFactory;
   @Mock private PipeletMetricsEmitter metricsEmitter;
   @Mock private PipelineLogEmitter logEmitter;
+  @Mock private PipelineExecutionStepTracker stepTracker;
   @Mock private BatchAPIGroupDSL batch;
   @Mock private V1BatchAPIGroupDSL v1;
   @Mock private MixedOperation jobsOp;
@@ -102,7 +104,8 @@ class PipeletJobStatusPollerTest {
             amqpUrlFactory,
             orchestrationProperties,
             metricsEmitter,
-            logEmitter);
+            logEmitter,
+            stepTracker);
   }
 
   @Test

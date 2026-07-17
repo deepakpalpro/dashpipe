@@ -29,8 +29,14 @@ def run(message: dict[str, Any], execution: dict[str, Any], connector: dict[str,
     out["execution"] = {k: v for k, v in execution.items() if "password" not in k.lower() and "secret" not in k.lower()}
 
     if behavior == "source_manual":
-        out["payload"] = {"trigger": pipelet_id, "execution": execution}
-        out["records"] = [out["payload"]]
+        cron = str(execution.get("cron") or execution.get("scheduleCron") or "*/15 * * * *")
+        tick = {
+            "trigger": pipelet_id,
+            "cron": cron,
+            "execution": out["execution"],
+        }
+        out["payload"] = tick
+        out["records"] = [tick]
         out["recordCount"] = 1
         return out
 

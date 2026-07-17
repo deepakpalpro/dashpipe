@@ -17,4 +17,7 @@ public interface PipelineRepository extends JpaRepository<Pipeline, String> {
   boolean existsByTenantIdAndName(String tenantId, String name);
 
   boolean existsByTenantIdAndNameAndIdNot(String tenantId, String name, String id);
+
+  @Query("select p from Pipeline p where p.status = :status order by p.updatedAt asc")
+  List<Pipeline> findByStatus(@Param("status") PipelineStatus status);
 }

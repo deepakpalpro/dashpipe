@@ -14,7 +14,7 @@
       "path"
     ],
     "connectorType": "rest",
-    "active": false,
+    "active": true,
     "deploymentConfiguration": {
       "cloud": "aws",
       "region": "us-east-1"
@@ -24,7 +24,9 @@
       "method": "GET",
       "timeoutMs": "30000",
       "batchSize": "100"
-    }
+    },
+    "scope": "system",
+    "group": "http"
   },
   {
     "id": "plet-webhook-source",
@@ -57,7 +59,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "http"
   },
   {
     "id": "plet-json-transform",
@@ -89,7 +93,9 @@
     ],
     "requiredExecutionKeys": [
       "mapping"
-    ]
+    ],
+    "scope": "system",
+    "group": "transform"
   },
   {
     "id": "plet-python-filter",
@@ -97,7 +103,7 @@
     "category": "Processor",
     "version": "0.9.0",
     "runtime": "Python",
-    "active": false,
+    "active": true,
     "imageRef": "dashflow/plet-python-filter:local",
     "description": "Filter records with a safe Python expression over each record (e.g. quantity > 0 and category in ('food','toys')). Bind connector/service as needed; set deployment.region and execution.expression on the step.",
     "requiredDeploymentKeys": [
@@ -127,7 +133,9 @@
       "parallelism": "1",
       "failOnError": "true",
       "expression": ""
-    }
+    },
+    "scope": "system",
+    "group": "filter"
   },
   {
     "id": "plet-adls-destination",
@@ -162,7 +170,9 @@
     ],
     "requiredExecutionKeys": [
       "objectKey"
-    ]
+    ],
+    "scope": "system",
+    "group": "storage"
   },
   {
     "id": "plet-s3-destination",
@@ -189,7 +199,7 @@
       "serviceId": "",
       "bucket": ""
     },
-    "active": false,
+    "active": true,
     "imageRef": "dashflow/plet-s3-destination:local",
     "connectorType": "storage",
     "requiredDeploymentKeys": [
@@ -197,7 +207,9 @@
     ],
     "requiredExecutionKeys": [
       "objectKey"
-    ]
+    ],
+    "scope": "system",
+    "group": "storage"
   },
   {
     "id": "plet-kafka-source",
@@ -223,7 +235,9 @@
     ],
     "requiredExecutionKeys": [
       "topic"
-    ]
+    ],
+    "scope": "system",
+    "group": "messaging"
   },
   {
     "id": "plet-s3-source",
@@ -268,7 +282,9 @@
     "executionConfiguration": {
       "objectKey": "",
       "batchSize": "1"
-    }
+    },
+    "scope": "system",
+    "group": "storage"
   },
   {
     "id": "plet-gcs-source",
@@ -294,7 +310,9 @@
     ],
     "requiredExecutionKeys": [
       "objectKey"
-    ]
+    ],
+    "scope": "system",
+    "group": "storage"
   },
   {
     "id": "plet-jdbc-source",
@@ -320,7 +338,9 @@
     ],
     "requiredExecutionKeys": [
       "query"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-mongodb-source",
@@ -346,7 +366,9 @@
     ],
     "requiredExecutionKeys": [
       "query"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-salesforce-source",
@@ -372,7 +394,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "http"
   },
   {
     "id": "plet-file-watch-source",
@@ -397,7 +421,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "storage"
   },
   {
     "id": "plet-ftp-source",
@@ -423,7 +449,9 @@
     ],
     "requiredExecutionKeys": [
       "objectKey"
-    ]
+    ],
+    "scope": "system",
+    "group": "storage"
   },
   {
     "id": "plet-pub-sub-source",
@@ -449,7 +477,9 @@
     ],
     "requiredExecutionKeys": [
       "subscription"
-    ]
+    ],
+    "scope": "system",
+    "group": "messaging"
   },
   {
     "id": "plet-sqs-source",
@@ -475,7 +505,9 @@
     ],
     "requiredExecutionKeys": [
       "queueName"
-    ]
+    ],
+    "scope": "system",
+    "group": "messaging"
   },
   {
     "id": "plet-event-hub-source",
@@ -501,7 +533,9 @@
     ],
     "requiredExecutionKeys": [
       "hubName"
-    ]
+    ],
+    "scope": "system",
+    "group": "messaging"
   },
   {
     "id": "plet-snowflake-source",
@@ -527,7 +561,9 @@
     ],
     "requiredExecutionKeys": [
       "query"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-bigquery-source",
@@ -553,7 +589,9 @@
     ],
     "requiredExecutionKeys": [
       "query"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-csv-source",
@@ -581,7 +619,9 @@
       "delimiter": ",",
       "hasHeader": "true",
       "batchSize": "100"
-    }
+    },
+    "scope": "system",
+    "group": "storage"
   },
   {
     "id": "plet-avro-source",
@@ -607,7 +647,9 @@
     ],
     "requiredExecutionKeys": [
       "objectKey"
-    ]
+    ],
+    "scope": "system",
+    "group": "storage"
   },
   {
     "id": "plet-parquet-source",
@@ -633,7 +675,9 @@
     ],
     "requiredExecutionKeys": [
       "objectKey"
-    ]
+    ],
+    "scope": "system",
+    "group": "storage"
   },
   {
     "id": "plet-graphql-source",
@@ -659,7 +703,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "http"
   },
   {
     "id": "plet-imap-source",
@@ -685,7 +731,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "http"
   },
   {
     "id": "plet-iot-hub-source",
@@ -711,7 +759,9 @@
     ],
     "requiredExecutionKeys": [
       "hubName"
-    ]
+    ],
+    "scope": "system",
+    "group": "messaging"
   },
   {
     "id": "plet-cdc-source",
@@ -737,7 +787,9 @@
     ],
     "requiredExecutionKeys": [
       "query"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-schedule-source",
@@ -745,20 +797,25 @@
     "category": "Source",
     "version": "1.0.0",
     "runtime": "Python",
-    "description": "Emit timer ticks on a cron schedule.",
+    "description": "Emit timer ticks on a cron schedule. Set execution.cron (e.g. */15 * * * *) to fire every 15 minutes; the platform also honors pipeline execution_config.scheduleCron.",
     "deploymentConfiguration": {
       "cloud": "aws",
       "region": "us-east-1",
       "replicas": "1"
     },
     "executionConfiguration": {
-      "batchSize": "100",
-      "pollIntervalMs": "5000"
+      "cron": "*/15 * * * *",
+      "batchSize": "1"
     },
-    "active": false,
+    "active": true,
     "imageRef": "dashflow/plet-schedule-source:local",
     "requiredDeploymentKeys": [
       "region"
+    ],
+    "scope": "system",
+    "group": "trigger",
+    "requiredExecutionKeys": [
+      "cron"
     ]
   },
   {
@@ -767,7 +824,7 @@
     "category": "Source",
     "version": "1.0.0",
     "runtime": "Python",
-    "description": "Accept ad-hoc payloads from the UI/API.",
+    "description": "Accept ad-hoc JSON payloads when you click Run (or POST /run).",
     "deploymentConfiguration": {
       "cloud": "aws",
       "region": "us-east-1",
@@ -777,11 +834,13 @@
       "batchSize": "100",
       "pollIntervalMs": "5000"
     },
-    "active": false,
+    "active": true,
     "imageRef": "dashflow/plet-manual-source:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "trigger"
   },
   {
     "id": "plet-redis-stream-source",
@@ -807,7 +866,9 @@
     ],
     "requiredExecutionKeys": [
       "stream"
-    ]
+    ],
+    "scope": "system",
+    "group": "messaging"
   },
   {
     "id": "plet-nats-source",
@@ -833,7 +894,9 @@
     ],
     "requiredExecutionKeys": [
       "subject"
-    ]
+    ],
+    "scope": "system",
+    "group": "messaging"
   },
   {
     "id": "plet-amqp-source",
@@ -859,7 +922,9 @@
     ],
     "requiredExecutionKeys": [
       "queue"
-    ]
+    ],
+    "scope": "system",
+    "group": "messaging"
   },
   {
     "id": "plet-http-poll-source",
@@ -885,7 +950,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "http"
   },
   {
     "id": "plet-sharepoint-source",
@@ -911,7 +978,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "http"
   },
   {
     "id": "plet-dropbox-source",
@@ -937,7 +1006,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "http"
   },
   {
     "id": "plet-onedrive-source",
@@ -963,7 +1034,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "http"
   },
   {
     "id": "plet-slack-source",
@@ -989,7 +1062,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "http"
   },
   {
     "id": "plet-field-mapper",
@@ -1032,7 +1107,9 @@
       "failOnError": "true",
       "mode": "upsert",
       "mapping": ""
-    }
+    },
+    "scope": "system",
+    "group": "transform"
   },
   {
     "id": "plet-schema-validator",
@@ -1057,7 +1134,9 @@
     ],
     "requiredExecutionKeys": [
       "schema"
-    ]
+    ],
+    "scope": "system",
+    "group": "filter"
   },
   {
     "id": "plet-deduplicator",
@@ -1082,7 +1161,9 @@
     ],
     "requiredExecutionKeys": [
       "keyFields"
-    ]
+    ],
+    "scope": "system",
+    "group": "filter"
   },
   {
     "id": "plet-aggregator",
@@ -1107,7 +1188,9 @@
     ],
     "requiredExecutionKeys": [
       "groupBy"
-    ]
+    ],
+    "scope": "system",
+    "group": "structure"
   },
   {
     "id": "plet-joiner",
@@ -1129,7 +1212,9 @@
     "imageRef": "dashflow/plet-joiner:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "structure"
   },
   {
     "id": "plet-splitter",
@@ -1154,7 +1239,9 @@
     ],
     "requiredExecutionKeys": [
       "field"
-    ]
+    ],
+    "scope": "system",
+    "group": "structure"
   },
   {
     "id": "plet-enricher",
@@ -1176,7 +1263,9 @@
     "imageRef": "dashflow/plet-enricher:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "enrich"
   },
   {
     "id": "plet-masker",
@@ -1201,7 +1290,9 @@
     ],
     "requiredExecutionKeys": [
       "fields"
-    ]
+    ],
+    "scope": "system",
+    "group": "security"
   },
   {
     "id": "plet-hasher",
@@ -1226,7 +1317,9 @@
     ],
     "requiredExecutionKeys": [
       "fields"
-    ]
+    ],
+    "scope": "system",
+    "group": "security"
   },
   {
     "id": "plet-rate-limiter",
@@ -1248,7 +1341,9 @@
     "imageRef": "dashflow/plet-rate-limiter:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "quality"
   },
   {
     "id": "plet-retry-buffer",
@@ -1270,7 +1365,9 @@
     "imageRef": "dashflow/plet-retry-buffer:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "quality"
   },
   {
     "id": "plet-branch-router",
@@ -1292,7 +1389,9 @@
     "imageRef": "dashflow/plet-branch-router:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "structure"
   },
   {
     "id": "plet-xml-to-json",
@@ -1314,7 +1413,9 @@
     "imageRef": "dashflow/plet-xml-to-json:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "transform"
   },
   {
     "id": "plet-csv-to-json",
@@ -1355,7 +1456,9 @@
       "failOnError": "true",
       "delimiter": ",",
       "hasHeader": "true"
-    }
+    },
+    "scope": "system",
+    "group": "transform"
   },
   {
     "id": "plet-avro-codec",
@@ -1377,7 +1480,9 @@
     "imageRef": "dashflow/plet-avro-codec:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "transform"
   },
   {
     "id": "plet-compression",
@@ -1399,7 +1504,9 @@
     "imageRef": "dashflow/plet-compression:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "security"
   },
   {
     "id": "plet-encryption",
@@ -1421,7 +1528,9 @@
     "imageRef": "dashflow/plet-encryption:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "security"
   },
   {
     "id": "plet-geo-enrich",
@@ -1443,7 +1552,9 @@
     "imageRef": "dashflow/plet-geo-enrich:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "enrich"
   },
   {
     "id": "plet-time-window",
@@ -1465,7 +1576,9 @@
     "imageRef": "dashflow/plet-time-window:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "quality"
   },
   {
     "id": "plet-sample-filter",
@@ -1490,7 +1603,9 @@
     ],
     "requiredExecutionKeys": [
       "rate"
-    ]
+    ],
+    "scope": "system",
+    "group": "filter"
   },
   {
     "id": "plet-null-drop",
@@ -1512,7 +1627,9 @@
     "imageRef": "dashflow/plet-null-drop:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "filter"
   },
   {
     "id": "plet-type-coercer",
@@ -1534,7 +1651,9 @@
     "imageRef": "dashflow/plet-type-coercer:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "transform"
   },
   {
     "id": "plet-regex-extract",
@@ -1559,7 +1678,9 @@
     ],
     "requiredExecutionKeys": [
       "pattern"
-    ]
+    ],
+    "scope": "system",
+    "group": "extract"
   },
   {
     "id": "plet-lookup-cache",
@@ -1581,7 +1702,9 @@
     "imageRef": "dashflow/plet-lookup-cache:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "enrich"
   },
   {
     "id": "plet-script-transform",
@@ -1603,7 +1726,9 @@
     "imageRef": "dashflow/plet-script-transform:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "quality"
   },
   {
     "id": "plet-ml-scorer",
@@ -1625,7 +1750,9 @@
     "imageRef": "dashflow/plet-ml-scorer:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "quality"
   },
   {
     "id": "plet-anomaly-flag",
@@ -1647,7 +1774,9 @@
     "imageRef": "dashflow/plet-anomaly-flag:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "quality"
   },
   {
     "id": "plet-unit-converter",
@@ -1669,7 +1798,9 @@
     "imageRef": "dashflow/plet-unit-converter:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "enrich"
   },
   {
     "id": "plet-currency-fx",
@@ -1691,7 +1822,9 @@
     "imageRef": "dashflow/plet-currency-fx:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "enrich"
   },
   {
     "id": "plet-html-strip",
@@ -1713,7 +1846,9 @@
     "imageRef": "dashflow/plet-html-strip:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "extract"
   },
   {
     "id": "plet-language-detect",
@@ -1735,7 +1870,9 @@
     "imageRef": "dashflow/plet-language-detect:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "extract"
   },
   {
     "id": "plet-sentiment-tag",
@@ -1757,7 +1894,9 @@
     "imageRef": "dashflow/plet-sentiment-tag:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "extract"
   },
   {
     "id": "plet-entity-extract",
@@ -1779,7 +1918,9 @@
     "imageRef": "dashflow/plet-entity-extract:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "extract"
   },
   {
     "id": "plet-json-path",
@@ -1804,7 +1945,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "transform"
   },
   {
     "id": "plet-flatten",
@@ -1826,7 +1969,9 @@
     "imageRef": "dashflow/plet-flatten:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "transform"
   },
   {
     "id": "plet-kafka-destination",
@@ -1852,7 +1997,9 @@
     ],
     "requiredExecutionKeys": [
       "topic"
-    ]
+    ],
+    "scope": "system",
+    "group": "messaging"
   },
   {
     "id": "plet-jdbc-destination",
@@ -1878,7 +2025,9 @@
     ],
     "requiredExecutionKeys": [
       "table"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-mongodb-destination",
@@ -1904,7 +2053,9 @@
     ],
     "requiredExecutionKeys": [
       "table"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-elasticsearch-destination",
@@ -1930,7 +2081,9 @@
     ],
     "requiredExecutionKeys": [
       "table"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-snowflake-destination",
@@ -1956,7 +2109,9 @@
     ],
     "requiredExecutionKeys": [
       "table"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-bigquery-destination",
@@ -1982,7 +2137,9 @@
     ],
     "requiredExecutionKeys": [
       "table"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-gcs-destination",
@@ -2008,7 +2165,9 @@
     ],
     "requiredExecutionKeys": [
       "objectKey"
-    ]
+    ],
+    "scope": "system",
+    "group": "storage"
   },
   {
     "id": "plet-azure-blob-destination",
@@ -2034,7 +2193,9 @@
     ],
     "requiredExecutionKeys": [
       "objectKey"
-    ]
+    ],
+    "scope": "system",
+    "group": "storage"
   },
   {
     "id": "plet-webhook-destination",
@@ -2042,7 +2203,7 @@
     "category": "Destination",
     "version": "1.0.0",
     "runtime": "Python",
-    "active": false,
+    "active": true,
     "imageRef": "dashflow/plet-webhook-destination:local",
     "description": "POST JSON to connector baseUrl + execution.path. Bind a REST connector; set deployment.region and execution.path on the step.",
     "requiredDeploymentKeys": [
@@ -2081,7 +2242,9 @@
       "maxBatchRecords": "500",
       "path": "",
       "method": "POST"
-    }
+    },
+    "scope": "system",
+    "group": "notify"
   },
   {
     "id": "plet-email-destination",
@@ -2107,7 +2270,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "notify"
   },
   {
     "id": "plet-slack-destination",
@@ -2133,7 +2298,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "notify"
   },
   {
     "id": "plet-teams-destination",
@@ -2159,7 +2326,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "notify"
   },
   {
     "id": "plet-pub-sub-destination",
@@ -2185,7 +2354,9 @@
     ],
     "requiredExecutionKeys": [
       "topic"
-    ]
+    ],
+    "scope": "system",
+    "group": "messaging"
   },
   {
     "id": "plet-sqs-destination",
@@ -2211,7 +2382,9 @@
     ],
     "requiredExecutionKeys": [
       "queueName"
-    ]
+    ],
+    "scope": "system",
+    "group": "messaging"
   },
   {
     "id": "plet-event-hub-destination",
@@ -2237,7 +2410,9 @@
     ],
     "requiredExecutionKeys": [
       "hubName"
-    ]
+    ],
+    "scope": "system",
+    "group": "messaging"
   },
   {
     "id": "plet-redis-destination",
@@ -2263,7 +2438,9 @@
     ],
     "requiredExecutionKeys": [
       "table"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-dynamodb-destination",
@@ -2289,7 +2466,9 @@
     ],
     "requiredExecutionKeys": [
       "table"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-cosmos-db-destination",
@@ -2315,7 +2494,9 @@
     ],
     "requiredExecutionKeys": [
       "table"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-ftp-destination",
@@ -2341,7 +2522,9 @@
     ],
     "requiredExecutionKeys": [
       "objectKey"
-    ]
+    ],
+    "scope": "system",
+    "group": "storage"
   },
   {
     "id": "plet-sharepoint-destination",
@@ -2367,7 +2550,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "saas"
   },
   {
     "id": "plet-dropbox-destination",
@@ -2393,7 +2578,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "saas"
   },
   {
     "id": "plet-onedrive-destination",
@@ -2419,7 +2606,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "saas"
   },
   {
     "id": "plet-salesforce-destination",
@@ -2445,7 +2634,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "saas"
   },
   {
     "id": "plet-hubspot-destination",
@@ -2471,7 +2662,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "saas"
   },
   {
     "id": "plet-databricks-destination",
@@ -2497,7 +2690,9 @@
     ],
     "requiredExecutionKeys": [
       "table"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-redshift-destination",
@@ -2523,7 +2718,9 @@
     ],
     "requiredExecutionKeys": [
       "table"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-clickhouse-destination",
@@ -2549,7 +2746,9 @@
     ],
     "requiredExecutionKeys": [
       "table"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-prometheus-push",
@@ -2575,7 +2774,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "notify"
   },
   {
     "id": "plet-opensearch-destination",
@@ -2601,7 +2802,9 @@
     ],
     "requiredExecutionKeys": [
       "table"
-    ]
+    ],
+    "scope": "system",
+    "group": "database"
   },
   {
     "id": "plet-file-destination",
@@ -2611,15 +2814,19 @@
     "runtime": "Python",
     "description": "Write files to a mounted path.",
     "deploymentConfiguration": {
-      "cloud": "aws",
+      "cloud": "local",
       "region": "us-east-1",
       "replicas": "1"
     },
     "executionConfiguration": {
+      "basePath": "/data/out",
+      "objectKey": "",
+      "format": "json",
+      "append": "false",
       "flushIntervalMs": "1000",
       "maxBatchRecords": "500"
     },
-    "active": false,
+    "active": true,
     "imageRef": "dashflow/plet-file-destination:local",
     "connectorType": "storage",
     "requiredDeploymentKeys": [
@@ -2627,7 +2834,9 @@
     ],
     "requiredExecutionKeys": [
       "objectKey"
-    ]
+    ],
+    "scope": "system",
+    "group": "storage"
   },
   {
     "id": "plet-null-destination",
@@ -2649,7 +2858,9 @@
     "imageRef": "dashflow/plet-null-destination:local",
     "requiredDeploymentKeys": [
       "region"
-    ]
+    ],
+    "scope": "system",
+    "group": "util"
   },
   {
     "id": "plet-archive-destination",
@@ -2675,7 +2886,9 @@
     ],
     "requiredExecutionKeys": [
       "objectKey"
-    ]
+    ],
+    "scope": "system",
+    "group": "storage"
   },
   {
     "id": "plet-pagerduty-destination",
@@ -2701,7 +2914,9 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "notify"
   },
   {
     "id": "plet-datadog-destination",
@@ -2727,6 +2942,8 @@
     ],
     "requiredExecutionKeys": [
       "path"
-    ]
+    ],
+    "scope": "system",
+    "group": "notify"
   }
 ]

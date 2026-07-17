@@ -80,8 +80,10 @@ public class PipelineController {
   }
 
   @PostMapping("/{id}/run")
-  public ResponseEntity<PipelineRunResponse> run(@PathVariable String id) {
-    return ResponseEntity.status(HttpStatus.ACCEPTED).body(pipelineRunService.run(id));
+  public ResponseEntity<PipelineRunResponse> run(
+      @PathVariable String id, @RequestBody(required = false) PipelineRunRequest body) {
+    return ResponseEntity.status(HttpStatus.ACCEPTED)
+        .body(pipelineRunService.run(id, body == null ? null : body.payload()));
   }
 
   @GetMapping("/{id}/executions")

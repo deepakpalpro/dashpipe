@@ -17,7 +17,7 @@ describe('ConnectorsList', () => {
     })
   })
 
-  it('filters connectors by search and paginates', async () => {
+  it('filters connectors by taxonomy tree and search', async () => {
     const user = userEvent.setup()
     renderWithProviders(<ConnectorsPage />, {
       initialEntries: ['/connectors'],
@@ -25,6 +25,18 @@ describe('ConnectorsList', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('connectors-count')).toBeInTheDocument()
+    })
+
+    await user.click(screen.getByRole('button', { name: 'Source' }))
+    await waitFor(() => {
+      expect(screen.getByTestId('connectors-path')).toHaveTextContent('Source')
+    })
+
+    await user.click(screen.getByRole('button', { name: 'Source Http' }))
+    await waitFor(() => {
+      expect(screen.getByTestId('connectors-path')).toHaveTextContent(
+        'Source · Http',
+      )
     })
 
     await user.type(
@@ -42,10 +54,7 @@ describe('ConnectorsList', () => {
     ).toBeInTheDocument()
 
     await user.clear(screen.getByLabelText('Search connectors'))
-    await user.selectOptions(
-      screen.getByLabelText('Filter by type'),
-      'ct-event-listener',
-    )
+    await user.click(screen.getByRole('button', { name: 'All connectors' }))
 
     await waitFor(() => {
       const count = screen.getByTestId('connectors-count').textContent ?? ''

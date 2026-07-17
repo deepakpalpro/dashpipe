@@ -7,14 +7,25 @@ import os
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "_common"))
+# Repo: pipelets/_common; container image: /app/_common (+ PYTHONPATH).
+_here = Path(__file__).resolve().parent
+_COMMON = next(
+    (
+        c
+        for c in (Path("/app/_common"), *(_p / "_common" for _p in _here.parents))
+        if c.is_dir()
+    ),
+    None,
+)
+if _COMMON is not None:
+    sys.path.insert(0, str(_COMMON))
 
 from config_merge import log, resolve_from_env  # noqa: E402
 from io_transport import read_message, write_message  # noqa: E402
 from logic import run  # noqa: E402
 
 REQUIRED_DEPLOYMENT = ("region",)
-REQUIRED_EXECUTION = ()
+REQUIRED_EXECUTION = ("cron",)
 
 
 def _connector() -> dict:

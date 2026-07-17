@@ -11,6 +11,7 @@ package com.dashflow.api.k8s;
  * @param serviceConfig JSON for {@code SERVICE_CONFIG}
  * @param deploymentConfig JSON for {@code DEPLOYMENT_CONFIG}
  * @param executionConfig JSON for {@code EXECUTION_CONFIG}
+ * @param triggerPayload optional JSON for {@code TRIGGER_PAYLOAD} (manual/API ad-hoc run body)
  */
 public record PipeletJobRequest(
     String tenantId,
@@ -28,7 +29,8 @@ public record PipeletJobRequest(
     String connectorConfig,
     String serviceConfig,
     String deploymentConfig,
-    String executionConfig) {
+    String executionConfig,
+    String triggerPayload) {
 
   public PipeletJobRequest withEnv(PipeletJobEnv env) {
     PipeletJobEnv resolved = env == null ? PipeletJobEnv.empty() : env;
@@ -48,7 +50,29 @@ public record PipeletJobRequest(
         resolved.connectorConfig(),
         resolved.serviceConfig(),
         resolved.deploymentConfig(),
-        resolved.executionConfig());
+        resolved.executionConfig(),
+        triggerPayload);
+  }
+
+  public PipeletJobRequest withTriggerPayload(String payload) {
+    return new PipeletJobRequest(
+        tenantId,
+        pipelineId,
+        executionId,
+        pipeletId,
+        stageOrder,
+        stageCount,
+        inputQueue,
+        outputQueue,
+        jobName,
+        namespace,
+        ioMode,
+        amqpUrl,
+        connectorConfig,
+        serviceConfig,
+        deploymentConfig,
+        executionConfig,
+        payload);
   }
 
   public static PipeletJobRequest of(
@@ -102,6 +126,7 @@ public record PipeletJobRequest(
         namespace,
         ioMode == null || ioMode.isBlank() ? "queue" : ioMode,
         amqpUrl,
+        null,
         null,
         null,
         null,

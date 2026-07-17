@@ -5,7 +5,7 @@
   "runtime": "Python",
   "imageRef": "dashflow/plet-file-destination:local",
   "category": "Destination",
-  "description": "Generated runnable implementation for plet-file-destination (dest_storage).",
+  "description": "Write JSON/NDJSON files to a local or mounted filesystem path.",
   "requiredDeploymentKeys": [
     "region"
   ],
@@ -13,11 +13,14 @@
     "objectKey"
   ],
   "deploymentConfiguration": {
-    "cloud": "aws",
+    "cloud": "local",
     "region": "us-east-1"
   },
   "executionConfiguration": {
-    "objectKey": ""
+    "basePath": "/data/out",
+    "objectKey": "",
+    "format": "json",
+    "append": "false"
   },
   "connectorType": "storage"
 }

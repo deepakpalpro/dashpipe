@@ -188,9 +188,17 @@ export function importPipeline(
   }).then((r) => readJson<PipelineBundleImportResult>(r))
 }
 
-export function runPipeline(tenantId: string, pipelineId: string) {
+export function runPipeline(
+  tenantId: string,
+  pipelineId: string,
+  payload?: unknown,
+) {
+  const hasPayload = payload !== undefined && payload !== null
   return apiFetch(`/api/v1/pipelines/${pipelineId}/run`, tenantId, {
     method: 'POST',
+    ...(hasPayload
+      ? { body: JSON.stringify({ payload }) }
+      : {}),
   }).then((r) => readJson<PipelineRunResponse>(r))
 }
 

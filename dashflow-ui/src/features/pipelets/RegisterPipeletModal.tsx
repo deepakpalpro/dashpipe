@@ -1,4 +1,10 @@
-import { useState, type FormEvent } from 'react'
+import { useMemo, useState, type FormEvent } from 'react'
+import type { PipeletCategory } from './catalogFilter'
+import {
+  formatGroupLabel,
+  SYSTEM_GROUPS,
+  TENANT_CUSTOM_GROUP,
+} from './pipeletTaxonomy'
 
 export type RegisterMode = 'imagePath' | 'imageUrl' | 'runtimeBinary'
 
@@ -6,6 +12,8 @@ export type RegisterPipeletInput = {
   mode: RegisterMode
   name: string
   category: string
+  /** Domain group under Tenant Custom (e.g. http, database, custom). */
+  group?: string
   imageRef: string
 }
 
@@ -24,10 +32,19 @@ const TABS: { id: RegisterMode; label: string }[] = [
 export function RegisterPipeletModal({ open, onClose, onSubmit }: Props) {
   const [mode, setMode] = useState<RegisterMode>('imagePath')
   const [name, setName] = useState('')
-  const [category, setCategory] = useState('Processor')
+  const [category, setCategory] = useState<PipeletCategory>('Processor')
+  const [group, setGroup] = useState(TENANT_CUSTOM_GROUP)
   const [imageRef, setImageRef] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
+
+  const groupOptions = useMemo(() => {
+    const fromSystem = [...SYSTEM_GROUPS[category]]
+    if (!fromSystem.includes(TENANT_CUSTOM_GROUP)) {
+      fromSystem.push(TENANT_CUSTOM_GROUP)
+    }
+    return fromSystem
+  }, [category])
 
   if (!open) {
     return null
@@ -46,10 +63,12 @@ export function RegisterPipeletModal({ open, onClose, onSubmit }: Props) {
         mode,
         name: name.trim(),
         category,
+        group,
         imageRef: imageRef.trim(),
       })
       setName('')
       setImageRef('')
+      setGroup(TENANT_CUSTOM_GROUP)
       onClose()
     } finally {
       setSubmitting(false)
@@ -87,6 +106,9 @@ export function RegisterPipeletModal({ open, onClose, onSubmit }: Props) {
         </div>
 
         <form className="entity-form" onSubmit={handleSubmit} noValidate>
+          <p className="muted">
+            Registered pipelets are stored under <strong>Tenant Custom</strong>.
+          </p>
           <label>
             Name
             <input
@@ -100,11 +122,32 @@ export function RegisterPipeletModal({ open, onClose, onSubmit }: Props) {
             <select
               aria-label="Pipelet category"
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) => {
+                const next = e.target.value as PipeletCategory
+                setCategory(next)
+                const opts = [...SYSTEM_GROUPS[next], TENANT_CUSTOM_GROUP]
+                if (!opts.includes(group)) {
+                  setGroup(TENANT_CUSTOM_GROUP)
+                }
+              }}
             >
               <option value="Source">Source</option>
               <option value="Processor">Processor</option>
               <option value="Destination">Destination</option>
+            </select>
+          </label>
+          <label>
+            Group
+            <select
+              aria-label="Pipelet group"
+              value={group}
+              onChange={(e) => setGroup(e.target.value)}
+            >
+              {groupOptions.map((g) => (
+                <option key={g} value={g}>
+                  {formatGroupLabel(g)}
+                </option>
+              ))}
             </select>
           </label>
           <label>

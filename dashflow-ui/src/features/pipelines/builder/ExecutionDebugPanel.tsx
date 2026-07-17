@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { Link } from 'react-router-dom'
 import { getExecutionLogs, getPipelineExecution } from '../../../api/resources'
 import type {
   ExecutionLogEntry,
@@ -160,9 +161,19 @@ export function ExecutionDebugPanel({
         ) : (
           <span className="muted">Execution</span>
         )}
-        <code className="exec-id" title={executionId}>
-          {executionId.slice(0, 8)}…
-        </code>
+        <div className="execution-debug-header-meta">
+          <code className="exec-id" title={executionId}>
+            {executionId.slice(0, 8)}…
+          </code>
+          {pipelineId ? (
+            <Link
+              className="linkish"
+              to={`/observability/runs/${encodeURIComponent(pipelineId)}/${encodeURIComponent(executionId)}`}
+            >
+              Run detail →
+            </Link>
+          ) : null}
+        </div>
       </div>
 
       {execution ? (
