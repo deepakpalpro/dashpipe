@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Dashpipe — open-source multi-tenant data pipeline platform. Design flows in a no-code UI, run Kubernetes pipelets, observe with Prometheus and Grafana.">
+  <meta name="description" content="Dashpipe — no-code data orchestration, AI pipeline development, on-demand scalable container runtime, and AI platform ops. Open-source multi-tenant pipelet platform.">
   <meta name="theme-color" content="#0b1220">
-  <title>Dashpipe — Open-source data pipelines</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2310b981'/><path d='M8 16h6l2 4 2-8 2 4h6' stroke='%230b1220' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <title>Dashpipe — No-code orchestration · AI pipelines · Container runtime · AI ops</title>
+  <link rel="icon" href="/website/logo-mark.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="website/css/style.css">
+  <link rel="stylesheet" href="/website/css/style.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="/">
-        <span class="brand-mark" aria-hidden="true"></span>
+      <a class="brand" href="/" aria-label="Dashpipe home">
+        <img class="brand-logo" src="/website/logo-mark.svg" alt="" width="28" height="28">
         <span class="brand-text">Dashpipe</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
@@ -26,7 +26,7 @@
         <span></span><span></span><span></span>
       </button>
       <nav id="site-nav" class="site-nav">
-        <a href="#features">Features</a>
+        <a href="#pillars">Four pillars</a>
         <a href="#architecture">Architecture</a>
         <a href="#components">Monorepo</a>
         <a href="#quickstart">Quick start</a>
@@ -40,72 +40,123 @@
       <div class="container hero-grid">
         <div class="hero-copy">
           <p class="eyebrow">Open source · Apache 2.0</p>
-          <h1>Pipelet-powered data pipelines, minus the orchestration boilerplate</h1>
+          <h1>No-code orchestration.<br>AI pipelines.<br>On-demand runtime.<br>AI platform ops.</h1>
           <p class="lead">
-            Design linear Source → Transform → Destination flows in a no-code UI.
-            Execute them as Kubernetes pipelet jobs. Observe every run with Prometheus and Grafana.
+            Dashpipe is a multi-tenant data pipeline platform built around four capabilities:
+            design flows without code, develop pipelines with AI agents, execute each step as a
+            scalable container, and operate the platform with an AI ops agent.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="docs/getting-started/QUICKSTART.html">Get started</a>
-            <a class="btn btn-secondary" href="https://github.com/deepakpalpro/dashpipe" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+            <a class="btn btn-primary" href="#quickstart">Get started</a>
+            <a class="btn btn-secondary" href="/docs/getting-started/AI_AND_MCP.html">AI agent docs</a>
+            <a class="btn btn-secondary" href="https://github.com/deepakpalpro/dashpipe" target="_blank" rel="noopener noreferrer">GitHub</a>
           </div>
-          <ul class="hero-stats" aria-label="Highlights">
-            <li><strong>No-code builder</strong> React UI for pipelines &amp; connectors</li>
-            <li><strong>K8s pipelets</strong> Containerized Python steps per stage</li>
-            <li><strong>Pluggable runtime</strong> Local Compose or Azure AKS</li>
-          </ul>
+          <div class="hero-pillars" aria-label="Four pillars">
+            <div class="hero-pillar"><span class="pillar-num">01</span> No-code orchestration</div>
+            <div class="hero-pillar"><span class="pillar-num">02</span> AI pipeline development</div>
+            <div class="hero-pillar"><span class="pillar-num">03</span> On-demand container runtime</div>
+            <div class="hero-pillar"><span class="pillar-num">04</span> AI platform ops</div>
+          </div>
         </div>
         <div class="hero-visual" aria-hidden="true">
-          <div class="pipeline-card">
-            <div class="pipeline-header">inventory-s3-to-petstore</div>
-            <div class="pipeline-flow">
-              <div class="node source">S3 Source</div>
-              <div class="connector"></div>
-              <div class="node transform">CSV → JSON</div>
-              <div class="connector"></div>
-              <div class="node transform">Field map</div>
-              <div class="connector"></div>
-              <div class="node dest">Webhook</div>
+          <div class="pillar-visual">
+            <div class="pillar-visual-row">
+              <div class="pillar-visual-card pillar-visual-nocode">
+                <span class="pillar-visual-tag">01 · No-code</span>
+                <div class="mini-flow">
+                  <span>S3 Source</span><span>→</span><span>Transform</span><span>→</span><span>REST</span>
+                </div>
+                <span class="pillar-visual-meta">React builder · drag &amp; drop</span>
+              </div>
+              <div class="pillar-visual-card pillar-visual-ai">
+                <span class="pillar-visual-tag">02 · AI dev</span>
+                <div class="mini-chat">“CSV from S3 → Petstore API”</div>
+                <span class="pillar-visual-meta">Pipeline Guide · Pipelet Developer</span>
+              </div>
             </div>
-            <div class="pipeline-meta">
-              <span class="badge running">Running</span>
-              <span>Tenant T001 · K8s Jobs</span>
+            <div class="pillar-visual-connector">↓ execute</div>
+            <div class="pillar-visual-row">
+              <div class="pillar-visual-card pillar-visual-runtime">
+                <span class="pillar-visual-tag">03 · Runtime</span>
+                <div class="mini-k8s">
+                  <span class="k8s-pod">plet-s3</span>
+                  <span class="k8s-pod">plet-map</span>
+                  <span class="k8s-pod">plet-rest</span>
+                </div>
+                <span class="pillar-visual-meta">K8s Jobs · scale on demand</span>
+              </div>
+              <div class="pillar-visual-card pillar-visual-ops">
+                <span class="pillar-visual-tag">04 · AI ops</span>
+                <div class="mini-ops">
+                  <span class="badge running">Running</span>
+                  <span>dry-run · run · debug</span>
+                </div>
+                <span class="pillar-visual-meta">MCP · Cursor · Claude · Copilot</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="features" class="section">
+    <section id="pillars" class="section section-pillars">
       <div class="container">
-        <div class="section-head">
-          <h2>Built for platform teams and data engineers</h2>
-          <p>Repeatable, tenant-scoped pipelines you can share, meter, and operate — not one-off scripts.</p>
+        <div class="section-head section-head-center">
+          <p class="eyebrow">Why Dashpipe</p>
+          <h2>Four pillars. One platform.</h2>
+          <p>From visual design to AI-assisted development, containerized execution, and agentic operations — without heavyweight orchestration frameworks.</p>
         </div>
-        <div class="feature-grid">
-          <article class="feature-card">
-            <h3>Pipeline builder</h3>
-            <p>Drag-and-drop linear pipelines, connector wizards, and import/export of JSON bundles.</p>
+        <div class="pillars-grid">
+          <article class="pillar-card" id="pillar-nocode">
+            <div class="pillar-icon pillar-icon-nocode" aria-hidden="true">01</div>
+            <h3>No-code data orchestration</h3>
+            <p class="pillar-lead">Design linear Source → Transform → Destination pipelines in a visual builder — no YAML, no DAG wiring.</p>
+            <ul class="pillar-list">
+              <li>Drag-and-drop pipeline builder with connector wizards</li>
+              <li>Import/export portable JSON bundles across tenants</li>
+              <li>Reusable connector SPI — REST, storage, message bus</li>
+              <li>Multi-tenant control plane with draft → active lifecycle</li>
+            </ul>
+            <p class="pillar-foot">React UI · Spring Boot API</p>
           </article>
-          <article class="feature-card">
-            <h3>Pipelet model</h3>
-            <p>Each step is a containerized job with a catalog of sources, transforms, and destinations.</p>
+
+          <article class="pillar-card pillar-card-ai" id="pillar-ai-dev">
+            <div class="pillar-icon pillar-icon-ai" aria-hidden="true">02</div>
+            <h3>Agent AI pipeline development</h3>
+            <p class="pillar-lead">Describe intent in natural language — get proposed pipelet steps, import to the platform, and scaffold new pipelets with an LLM.</p>
+            <ul class="pillar-list">
+              <li><strong>Pipeline Guide</strong> — chat-driven design with live pipelet catalog</li>
+              <li><strong>Iterative refinement</strong> — edit steps across follow-up messages</li>
+              <li><strong>One-click import</strong> — bundle → draft pipeline on the platform</li>
+              <li><strong>Pipelet Developer</strong> — Python + Dockerfile + K8s Job YAML</li>
+            </ul>
+            <p class="pillar-foot">Streamlit · LangGraph · Ollama or cloud LLMs</p>
           </article>
-          <article class="feature-card">
-            <h3>Connector SPI</h3>
-            <p>Reusable REST, storage, and message-bus connectors scoped per tenant.</p>
+
+          <article class="pillar-card" id="pillar-runtime">
+            <div class="pillar-icon pillar-icon-runtime" aria-hidden="true">03</div>
+            <h3>On-demand scalable runtime</h3>
+            <p class="pillar-lead">Each pipeline stage runs as its own containerized pipelet Job — spin up when needed, scale with workload, tear down when done.</p>
+            <ul class="pillar-list">
+              <li>One Kubernetes Job per pipelet stage — no shared worker pool</li>
+              <li>Catalog of sources, processors, and destinations</li>
+              <li>Message broker handoff between stages (RabbitMQ / Service Bus)</li>
+              <li>Local Compose dev or AKS production-style runs</li>
+            </ul>
+            <p class="pillar-foot">K8s Jobs · pipelet containers · broker queue</p>
           </article>
-          <article class="feature-card">
-            <h3>Observability</h3>
-            <p>Prometheus metrics, Grafana dashboards, execution logs, and debug panels in the UI.</p>
-          </article>
-          <article class="feature-card">
-            <h3>Local &amp; cloud</h3>
-            <p>RabbitMQ + MySQL + K8s locally, or AKS + Azure Service Bus for production-style runs.</p>
-          </article>
-          <article class="feature-card">
-            <h3>AI &amp; MCP</h3>
-            <p>Optional LangGraph agents and an MCP server for pipeline design and live debugging in Cursor.</p>
+
+          <article class="pillar-card pillar-card-ops" id="pillar-ai-ops">
+            <div class="pillar-icon pillar-icon-ops" aria-hidden="true">04</div>
+            <h3>Agent AI platform ops</h3>
+            <p class="pillar-lead">Operate tenants, pipelines, executions, and connectors with an AI agent — dry-run before run, debug on failure, no API memorization.</p>
+            <ul class="pillar-list">
+              <li><strong>Ops chat agent</strong> — LangGraph ReAct with 30+ platform tools</li>
+              <li><strong>Full ops panel</strong> — pipelines, executions, connectors, catalog</li>
+              <li><strong>Debug loop</strong> — dry-run → run → <code>debug_execution</code> on failure</li>
+              <li><strong>MCP integrations</strong> — Cursor, Claude Desktop, OpenClaw, GitHub Copilot / VS Code</li>
+            </ul>
+            <p class="pillar-foot">Shared in-process tools · MCP for Cursor, Claude, OpenClaw, Copilot</p>
           </article>
         </div>
       </div>
@@ -114,31 +165,30 @@
     <section id="architecture" class="section section-alt">
       <div class="container arch-grid">
         <div>
-          <h2>Control plane meets Kubernetes execution</h2>
+          <h2>How the four pillars connect</h2>
           <p>
-            The React UI talks to a Spring Boot API that orchestrates pipelet Jobs, tracks executions,
-            and integrates with your message broker and MySQL metadata store.
+            Design in the no-code builder or AI dev agent. The control plane validates and schedules
+            pipelet container Jobs. The ops agent monitors, runs, and debugs executions end to end.
           </p>
           <ul class="arch-list">
-            <li><strong>Presentation</strong> — Pipeline builder, observability panels</li>
-            <li><strong>Control plane</strong> — Tenants, pipelines, connectors, billing hooks</li>
-            <li><strong>Execution</strong> — K8s Jobs per pipelet stage</li>
-            <li><strong>Infrastructure</strong> — RabbitMQ or Service Bus, MySQL, Prometheus</li>
+            <li><strong>01 Orchestration</strong> — React builder, connectors, tenant-scoped pipelines</li>
+            <li><strong>02 AI development</strong> — Streamlit agents, LangGraph, import bundles</li>
+            <li><strong>03 Runtime</strong> — K8s pipelet Jobs, broker queues, on-demand containers</li>
+            <li><strong>04 AI ops</strong> — Platform Ops agent, MCP, observability &amp; debug tools</li>
           </ul>
-          <a class="text-link" href="docs/architecture/OVERVIEW.html">Architecture overview →</a>
+          <a class="text-link" href="/docs/getting-started/AI_AND_MCP.html">AI agent &amp; MCP guide →</a>
+          &nbsp;·&nbsp;
+          <a class="text-link" href="/docs/architecture/OVERVIEW.html">Architecture overview →</a>
         </div>
         <div class="arch-diagram" aria-hidden="true">
-          <div class="layer">UI · React builder</div>
-          <div class="arrow">↓</div>
-          <div class="layer highlight">API · Spring Boot</div>
-          <div class="arrow">↓</div>
-          <div class="layer-row">
-            <div class="layer small">K8s pipelets</div>
-            <div class="layer small">Broker</div>
-            <div class="layer small">MySQL</div>
-          </div>
-          <div class="arrow">↓</div>
-          <div class="layer">Prometheus · Grafana · ELK</div>
+          <div class="layer">01 · No-code builder · React UI</div>
+          <div class="layer highlight">02 · AI dev agent · Streamlit · LangGraph</div>
+          <div class="arrow">↓ import · validate · schedule</div>
+          <div class="layer">Control plane · Spring Boot API</div>
+          <div class="arrow">↓ on-demand Jobs</div>
+          <div class="layer highlight">03 · Pipelet containers · K8s runtime</div>
+          <div class="arrow">↓ metrics · logs · executions</div>
+          <div class="layer highlight">04 · AI platform ops · MCP · Grafana</div>
         </div>
       </div>
     </section>
@@ -152,15 +202,15 @@
         <div class="component-grid">
           <article>
             <h3>dashpipe-platform</h3>
-            <p>API, UI, SPI, broker, and pipelet catalog.</p>
+            <p>No-code builder, API, connector SPI, broker, and pipelet catalog.</p>
           </article>
           <article>
             <h3>dashpipe-ci_cd</h3>
             <p>localdev.sh, K8s manifests, Azure Bicep, smoke tests.</p>
           </article>
-          <article>
+          <article class="component-featured">
             <h3>dashpipe-dev-ai-agent</h3>
-            <p>LangGraph pipeline guide, pipelet developer, MCP tools.</p>
+            <p><strong>Pillars 02 &amp; 04.</strong> AI pipeline development + platform ops — Streamlit, LangGraph, dashpipe-mcp for Cursor, Claude, OpenClaw, and GitHub Copilot.</p>
           </article>
           <article>
             <h3>dashpipe-tools</h3>
@@ -177,32 +227,37 @@
     <section id="quickstart" class="section section-alt">
       <div class="container quickstart-grid">
         <div>
-          <h2>Run locally in minutes</h2>
-          <p>Prerequisites: Docker, Java 21, Node 20. Optional: a local Kubernetes cluster for real pipelet Jobs.</p>
+          <h2>Run all four pillars locally</h2>
+          <p>Platform stack first (no-code + runtime), then the AI agent stack (development + ops).</p>
         </div>
-        <pre class="code-block"><code># Platform stack (Compose + API + UI)
+        <pre class="code-block"><code># 01 &amp; 03 — Platform: no-code builder + container runtime
 ./dashpipe-ci_cd/scripts/localdev.sh start --with-metrics
 
-# Optional: real K8s pipelet runs
+# 02 &amp; 04 — AI agents: pipeline development + platform ops
+./dashpipe-dev-ai-agent/scripts/localdev-ai.sh start
+
+# Real K8s pipelet Jobs (on-demand runtime)
 ./dashpipe-ci_cd/scripts/localdev.sh start --k8s
 
-# Flagship demo: S3 → Petstore inventory
+# End-to-end demo: S3 → Petstore inventory
 ./dashpipe-ci_cd/scripts/inventory-pipeline-e2e.sh</code></pre>
         <div class="service-table">
-          <div><span>UI</span><code>http://127.0.0.1:5173</code></div>
-          <div><span>API</span><code>http://localhost:8080</code></div>
-          <div><span>Grafana</span><code>http://localhost:3000</code></div>
+          <div><span>01 · Builder UI</span><code>http://127.0.0.1:5173</code></div>
+          <div><span>02 &amp; 04 · AI agent</span><code>http://localhost:8501</code></div>
+          <div><span>Control plane API</span><code>http://localhost:8080</code></div>
+          <div><span>AI API (REST)</span><code>http://localhost:8090</code></div>
+          <div><span>Observability</span><code>http://localhost:3000</code></div>
         </div>
       </div>
     </section>
 
     <section class="section cta-section">
       <div class="container cta-inner">
-        <h2>Ready to build your first pipeline?</h2>
-        <p>Explore the docs hub, import a sample from dashpipe-demo, or contribute a new pipelet.</p>
+        <h2>Orchestrate. Develop with AI. Run on demand. Operate with AI.</h2>
+        <p>Four pillars for teams who want repeatable data pipelines — designed visually, built with agents, executed as containers, and operated intelligently.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="docs/README.html">Documentation</a>
-          <a class="btn btn-secondary" href="https://github.com/deepakpalpro/dashpipe/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contribute</a>
+          <a class="btn btn-primary" href="/docs/getting-started/QUICKSTART.html">Platform quick start</a>
+          <a class="btn btn-secondary" href="/docs/getting-started/AI_AND_MCP.html">AI agent guide</a>
         </div>
       </div>
     </section>
@@ -216,13 +271,13 @@
       </div>
       <nav class="footer-nav" aria-label="Footer">
         <a href="https://github.com/deepakpalpro/dashpipe" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="docs/README.html">Docs</a>
+        <a href="/docs/README.html">Docs</a>
         <a href="https://github.com/deepakpalpro/dashpipe/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">Security</a>
         <a href="https://github.com/deepakpalpro/dashpipe/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer">Code of conduct</a>
       </nav>
     </div>
   </footer>
 
-  <script src="website/js/main.js"></script>
+  <script src="/website/js/main.js"></script>
 </body>
 </html>

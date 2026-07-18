@@ -1,6 +1,17 @@
 # Dashpipe MCP Server
 
-Model Context Protocol (MCP) server for **dashpipe-api**. Exposes tools so Cursor (or any MCP client) can investigate pipelines, debug executions, import/export bundles, and manage connectors and pipelets.
+Model Context Protocol (MCP) server for **dashpipe-api**. Exposes ~30 tools so AI clients can investigate pipelines, debug executions, import/export bundles, and manage connectors and pipelets.
+
+Works with any **stdio MCP host**, including:
+
+| Client | Config location |
+|--------|-----------------|
+| **Cursor** | `.cursor/mcp.json` (project) or user MCP settings |
+| **Claude Desktop** | `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) |
+| **OpenClaw** | `~/.openclaw/openclaw.json` → `mcpServers` (or `openclaw mcp set`) |
+| **GitHub Copilot / VS Code** | `.vscode/mcp.json` (workspace) or user `mcp.json` |
+
+Same server process everywhere — only the config file path and root key differ.
 
 ## Prerequisites
 
@@ -16,27 +27,44 @@ Model Context Protocol (MCP) server for **dashpipe-api**. Exposes tools so Curso
 ## Install
 
 ```bash
-cd dashpipe-mcp
+cd dashpipe-dev-ai-agent/dashpipe-mcp
 python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -e .
 ```
 
-## Run (stdio — for Cursor)
+## Run (stdio)
 
 ```bash
 python -m dashpipe_mcp
 ```
 
-## Cursor configuration
+## Server block (copy into any client)
 
-Add to your project or user MCP settings (`.cursor/mcp.json`):
+Replace `PYTHON` with the absolute path to this venv’s Python (e.g. `.../dashpipe-mcp/.venv/bin/python`):
+
+```json
+{
+  "command": "PYTHON",
+  "args": ["-m", "dashpipe_mcp"],
+  "env": {
+    "DASHPIPE_API_URL": "http://localhost:8080",
+    "DASHPIPE_TENANT_ID": "T001"
+  }
+}
+```
+
+---
+
+## Cursor
+
+Project file `dashpipe-mcp/examples/cursor-mcp.json` or **Cursor Settings → MCP**:
 
 ```json
 {
   "mcpServers": {
     "dashpipe": {
-      "command": "/Users/deepakpal/Projects/dashpipe/dashpipe-mcp/.venv/bin/python",
+      "command": "/absolute/path/to/dashpipe-dev-ai-agent/dashpipe-mcp/.venv/bin/python",
       "args": ["-m", "dashpipe_mcp"],
       "env": {
         "DASHPIPE_API_URL": "http://localhost:8080",
@@ -47,7 +75,82 @@ Add to your project or user MCP settings (`.cursor/mcp.json`):
 }
 ```
 
-Adjust the Python path to your venv location.
+---
+
+## Claude Desktop
+
+**Settings → Developer → Edit Config**, or edit directly:
+
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "dashpipe": {
+      "command": "/absolute/path/to/dashpipe-dev-ai-agent/dashpipe-mcp/.venv/bin/python",
+      "args": ["-m", "dashpipe_mcp"],
+      "env": {
+        "DASHPIPE_API_URL": "http://localhost:8080",
+        "DASHPIPE_TENANT_ID": "T001"
+      }
+    }
+  }
+}
+```
+
+Restart Claude Desktop after saving.
+
+---
+
+## OpenClaw
+
+Add to `~/.openclaw/openclaw.json` under `mcpServers`, or use the CLI:
+
+```bash
+openclaw mcp set dashpipe '{
+  "command": "/absolute/path/to/dashpipe-dev-ai-agent/dashpipe-mcp/.venv/bin/python",
+  "args": ["-m", "dashpipe_mcp"],
+  "env": {
+    "DASHPIPE_API_URL": "http://localhost:8080",
+    "DASHPIPE_TENANT_ID": "T001"
+  }
+}'
+```
+
+OpenClaw blocks some env vars (e.g. `PYTHONPATH`) in stdio configs for safety — set those on the host if needed, not in `env`.
+
+Verify: `openclaw mcp list`
+
+---
+
+## GitHub Copilot / VS Code
+
+Workspace config: `.vscode/mcp.json` (commit for your team). VS Code uses the root key **`servers`**, not `mcpServers`:
+
+```json
+{
+  "servers": {
+    "dashpipe": {
+      "type": "stdio",
+      "command": "/absolute/path/to/dashpipe-dev-ai-agent/dashpipe-mcp/.venv/bin/python",
+      "args": ["-m", "dashpipe_mcp"],
+      "env": {
+        "DASHPIPE_API_URL": "http://localhost:8080",
+        "DASHPIPE_TENANT_ID": "T001"
+      }
+    }
+  }
+}
+```
+
+- Command Palette → **MCP: Open Workspace Folder MCP Configuration**
+- Use **Agent** mode in Copilot Chat for tool calling
+- Reload window after edits
+
+Visual Studio 2026+ also reads `.mcp.json` at the repo root with the same stdio shape.
+
+---
 
 ## Environment
 
@@ -55,14 +158,13 @@ Adjust the Python path to your venv location.
 |----------|---------|-------------|
 | `DASHPIPE_API_URL` | `http://localhost:8080` | dashpipe-api base URL |
 | `DASHPIPE_TENANT_ID` | `T001` | `X-Tenant-Id` for tenant-scoped calls |
-| `DASHPIPE_PIPELETS_CATALOG` | `../dashpipe-ui/src/fixtures/pipelets.json` | Pipelet catalog JSON |
+| `DASHPIPE_PIPELETS_CATALOG` | auto-resolved | Pipelet catalog JSON path |
 | `DASHPIPE_REQUEST_TIMEOUT_S` | `60` | HTTP timeout |
 
 ## Tools
 
 ### Meta
-- `dashpipe_health` — API health check
-- `dashpipe_config` — effective configuration
+- `dashpipe_health`, `dashpipe_config`
 
 ### Pipelines
 - `list_pipelines`, `get_pipeline`, `create_pipeline`, `update_pipeline`
@@ -72,7 +174,7 @@ Adjust the Python path to your venv location.
 
 ### Executions & debug
 - `list_executions`, `get_execution`, `cancel_execution`
-- `get_execution_logs`, `debug_execution` (detail + logs + errors + links)
+- `get_execution_logs`, `debug_execution`
 
 ### Observability
 - `get_pipeline_observability`, `get_observability_links`
@@ -83,7 +185,7 @@ Adjust the Python path to your venv location.
 - `provision_connector_webhook`
 
 ### Pipelets (catalog)
-- `list_pipelets`, `get_pipelet` — from generated `pipelets.json` fixture
+- `list_pipelets`, `get_pipelet`
 
 ## Tests
 
@@ -93,4 +195,4 @@ pytest tests/
 
 ## Relation to AI Dataflow Developer
 
-The **[dashpipe-dev-ai-agent](../)** component generates pipeline designs and Python pipelets. This MCP server operates the **live Dashpipe control plane** — use both together: design in the AI UI, then create/import/run/debug via MCP tools in Cursor.
+The **[dashpipe-dev-ai-agent](../)** Streamlit app designs pipelines and runs platform ops **in-process** (same `platform_ops` module). **dashpipe-mcp** is the stdio bridge for IDE and agent hosts — design in Streamlit, then import/run/debug from Cursor, Claude, OpenClaw, or Copilot.

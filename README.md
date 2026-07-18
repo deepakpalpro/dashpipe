@@ -36,7 +36,7 @@ Built for data engineers, platform teams, and integrators who need repeatable, t
 | UI | http://127.0.0.1:5173 |
 | API | http://localhost:8080 |
 | Grafana | http://localhost:3000 (with `--with-metrics`) |
-| AI agent UI | http://localhost:5174 |
+| AI agent UI (Streamlit) | http://localhost:8501 |
 | AI agent API | http://localhost:8090 |
 
 Tenant header: `X-Tenant-Id: T001`

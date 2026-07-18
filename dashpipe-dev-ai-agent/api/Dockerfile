@@ -2,8 +2,11 @@ FROM python:3.12-slim
 WORKDIR /app
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-COPY app ./app
+
+COPY dashpipe-mcp /dashpipe-mcp
+COPY api/requirements.txt .
+RUN pip install --no-cache-dir -e /dashpipe-mcp \
+    && pip install --no-cache-dir -r requirements.txt
+COPY api/app ./app
 EXPOSE 8090
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8090"]

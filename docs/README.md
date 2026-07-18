@@ -1,3 +1,8 @@
+---
+layout: default
+title: dashpipe-suite Documentation
+---
+
 # dashpipe-suite Documentation
 
 [← Back to home](/)

@@ -101,12 +101,12 @@ a {
   font-size: 1.1rem;
 }
 
-.brand-mark {
+.brand-logo {
   width: 1.75rem;
   height: 1.75rem;
-  border-radius: 0.5rem;
-  background: linear-gradient(135deg, var(--accent), #059669);
-  box-shadow: 0 0 20px var(--accent-glow);
+  flex-shrink: 0;
+  display: block;
+  filter: drop-shadow(0 0 10px var(--accent-glow));
 }
 
 .site-nav {
@@ -185,10 +185,18 @@ a {
 }
 
 .lead {
-  margin: 0 0 1.75rem;
+  margin: 0 0 1rem;
   font-size: 1.125rem;
   color: var(--text-muted);
   max-width: 38rem;
+}
+
+.lead-sub {
+  margin: 0 0 1.75rem;
+  font-size: 0.98rem;
+  color: var(--text-muted);
+  max-width: 38rem;
+  opacity: 0.9;
 }
 
 .hero-actions {
@@ -240,6 +248,269 @@ a {
 
 .hero-stats strong {
   color: var(--text);
+}
+
+/* Hero four-pillar strip */
+
+.hero-pillars {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.55rem;
+}
+
+.hero-pillar {
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.55rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.pillar-num {
+  display: inline-block;
+  margin-right: 0.35rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+}
+
+/* Hero pillar visual (2×2) */
+
+.pillar-visual {
+  display: grid;
+  gap: 0.55rem;
+  padding: 1rem;
+  border-radius: calc(var(--radius) + 4px);
+  background: linear-gradient(180deg, var(--surface), var(--bg-alt));
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.pillar-visual-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+
+.pillar-visual-card {
+  padding: 0.85rem;
+  border-radius: 0.65rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: grid;
+  gap: 0.45rem;
+}
+
+.pillar-visual-nocode { border-color: rgba(59, 130, 246, 0.35); }
+.pillar-visual-ai { border-color: rgba(16, 185, 129, 0.4); background: linear-gradient(180deg, rgba(16, 185, 129, 0.08), var(--surface)); }
+.pillar-visual-runtime { border-color: rgba(168, 85, 247, 0.35); }
+.pillar-visual-ops { border-color: rgba(245, 158, 11, 0.35); background: linear-gradient(180deg, rgba(245, 158, 11, 0.06), var(--surface)); }
+
+.pillar-visual-tag {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.pillar-visual-meta {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.pillar-visual-connector {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+}
+
+.mini-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.mini-flow span:nth-child(even) {
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.mini-chat {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.4rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+}
+
+.mini-k8s {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.k8s-pod {
+  padding: 0.25rem 0.45rem;
+  border-radius: 0.35rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  background: rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.mini-ops {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-family: var(--mono);
+}
+
+/* Four pillars section */
+
+.section-pillars {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(16, 185, 129, 0.08), transparent),
+    rgba(17, 24, 39, 0.4);
+  border-block: 1px solid var(--border);
+}
+
+.section-head-center {
+  text-align: center;
+  margin-inline: auto;
+  max-width: 42rem;
+}
+
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.pillar-card {
+  padding: 1.75rem;
+  border-radius: calc(var(--radius) + 2px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.pillar-card:hover {
+  border-color: rgba(148, 163, 184, 0.35);
+  transform: translateY(-2px);
+}
+
+.pillar-card-ai {
+  border-color: rgba(16, 185, 129, 0.35);
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.07), var(--surface));
+}
+
+.pillar-card-ops {
+  border-color: rgba(245, 158, 11, 0.35);
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.06), var(--surface));
+}
+
+.pillar-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.pillar-icon-nocode {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+}
+
+.pillar-icon-ai {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.pillar-icon-runtime {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+}
+
+.pillar-icon-ops {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+}
+
+.pillar-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+}
+
+.pillar-lead {
+  margin: 0 0 1rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.pillar-list {
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.pillar-list li {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.pillar-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.8rem;
+}
+
+.pillar-list strong {
+  color: var(--text);
+}
+
+.pillar-foot {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+
+.feature-card-highlight {
+  border-color: rgba(16, 185, 129, 0.3);
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.06), var(--surface));
+}
+
+.component-featured {
+  grid-column: 1 / -1;
+  padding: 1.35rem 1.25rem !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(21, 31, 51, 0.8)) !important;
+}
+
+.component-featured p {
+  max-width: 52rem;
 }
 
 /* Pipeline visual */
@@ -504,7 +775,7 @@ a {
 
 .service-table {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
   gap: 0.75rem;
 }
 
@@ -587,7 +858,10 @@ a {
 
 @media (max-width: 960px) {
   .hero-grid,
-  .arch-grid {
+  .arch-grid,
+  .pillars-grid,
+  .pillar-visual-row,
+  .hero-pillars {
     grid-template-columns: 1fr;
   }
 

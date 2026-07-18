@@ -33,10 +33,12 @@ jobs:
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./docs
-          destination: ./_site/docs
+          destination: ./docs-build
 
-      - name: Add landing page and website assets
+      - name: Assemble site (avoid root-owned _site from Jekyll)
         run: |
+          mkdir -p _site
+          cp -r docs-build _site/docs
           cp index.html _site/
           cp -r website _site/website
           cp website/CNAME _site/CNAME

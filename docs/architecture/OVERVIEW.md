@@ -1,3 +1,8 @@
+---
+layout: default
+title: Architecture Overview
+---
+
 # Architecture Overview
 
 One-page summary of the Dashpipe system. For full API schemas, data model, and SPI details, see [ARCHITECTURE.md](../../dashpipe-platform/docs/ARCHITECTURE.md).

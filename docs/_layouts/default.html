@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title | default: site.title }}</title>
+  <link rel="icon" href="/website/logo-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/website/css/docs.css">
+</head>
+<body>
+  <header class="docs-header">
+    <div class="docs-header-inner">
+      <a class="docs-brand" href="/">
+        <img src="/website/logo-mark.svg" alt="" width="24" height="24">
+        <span>Dashpipe</span>
+      </a>
+      <a class="docs-home-link" href="/docs/README.html">All docs</a>
+    </div>
+  </header>
+  <main class="docs-main">
+    <article class="docs-article">
+      {{ content }}
+    </article>
+  </main>
+</body>
+</html>

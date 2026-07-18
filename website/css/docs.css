@@ -1,0 +1,99 @@
+:root {
+  --bg: #0b1220;
+  --text: #e5eef9;
+  --text-muted: #94a3b8;
+  --accent: #10b981;
+  --border: rgba(148, 163, 184, 0.16);
+  --font: "DM Sans", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+  --max: 760px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+}
+
+a { color: var(--accent); }
+
+.docs-header {
+  border-bottom: 1px solid var(--border);
+  background: rgba(11, 18, 32, 0.92);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.docs-header-inner {
+  max-width: calc(var(--max) + 4rem);
+  margin: 0 auto;
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.docs-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.docs-home-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+
+.docs-home-link:hover { color: var(--text); }
+
+.docs-main {
+  max-width: calc(var(--max) + 4rem);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.docs-article :is(h1, h2, h3) {
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.docs-article h1 { font-size: 2rem; margin-top: 0; }
+.docs-article h2 { margin-top: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.35rem; }
+.docs-article p, .docs-article li { color: #cbd5e1; }
+.docs-article code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: rgba(21, 31, 51, 0.9);
+  padding: 0.12rem 0.35rem;
+  border-radius: 0.3rem;
+}
+.docs-article pre {
+  overflow-x: auto;
+  padding: 1rem;
+  border-radius: 0.65rem;
+  background: #060a12;
+  border: 1px solid var(--border);
+}
+.docs-article pre code { background: none; padding: 0; }
+.docs-article table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+.docs-article th, .docs-article td {
+  border: 1px solid var(--border);
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+}
+.docs-article th { background: rgba(21, 31, 51, 0.8); }

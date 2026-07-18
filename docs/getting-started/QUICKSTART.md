@@ -1,3 +1,8 @@
+---
+layout: default
+title: Quickstart
+---
+
 # Quickstart
 
 Get Dashpipe running locally in about 10 minutes.
