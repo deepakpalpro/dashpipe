@@ -5,10 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title | default: site.title }}</title>
   {%- assign parts = page.url | split: '/' -%}
-  {%- assign asset_depth = parts.size | minus: 2 -%}
+  {%- comment -%}
+    Jekyll builds from ./docs, but Pages deploys output under /docs/.
+    Depth to site root = number of URL segments (e.g. /getting-started/x → ../../).
+  {%- endcomment -%}
+  {%- assign asset_depth = parts.size | minus: 1 -%}
   {%- capture asset_root -%}
   {%- for i in (1..asset_depth) -%}../{%- endfor -%}
   {%- endcapture -%}
+  {%- assign doc_segments = parts.size | minus: 1 -%}
+  {%- if doc_segments <= 1 -%}
+    {%- assign docs_index = "README.html" -%}
+  {%- else -%}
+    {%- capture docs_index -%}{%- for i in (2..doc_segments) -%}../{%- endfor -%}README.html{%- endcapture -%}
+  {%- endif -%}
   <link rel="icon" href="{{ asset_root }}website/logo-mark.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +32,7 @@
         <img src="{{ asset_root }}website/logo-mark.svg" alt="" width="24" height="24">
         <span>Dashpipe</span>
       </a>
-      <a class="docs-home-link" href="{{ asset_root }}docs/README.html">All docs</a>
+      <a class="docs-home-link" href="{{ docs_index }}">All docs</a>
     </div>
   </header>
   <main class="docs-main">
