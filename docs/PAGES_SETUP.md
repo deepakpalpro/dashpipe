@@ -4,7 +4,7 @@
 |------|------|
 | [`../index.html`](../index.html) | Landing page at site root (`/`) |
 | [`website/`](../website/) | CSS, JS, and `CNAME` for custom domain |
-| [`README.md`](README.md) | Documentation hub (`/README`) |
+| [`README.md`](README.md) | Documentation hub (`/docs/README.html`) |
 
 ## Publish source
 
@@ -12,7 +12,7 @@
 
 Push to `main` runs [`.github/workflows/pages.yml`](../.github/workflows/pages.yml):
 
-1. Jekyll builds `docs/` into the site
+1. Jekyll builds `docs/` into `/docs/` on the site
 2. Root `index.html` and `website/` are added; `website/CNAME` is copied to `/CNAME`
 
 **Alternative:** **Deploy from branch → `/ (root)`**

@@ -33,7 +33,7 @@ jobs:
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./docs
-          destination: ./_site
+          destination: ./_site/docs
 
       - name: Add landing page and website assets
         run: |
