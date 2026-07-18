@@ -1,61 +1,66 @@
-# Dashflow
+# dashflow-suite
 
-Cloud-assemblable, multi-tenant data pipeline platform (lifted from pipeline-platform).
+Monorepo for the Dashflow data pipeline platform and supporting tooling.
+
+## Components
+
+| Directory | Purpose |
+|-----------|---------|
+| [`dashflow-platform/`](dashflow-platform/) | Core product — API, UI, SPI, broker, pipelets, samples |
+| [`dashflow-ci_cd/`](dashflow-ci_cd/) | Docker/K8s/Azure deploy, localdev orchestration, smoke/e2e scripts |
+| [`dashflow-dev-ai-agent/`](dashflow-dev-ai-agent/) | AI pipeline/pipelet generation (LangGraph) + MCP control-plane tools |
+| [`dashflow-tools/`](dashflow-tools/) | Observability — Prometheus, Grafana, ELK |
+| [`dashflow-demo/`](dashflow-demo/) | Demo mocks — Petstore, LocalStack |
+
+## Quick start
+
+```bash
+# Platform stack (Compose + API + UI)
+./dashflow-ci_cd/scripts/localdev.sh start --with-metrics
+
+# Optional: AI agent stack (Ollama + pipeline guide + pipelet developer)
+./dashflow-dev-ai-agent/scripts/localdev-ai.sh start
+
+# Optional: real K8s pipelet runs
+./dashflow-ci_cd/scripts/localdev.sh start --k8s
+```
+
+| Service | URL |
+|---------|-----|
+| UI | http://127.0.0.1:5173 |
+| API | http://localhost:8080 |
+| Grafana | http://localhost:3000 (with `--with-metrics`) |
+| AI agent UI | http://localhost:5174 |
+| AI agent API | http://localhost:8090 |
+
+Tenant header: `X-Tenant-Id: T001`
+
+## Build & test
+
+```bash
+./dashflow-platform/mvnw -f dashflow-platform -pl dashflow-api -am test
+cd dashflow-platform/dashflow-ui && npm test
+cd dashflow-dev-ai-agent/dashflow-mcp && pip install -e ".[dev]" && pytest
+cd dashflow-dev-ai-agent/api && pip install -r requirements.txt && pytest
+```
+
+## Deploy to Azure
+
+See [`dashflow-platform/docs/AZURE_ASSEMBLY.md`](dashflow-platform/docs/AZURE_ASSEMBLY.md) and [`dashflow-ci_cd/k8s/azure/README.md`](dashflow-ci_cd/k8s/azure/README.md).
+
+```bash
+./dashflow-ci_cd/scripts/azure/build-push-acr.sh <acrName> 0.1.0
+./dashflow-ci_cd/scripts/azure/apply-aks.sh <acrName> 0.1.0
+```
+
+## Docker Compose
+
+Root [`docker-compose.yml`](docker-compose.yml) includes platform, demo, and tools stacks via Compose `include`.
+
+```bash
+docker compose --profile petstore --profile metrics up -d
+```
 
 ## Documentation
 
-| Document | Description |
-|----------|-------------|
-| [`docs/ASSEMBLIES.md`](docs/ASSEMBLIES.md) | How platform adapters are selected (local, Azure, …) |
-| [`docs/AZURE_ASSEMBLY.md`](docs/AZURE_ASSEMBLY.md) | First cloud assembly: AKS, MySQL, Service Bus, Monitor |
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | System architecture |
-| [`docs/LOCALDEV_PIPELINE_GUIDE.md`](docs/LOCALDEV_PIPELINE_GUIDE.md) | Localdev + K8s pipelet runs |
-| [`docs/PIPELET_IMPLEMENTATION_ROADMAP.md`](docs/PIPELET_IMPLEMENTATION_ROADMAP.md) | Pipelet + connector impl-spec roadmap (Waves 0–4) |
-
-## Assemblies
-
-| Assembly | Broker | Database | Runtime |
-|----------|--------|----------|---------|
-| **local** (default) | RabbitMQ | MySQL (Compose) | local Kubernetes |
-| **azure** | Azure Service Bus | Azure MySQL | AKS |
-
-```yaml
-dashflow:
-  platform:
-    broker: rabbitmq|servicebus
-    runtime: kubernetes
-    database: mysql            # postgresql reserved
-    observability: prometheus|azure-monitor
-```
-
-Connectors/pipelets (S3, Blob, SQS, …) are **out of scope** for platform assembly — Phase 2.
-
-## Modules
-
-- `dashflow-spi` — `MessageBroker`, logical destinations
-- `dashflow-broker` — MessageBroker adapters (RabbitMQ, Azure Service Bus)
-- `dashflow-api` — Spring Boot control plane
-- `dashflow-ui` — React builder UI
-
-## Getting started (local)
-
-```bash
-./scripts/localdev.sh start --with-metrics
-./scripts/localdev.sh status
-curl -s http://localhost:8080/actuator/health
-```
-
-Requires Docker, Java 21, Node 20+.
-
-```bash
-./mvnw -pl dashflow-api -am test
-```
-
-## Deploy to Azure (Wave A — AKS + ACR)
-
-See [`docs/AZURE_ASSEMBLY.md`](docs/AZURE_ASSEMBLY.md) and [`deploy/k8s/azure/README.md`](deploy/k8s/azure/README.md).
-
-```bash
-./scripts/azure/build-push-acr.sh <acrName> 0.1.0
-./scripts/azure/apply-aks.sh <acrName> 0.1.0
-```
+Platform architecture and guides live under [`dashflow-platform/docs/`](dashflow-platform/docs/).

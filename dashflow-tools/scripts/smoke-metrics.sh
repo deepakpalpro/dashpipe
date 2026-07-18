@@ -2,8 +2,8 @@
 # Optional Compose Prometheus + Grafana health smoke (profile metrics).
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-cd "$ROOT"
+SUITE="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+cd "$SUITE"
 
 echo "==> Checking metrics profile containers"
 if ! curl -fsS "http://127.0.0.1:9090/-/healthy" >/dev/null 2>&1; then

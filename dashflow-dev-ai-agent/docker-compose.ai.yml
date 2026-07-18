@@ -1,13 +1,13 @@
-name: ai-dataflow-developer
+name: dashflow-ai
 
 services:
   ollama:
     image: ollama/ollama:latest
-    container_name: aidfd-ollama
+    container_name: df-ai-ollama
     ports:
       - "11434:11434"
     volumes:
-      - aidfd-ollama-data:/root/.ollama
+      - df-ai-ollama-data:/root/.ollama
     healthcheck:
       test: ["CMD", "ollama", "list"]
       interval: 10s
@@ -18,7 +18,7 @@ services:
   api:
     build:
       context: ./api
-    container_name: aidfd-api
+    container_name: df-ai-api
     ports:
       - "8090:8090"
     environment:
@@ -35,11 +35,11 @@ services:
       context: ./ui
       args:
         VITE_API_URL: http://localhost:8090
-    container_name: aidfd-ui
+    container_name: df-ai-ui
     ports:
       - "5174:80"
     depends_on:
       - api
 
 volumes:
-  aidfd-ollama-data:
+  df-ai-ollama-data:

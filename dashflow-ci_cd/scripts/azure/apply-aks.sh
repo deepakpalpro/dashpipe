@@ -14,10 +14,14 @@
 
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
+PLATFORM="$ROOT/dashflow-platform"
+DEMO="$ROOT/dashflow-demo"
+CICD="$ROOT/dashflow-ci_cd"
+OVERLAY="$CICD/k8s/azure"
+
 ACR_NAME="${1:-}"
 TAG="${2:-0.1.0}"
-OVERLAY="$ROOT/deploy/k8s/azure"
 
 if [[ -z "$ACR_NAME" ]]; then
   printf 'Usage: %s <acrName> [tag]\n' "$(basename "$0")" >&2

@@ -11,7 +11,10 @@
 
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
+PLATFORM="$ROOT/dashflow-platform"
+DEMO="$ROOT/dashflow-demo"
+CICD="$ROOT/dashflow-ci_cd"
 ACR_NAME="${1:-}"
 TAG="${2:-0.1.0}"
 MODE="${3:---platform-only}"
@@ -67,15 +70,15 @@ acr_import() {
     --force
 }
 
-cd "$ROOT"
+cd "$PLATFORM"
 
 # Platform
 build_push dashflow-api/Dockerfile . "dashflow/api"
 build_push dashflow-ui/Dockerfile . "dashflow/ui"
 
 # Mocks
-build_push mockservice/petstore/Dockerfile mockservice/petstore "dashflow/petstore"
-build_push mockservice/petstore-inventory/Dockerfile mockservice/petstore-inventory "dashflow/petstore-inventory"
+build_push "$DEMO/petstore/Dockerfile" "$DEMO/petstore" "dashflow/petstore"
+build_push "$DEMO/petstore-inventory/Dockerfile" "$DEMO/petstore-inventory" "dashflow/petstore-inventory"
 
 # Runtime deps (Wave A empty stack)
 acr_import "docker.io/library/mysql:8.4" "dashflow/mysql:8.4"
@@ -87,14 +90,14 @@ if [[ "$MODE" == "--all" ]]; then
   echo "==> Building all pipelet images (--all)"
   while IFS= read -r _df; do
     _p="$(basename "$(dirname "$_df")")"
-    build_push "$_df" pipelets "dashflow/${_p}"
+    build_push "$_df" "$PLATFORM/pipelets" "dashflow/${_p}"
   done < <(
-    find pipelets/source pipelets/transformer pipelets/destination \
+    find "$PLATFORM/pipelets/source" "$PLATFORM/pipelets/transformer" "$PLATFORM/pipelets/destination" \
       -mindepth 2 -maxdepth 2 -type d -name 'plet-*' -exec test -f '{}/Dockerfile' \; \
       -print 2>/dev/null | sort | while read -r _d; do printf '%s/Dockerfile\n' "$_d"; done
   )
-  if [[ -f pipelets/inventory/Dockerfile ]]; then
-    build_push pipelets/inventory/Dockerfile pipelets/inventory "dashflow/inventory-pipelet"
+  if [[ -f "$PLATFORM/pipelets/inventory/Dockerfile" ]]; then
+    build_push "$PLATFORM/pipelets/inventory/Dockerfile" "$PLATFORM/pipelets/inventory" "dashflow/inventory-pipelet"
   fi
 else
   echo "==> Skipping pipelet images (--platform-only). Catalog is inactive until you activate + push."

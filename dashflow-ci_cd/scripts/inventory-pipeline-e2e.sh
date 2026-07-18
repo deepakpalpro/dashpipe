@@ -9,7 +9,11 @@
 #
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+SUITE="$(cd "$(dirname "$0")/../.." && pwd)"
+PLATFORM="$SUITE/dashflow-platform"
+DEMO="$SUITE/dashflow-demo"
+CICD="$SUITE/dashflow-ci_cd"
+CSV_FILE="${CSV_FILE:-$DEMO/petstore/samples/inventory.csv}"
 IMAGE="${IMAGE:-dashflow/inventory-pipelet:local}"
 BUCKET="${S3_BUCKET:-demo-s3-source}"
 OBJECT_KEY="${S3_OBJECT_KEY:-inventory/daily.csv}"
@@ -17,7 +21,6 @@ S3_ENDPOINT="${S3_ENDPOINT:-http://localhost:4567}"
 PETSTORE_URL="${PETSTORE_URL:-http://localhost:4010}"
 API_URL="${API_URL:-http://localhost:8080}"
 TENANT_ID="${TENANT_ID:-T001}"
-CSV_FILE="${CSV_FILE:-$ROOT/mockservice/petstore/samples/inventory.csv}"
 MODE="docker"
 REGISTER_ONLY=0
 
@@ -74,9 +77,9 @@ ensure_deps() {
       :
     else
       log "Stopping host process on :4010 so Compose petstore can bind"
-      if [[ -f "$ROOT/.petstore-e2e.pid" ]]; then
-        kill "$(cat "$ROOT/.petstore-e2e.pid")" 2>/dev/null || true
-        rm -f "$ROOT/.petstore-e2e.pid"
+      if [[ -f "$SUITE/.petstore-e2e.pid" ]]; then
+        kill "$(cat "$SUITE/.petstore-e2e.pid")" 2>/dev/null || true
+        rm -f "$SUITE/.petstore-e2e.pid"
       fi
       # Best-effort: kill listeners on 4010 (macOS xargs has no -r)
       pids="$(lsof -tiTCP:4010 -sTCP:LISTEN 2>/dev/null || true)"
@@ -87,7 +90,7 @@ ensure_deps() {
       sleep 1
     fi
   fi
-  (cd "$ROOT" && docker compose --profile petstore up -d --build mysql rabbitmq localstack petstore)
+  (cd "$SUITE" && docker compose --profile petstore up -d --build mysql rabbitmq localstack petstore)
   for i in $(seq 1 60); do
     if curl -sf "$S3_ENDPOINT/_localstack/health" >/dev/null 2>&1 \
       && curl -sf "$PETSTORE_URL/health" >/dev/null 2>&1; then
@@ -132,7 +135,7 @@ PY
 
 build_image() {
   log "Building pipelet image $IMAGE"
-  docker build -t "$IMAGE" "$ROOT/pipelets/inventory"
+  docker build -t "$IMAGE" "$PLATFORM/pipelets/inventory"
 }
 
 register_api() {
@@ -244,7 +247,7 @@ try:
     }
     req("PUT", f"/api/v1/pipelines/{pid}/steps", steps)
     print("steps registered")
-    with open("$ROOT/.inventory-pipeline-id", "w") as f:
+    with open("$SUITE/.inventory-pipeline-id", "w") as f:
         f.write(pid)
 except Exception as e:
     print("pipeline register skipped/failed:", e)
@@ -324,9 +327,9 @@ run_k8s() {
   fi
 
   # Patch endpoint for in-cluster: use host.docker.internal (Docker Desktop / Kind)
-  kubectl apply -f "$ROOT/deploy/k8s/inventory/inventory-pipeline.yaml"
+  kubectl apply -f "$CICD/k8s/inventory/inventory-pipeline.yaml"
   kubectl -n tenant-t001 delete job inventory-s3-to-petstore --ignore-not-found
-  kubectl apply -f "$ROOT/deploy/k8s/inventory/inventory-pipeline.yaml"
+  kubectl apply -f "$CICD/k8s/inventory/inventory-pipeline.yaml"
   log "Waiting for Job to complete"
   kubectl -n tenant-t001 wait --for=condition=complete job/inventory-s3-to-petstore --timeout=180s \
     || {

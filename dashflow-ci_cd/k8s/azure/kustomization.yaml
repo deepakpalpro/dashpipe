@@ -9,10 +9,10 @@ resources:
   - rabbitmq.yaml
   - api.yaml
   - ui.yaml
-  - petstore.yaml
-  - petstore-inventory.yaml
-  - prometheus.yaml
-  - grafana.yaml
+  - ../../../dashflow-demo/k8s/petstore.yaml
+  - ../../../dashflow-demo/k8s/petstore-inventory.yaml
+  - ../../../dashflow-tools/k8s/prometheus.yaml
+  - ../../../dashflow-tools/k8s/grafana.yaml
 images:
   - name: dashflow/api
     newName: dashflow/api

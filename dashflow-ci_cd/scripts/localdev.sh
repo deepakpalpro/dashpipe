@@ -2,16 +2,16 @@
 # Bring up the full local e2e stack: Compose deps + Petstore + API + UI.
 #
 # Usage:
-#   ./scripts/localdev.sh                 # start (default)
-#   ./scripts/localdev.sh start           # same
-#   ./scripts/localdev.sh start --with-metrics --with-elk
-#   ./scripts/localdev.sh start --k8s     # API profiles local,k8s + build pipelet images
-#   ./scripts/localdev.sh build-pipelets  # build dashflow/plet-*:local images only
-#   ./scripts/localdev.sh stop
-#   ./scripts/localdev.sh status
-#   ./scripts/localdev.sh logs            # tail API + UI logs
+#   ./dashflow-ci_cd/scripts/localdev.sh                 # start (default)
+#   ./dashflow-ci_cd/scripts/localdev.sh start           # same
+#   ./dashflow-ci_cd/scripts/localdev.sh start --with-metrics --with-elk
+#   ./dashflow-ci_cd/scripts/localdev.sh start --k8s     # API profiles local,k8s + build pipelet images
+#   ./dashflow-ci_cd/scripts/localdev.sh build-pipelets  # build dashflow/plet-*:local images only
+#   ./dashflow-ci_cd/scripts/localdev.sh stop
+#   ./dashflow-ci_cd/scripts/localdev.sh status
+#   ./dashflow-ci_cd/scripts/localdev.sh logs            # tail API + UI logs
 #
-# Guide: docs/LOCALDEV_PIPELINE_GUIDE.md
+# Guide: dashflow-platform/docs/LOCALDEV_PIPELINE_GUIDE.md
 #
 # Env overrides:
 #   API_URL, UI_URL, PETSTORE_URL, PETSTORE_INVENTORY_URL, S3_ENDPOINT, TENANT_ID
@@ -20,7 +20,9 @@
 #
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+PLATFORM="$ROOT/dashflow-platform"
+DEMO="$ROOT/dashflow-demo"
 STATE_DIR="$ROOT/.localdev"
 API_PID_FILE="$STATE_DIR/api.pid"
 UI_PID_FILE="$STATE_DIR/ui.pid"
@@ -33,7 +35,7 @@ PETSTORE_URL="${PETSTORE_URL:-http://localhost:4010}"
 PETSTORE_INVENTORY_URL="${PETSTORE_INVENTORY_URL:-http://localhost:4011}"
 S3_ENDPOINT="${S3_ENDPOINT:-http://localhost:4567}"
 TENANT_ID="${TENANT_ID:-T001}"
-CSV_FILE="${CSV_FILE:-$ROOT/mockservice/petstore/samples/inventory.csv}"
+CSV_FILE="${CSV_FILE:-$DEMO/petstore/samples/inventory.csv}"
 S3_BUCKET="${S3_BUCKET:-demo-s3-source}"
 S3_OBJECT_KEY="${S3_OBJECT_KEY:-inventory/daily.csv}"
 
@@ -53,7 +55,7 @@ DEFAULT_PIPELET_IDS=()
 while IFS= read -r _plet_dir; do
   DEFAULT_PIPELET_IDS+=("$(basename "$_plet_dir")")
 done < <(
-  find "$ROOT/pipelets/source" "$ROOT/pipelets/transformer" "$ROOT/pipelets/destination" \
+  find "$PLATFORM/pipelets/source" "$PLATFORM/pipelets/transformer" "$PLATFORM/pipelets/destination" \
     -mindepth 2 -maxdepth 2 -type d -name 'plet-*' 2>/dev/null | sort
 )
 
@@ -122,16 +124,16 @@ pipelet_ids() {
 pipelet_dockerfile() {
   local id="$1"
   local rel
-  if [[ -f "$ROOT/pipelets/PATHS.json" ]]; then
+  if [[ -f "$PLATFORM/pipelets/PATHS.json" ]]; then
     rel="$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get(sys.argv[2],''))" \
-      "$ROOT/pipelets/PATHS.json" "$id" 2>/dev/null || true)"
+      "$PLATFORM/pipelets/PATHS.json" "$id" 2>/dev/null || true)"
   fi
-  if [[ -n "${rel:-}" && -f "$ROOT/pipelets/$rel/Dockerfile" ]]; then
-    printf '%s\n' "$ROOT/pipelets/$rel/Dockerfile"
+  if [[ -n "${rel:-}" && -f "$PLATFORM/pipelets/$rel/Dockerfile" ]]; then
+    printf '%s\n' "$PLATFORM/pipelets/$rel/Dockerfile"
     return 0
   fi
   # Fallback: locate by directory name
-  find "$ROOT/pipelets" -type f -path "*/${id}/Dockerfile" | head -n1
+  find "$PLATFORM/pipelets" -type f -path "*/${id}/Dockerfile" | head -n1
 }
 
 build_pipelets() {
@@ -146,7 +148,7 @@ build_pipelets() {
       continue
     fi
     log "docker build $id"
-    if ! docker build -f "$dockerfile" -t "dashflow/${id}:local" "$ROOT/pipelets"; then
+    if ! docker build -f "$dockerfile" -t "dashflow/${id}:local" "$PLATFORM/pipelets"; then
       printf 'ERROR: failed to build dashflow/%s:local\n' "$id" >&2
       failed=1
     fi
@@ -318,7 +320,7 @@ start_api() {
 
   log "Starting dashflow-api (profiles=$profiles) → $API_LOG"
   (
-    cd "$ROOT"
+    cd "$PLATFORM"
     # Prefer DOCKER_HOST for Rancher if unset
     if [[ -z "${DOCKER_HOST:-}" && -S "$HOME/.rd/docker.sock" ]]; then
       export DOCKER_HOST="unix://$HOME/.rd/docker.sock"
@@ -349,16 +351,16 @@ start_ui() {
     return 0
   fi
 
-  if [[ ! -d "$ROOT/dashflow-ui/node_modules" ]]; then
+  if [[ ! -d "$PLATFORM/dashflow-ui/node_modules" ]]; then
     log "Installing dashflow-ui dependencies"
-    (cd "$ROOT/dashflow-ui" && npm install)
+    (cd "$PLATFORM/dashflow-ui" && npm install)
   fi
 
   free_port_if_ours 5173
   : >"$UI_LOG"
   log "Starting dashflow-ui (dev:api) → $UI_LOG"
   (
-    cd "$ROOT/dashflow-ui"
+    cd "$PLATFORM/dashflow-ui"
     # Prefer direct vite so the saved PID is the long-lived server, not an npm wrapper.
     nohup env VITE_ENABLE_MSW=false npx vite >"$UI_LOG" 2>&1 &
     echo $! >"$UI_PID_FILE"
@@ -375,10 +377,10 @@ start_ui() {
     if grep -q "Cannot find native binding\|@rolldown/binding-" "$UI_LOG" 2>/dev/null; then
       log "UI missing native Vite/rolldown binding — reinstalling dashflow-ui deps"
       stop_pid_file "$UI_PID_FILE" "UI"
-      (cd "$ROOT/dashflow-ui" && rm -rf node_modules && npm install)
+      (cd "$PLATFORM/dashflow-ui" && rm -rf node_modules && npm install)
       : >"$UI_LOG"
       (
-        cd "$ROOT/dashflow-ui"
+        cd "$PLATFORM/dashflow-ui"
         nohup env VITE_ENABLE_MSW=false npx vite >"$UI_LOG" 2>&1 &
         echo $! >"$UI_PID_FILE"
       )
@@ -418,9 +420,9 @@ EOF
 
   Tenant header: X-Tenant-Id: $TENANT_ID
   Logs:          $STATE_DIR/
-  Stop:          ./scripts/localdev.sh stop
-  Status:        ./scripts/localdev.sh status
-  Pipelets:      ./scripts/localdev.sh build-pipelets
+  Stop:          ./dashflow-ci_cd/scripts/localdev.sh stop
+  Status:        ./dashflow-ci_cd/scripts/localdev.sh status
+  Pipelets:      ./dashflow-ci_cd/scripts/localdev.sh build-pipelets
 ────────────────────────────────────────
 EOF
 }
@@ -500,7 +502,7 @@ do_logs() {
     tail -n 40 "$API_LOG" 2>/dev/null || true
     echo "---- UI ($UI_LOG) ----"
     tail -n 40 "$UI_LOG" 2>/dev/null || true
-    echo "(use: ./scripts/localdev.sh logs -f)"
+    echo "(use: ./dashflow-ci_cd/scripts/localdev.sh logs -f)"
   fi
 }
 

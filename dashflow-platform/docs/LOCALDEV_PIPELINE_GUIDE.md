@@ -2,7 +2,7 @@
 
 Developer guide to stand up the stack, **build pipelet images**, run the API in **`local,k8s`**, and verify that **Inventory Daily → Petstore** actually executes Jobs (not the stub “completed” path).
 
-Companion scripts: [`scripts/localdev.sh`](../scripts/localdev.sh), [`scripts/inventory-pipeline-e2e.sh`](../scripts/inventory-pipeline-e2e.sh).  
+Companion scripts: [`../../dashflow-ci_cd/scripts/localdev.sh`](../../dashflow-ci_cd/scripts/localdev.sh), [`../../dashflow-ci_cd/scripts/inventory-pipeline-e2e.sh`](../../dashflow-ci_cd/scripts/inventory-pipeline-e2e.sh).  
 Sample bundle: [`samples/pipelines/inventory-s3-to-petstore.pipeline.json`](../samples/pipelines/inventory-s3-to-petstore.pipeline.json).  
 Pipelet image map: [`pipelets/REGISTRY.md`](../pipelets/REGISTRY.md).
 
@@ -59,22 +59,22 @@ export DOCKER_HOST=unix://$HOME/.rd/docker.sock
 # Compose: MySQL, RabbitMQ, LocalStack, Petstore + petstore-inventory + Prometheus/Grafana
 # API: profiles local,k8s   UI: Vite with live API proxy
 # Also builds dashflow/plet-*:local images (required for Jobs)
-./scripts/localdev.sh start --k8s --with-metrics
-./scripts/localdev.sh status
+./dashflow-ci_cd/scripts/localdev.sh start --k8s --with-metrics
+./dashflow-ci_cd/scripts/localdev.sh status
 ```
 
 Rebuild images anytime (avoids ImagePullBackOff):
 
 ```bash
-./scripts/localdev.sh build-pipelets
+./dashflow-ci_cd/scripts/localdev.sh build-pipelets
 ```
 
 Useful:
 
 | Command | Purpose |
 |---------|---------|
-| `./scripts/localdev.sh logs -f` | Tail API + UI logs |
-| `./scripts/localdev.sh stop` | Stop API/UI; stop Compose containers (volumes kept) |
+| `./dashflow-ci_cd/scripts/localdev.sh logs -f` | Tail API + UI logs |
+| `./dashflow-ci_cd/scripts/localdev.sh stop` | Stop API/UI; stop Compose containers (volumes kept) |
 
 URLs:
 
@@ -88,7 +88,7 @@ URLs:
 | Prometheus | http://localhost:9090 (targets must show `dashflow-api` **UP**) |
 | Grafana | http://localhost:3000 (`admin` / `admin`) → **Pipeline Overview (local)** |
 
-If Grafana panels are empty: confirm API is up (`curl localhost:8080/actuator/prometheus | grep pipeline_`), then `./scripts/smoke-metrics.sh`. Empty scrapes usually mean Prometheus cannot reach the host API via `host.docker.internal` — recreate with `docker compose --profile metrics up -d --force-recreate prometheus`.
+If Grafana panels are empty: confirm API is up (`curl localhost:8080/actuator/prometheus | grep pipeline_`), then `./dashflow-ci_cd/scripts/smoke-metrics.sh`. Empty scrapes usually mean Prometheus cannot reach the host API via `host.docker.internal` — recreate with `docker compose --profile metrics up -d --force-recreate prometheus`.
 
 Confirm K8s mode in API log: active profiles include `k8s`, and `stub-stage-worker` is false (`application-k8s.yml`).
 
@@ -119,13 +119,13 @@ Rebuild whenever you change `pipelets/_common/` (queue I/O) or a pipelet’s `ma
 # Option A — AWS CLI against LocalStack (no awslocal required)
 export AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test AWS_DEFAULT_REGION=us-east-1
 aws --endpoint-url=http://localhost:4567 s3 mb s3://demo-s3-source 2>/dev/null || true
-aws --endpoint-url=http://localhost:4567 s3 cp mockservice/petstore/samples/inventory.csv \
+aws --endpoint-url=http://localhost:4567 s3 cp dashflow-demo/petstore/samples/inventory.csv \
   s3://demo-s3-source/inventory/daily.csv
 aws --endpoint-url=http://localhost:4567 s3 ls s3://demo-s3-source/inventory/
 
 # Option B — awslocal (optional: pip install awscli-local)
 # awslocal s3 mb s3://demo-s3-source 2>/dev/null || true
-# awslocal s3 cp mockservice/petstore/samples/inventory.csv s3://demo-s3-source/inventory/daily.csv
+# awslocal s3 cp dashflow-demo/petstore/samples/inventory.csv s3://demo-s3-source/inventory/daily.csv
 ```
 
 ---
@@ -204,8 +204,8 @@ curl -s http://localhost:8080/actuator/prometheus | grep -E 'pipelet_records|pip
 If Run finishes in a few seconds, **no Jobs** in `tenant-t001`, and Petstore is unchanged → API is still on **stub** (`local` only). Fix:
 
 ```bash
-./scripts/localdev.sh stop
-./scripts/localdev.sh start --k8s --with-metrics
+./dashflow-ci_cd/scripts/localdev.sh stop
+./dashflow-ci_cd/scripts/localdev.sh start --k8s --with-metrics
 ```
 
 ---
@@ -214,7 +214,7 @@ If Run finishes in a few seconds, **no Jobs** in `tenant-t001`, and Petstore is 
 
 | Symptom | Likely cause | Fix |
 |---------|--------------|-----|
-| ImagePullBackOff | Image missing in Rancher store | Execution auto-fails with `Image pull failed…` + `build-pipelets` hint. Rebuild: `./scripts/localdev.sh build-pipelets` |
+| ImagePullBackOff | Image missing in Rancher store | Execution auto-fails with `Image pull failed…` + `build-pipelets` hint. Rebuild: `./dashflow-ci_cd/scripts/localdev.sh build-pipelets` |
 | Status stuck `running` with blank `k8s_POD_*` logs | Pause container / Pending pull | Check `-c pipelet`; API now fails early on ImagePullBackOff instead of hanging |
 | BackoffLimitExceeded | Pipelet crash | `kubectl logs` for that stage; check connector JSON |
 | Pod can’t reach S3/Petstore | Endpoint is `localhost` inside the pod | Use `host.docker.internal` on connectors |
@@ -240,10 +240,28 @@ Observability page also lists run history and links to Grafana when `PIPELINE_OB
 
 ---
 
+Observability page also lists run history and links to Grafana when `PIPELINE_OBSERVABILITY_GRAFANA_BASE_URL` is set (`localdev.sh --with-metrics` sets it).
+
+---
+
+## Cursor MCP (agent debugging)
+
+The [`dashflow-dev-ai-agent/dashflow-mcp/`](../../dashflow-dev-ai-agent/dashflow-mcp/) package exposes dashflow-api as MCP tools for Cursor.
+
+```bash
+cd dashflow-dev-ai-agent/dashflow-mcp && python3 -m venv .venv && source .venv/bin/activate
+pip install -e .
+python -m dashflow_mcp
+```
+
+See [`dashflow-dev-ai-agent/dashflow-mcp/README.md`](../../dashflow-dev-ai-agent/dashflow-mcp/README.md).
+
+---
+
 ## Quick command card
 
 ```bash
-./scripts/localdev.sh start --k8s --with-metrics
+./dashflow-ci_cd/scripts/localdev.sh start --k8s --with-metrics
 for p in plet-s3-source plet-csv-source plet-rest-source plet-csv-to-json plet-python-filter plet-field-mapper plet-webhook-destination; do
   rel=$(python3 -c "import json; print(json.load(open('pipelets/PATHS.json'))['$p'])")
   docker build -f "pipelets/$rel/Dockerfile" -t "dashflow/${p}:local" pipelets

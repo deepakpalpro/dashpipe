@@ -10,7 +10,7 @@ Model Context Protocol (MCP) server for **dashflow-api**. Exposes tools so Curso
 
 ```bash
 # From dashflow repo root
-./scripts/localdev.sh start
+./dashflow-ci_cd/scripts/localdev.sh start
 ```
 
 ## Install
@@ -93,4 +93,4 @@ pytest tests/
 
 ## Relation to AI Dataflow Developer
 
-The **[ai-dataflow-developer](../ai-dataflow-developer)** project generates pipeline designs and Python pipelets. This MCP server operates the **live Dashflow control plane** — use both together: design in AI Dataflow Developer, then create/import/run/debug via MCP tools in Cursor.
+The **[dashflow-dev-ai-agent](../)** component generates pipeline designs and Python pipelets. This MCP server operates the **live Dashflow control plane** — use both together: design in the AI UI, then create/import/run/debug via MCP tools in Cursor.

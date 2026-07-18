@@ -11,11 +11,12 @@ import json
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-PIPELETS = ROOT / "pipelets"
-FIXTURE = ROOT / "dashflow-ui" / "src" / "fixtures" / "pipelets.json"
+SUITE = Path(__file__).resolve().parents[2]
+PLATFORM = SUITE / "dashflow-platform"
+PIPELETS = PLATFORM / "pipelets"
+FIXTURE = PLATFORM / "dashflow-ui" / "src" / "fixtures" / "pipelets.json"
 
-sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from reorganize_pipelets import LAYOUT  # noqa: E402
 
 

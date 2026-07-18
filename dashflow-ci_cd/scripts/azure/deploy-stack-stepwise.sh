@@ -26,8 +26,11 @@
 
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-OVERLAY="$ROOT/deploy/k8s/azure"
+ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
+PLATFORM="$ROOT/dashflow-platform"
+DEMO="$ROOT/dashflow-demo"
+CICD="$ROOT/dashflow-ci_cd"
+OVERLAY="$CICD/k8s/azure"
 
 # ── configurable ────────────────────────────────────────────────────────────
 RG="${RG:-rg-dashflow}"
@@ -215,11 +218,11 @@ step_4_push_images() {
 
   az acr login -n "$ACR_NAME"
 
-  cd "$ROOT"
+  cd "$PLATFORM"
   build_push dashflow-api/Dockerfile . "dashflow/api"
   build_push dashflow-ui/Dockerfile . "dashflow/ui"
-  build_push mockservice/petstore/Dockerfile mockservice/petstore "dashflow/petstore"
-  build_push mockservice/petstore-inventory/Dockerfile mockservice/petstore-inventory "dashflow/petstore-inventory"
+  build_push "$DEMO/petstore/Dockerfile" "$DEMO/petstore" "dashflow/petstore"
+  build_push "$DEMO/petstore-inventory/Dockerfile" "$DEMO/petstore-inventory" "dashflow/petstore-inventory"
 
   echo "---- Importing MySQL 8.4 into ACR"
   az acr import \
@@ -439,7 +442,7 @@ step_10_push_pipelets() {
   server="$(login_server)"
   az acr login -n "$ACR_NAME"
 
-  cd "$ROOT"
+  cd "$PLATFORM"
   # Context is pipelets/ (Dockerfiles COPY _common + relative paths from there).
   build_push \
     pipelets/source/http/plet-rest-source/Dockerfile \

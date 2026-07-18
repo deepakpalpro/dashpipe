@@ -11,8 +11,9 @@ import re
 import shutil
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-PIPELETS = ROOT / "pipelets"
+SUITE = Path(__file__).resolve().parents[2]
+PLATFORM = SUITE / "dashflow-platform"
+PIPELETS = PLATFORM / "pipelets"
 
 # pipelet_id -> (top_dir, meaningful_group)
 # top_dir: source | transformer | destination

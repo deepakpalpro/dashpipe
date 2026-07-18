@@ -14,8 +14,8 @@ class Settings(BaseSettings):
     def resolve_pipelets_catalog(self, repo_root: Path | None = None) -> Path:
         if self.pipelets_catalog is not None:
             return self.pipelets_catalog.expanduser().resolve()
-        root = repo_root or Path(__file__).resolve().parents[2]
-        return root / "dashflow-ui" / "src" / "fixtures" / "pipelets.json"
+        root = repo_root or Path(__file__).resolve().parents[3]
+        return root / "dashflow-platform" / "dashflow-ui" / "src" / "fixtures" / "pipelets.json"
 
 
 settings = Settings()

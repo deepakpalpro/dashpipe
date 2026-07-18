@@ -3,8 +3,8 @@
 # Default CI path is InMemoryPipelineLogIndexer + ElkLogSmokeTest — this script is for manual ELK.
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-cd "$ROOT"
+SUITE="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+cd "$SUITE"
 
 echo "==> Checking ELK profile containers"
 if ! docker compose --profile elk ps --status running 2>/dev/null | grep -q df-elasticsearch; then
