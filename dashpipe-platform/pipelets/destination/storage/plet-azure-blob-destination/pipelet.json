@@ -1,0 +1,23 @@
+{
+  "id": "plet-azure-blob-destination",
+  "name": "Azure Blob Destination",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-azure-blob-destination:local",
+  "category": "Destination",
+  "description": "Generated runnable implementation for plet-azure-blob-destination (dest_storage).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "objectKey"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "objectKey": ""
+  },
+  "connectorType": "storage"
+}

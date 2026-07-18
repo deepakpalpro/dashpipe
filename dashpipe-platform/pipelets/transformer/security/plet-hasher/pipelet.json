@@ -1,0 +1,22 @@
+{
+  "id": "plet-hasher",
+  "name": "Hasher",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-hasher:local",
+  "category": "Processor",
+  "description": "Generated runnable implementation for plet-hasher (proc_hasher).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "fields"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "fields": ""
+  }
+}

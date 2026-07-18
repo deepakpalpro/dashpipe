@@ -1,0 +1,18 @@
+{
+  "id": "plet-compression",
+  "name": "Compression",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-compression:local",
+  "category": "Processor",
+  "description": "Generated runnable implementation for plet-compression (proc_passthrough).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {}
+}

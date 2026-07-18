@@ -1,0 +1,18 @@
+{
+  "id": "plet-geo-enrich",
+  "name": "Geo Enrich",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-geo-enrich:local",
+  "category": "Processor",
+  "description": "Generated runnable implementation for plet-geo-enrich (proc_passthrough).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {}
+}

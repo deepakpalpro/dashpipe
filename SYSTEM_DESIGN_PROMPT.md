@@ -1,4 +1,4 @@
-# System Design Prompt: Multi-Tenant Pay-as-You-Go Data Dashflow
+# System Design Prompt: Multi-Tenant Pay-as-You-Go Data Dashpipe
 
 Use this prompt to guide a language model in designing a production-grade, multi-tenant, pay-as-you-go data processing platform with a no-code pipeline builder UI.
 

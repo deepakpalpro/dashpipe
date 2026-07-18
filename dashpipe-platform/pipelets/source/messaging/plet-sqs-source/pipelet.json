@@ -1,0 +1,23 @@
+{
+  "id": "plet-sqs-source",
+  "name": "Sqs Source",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-sqs-source:local",
+  "category": "Source",
+  "description": "Generated runnable implementation for plet-sqs-source (source_bus).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "queueName"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "queueName": ""
+  },
+  "connectorType": "message_bus"
+}

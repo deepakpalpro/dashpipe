@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "dashpipe": {
+      "command": "python",
+      "args": ["-m", "dashpipe_mcp"],
+      "cwd": "/Users/deepakpal/Projects/dashpipe/dashpipe-mcp",
+      "env": {
+        "DASHPIPE_API_URL": "http://localhost:8080",
+        "DASHPIPE_TENANT_ID": "T001"
+      }
+    }
+  }
+}

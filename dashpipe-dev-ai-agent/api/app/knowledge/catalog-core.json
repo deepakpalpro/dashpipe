@@ -1,0 +1,156 @@
+[
+  {
+    "id": "plet-manual-source",
+    "name": "Manual Source",
+    "category": "Source",
+    "group": "trigger",
+    "connector_type": null,
+    "required_execution_keys": [],
+    "execution_config": { "batchSize": "1" },
+    "deployment_config": { "cloud": "local", "region": "us-east-1" },
+    "blurb": "Emits one trigger record on Run; optional TRIGGER_PAYLOAD JSON"
+  },
+  {
+    "id": "plet-schedule-source",
+    "name": "Schedule Source",
+    "category": "Source",
+    "group": "trigger",
+    "connector_type": null,
+    "required_execution_keys": ["cron"],
+    "execution_config": { "cron": "*/15 * * * *", "batchSize": "1" },
+    "deployment_config": { "cloud": "local", "region": "us-east-1" },
+    "blurb": "Cron tick source; pair with pipeline scheduleCron and Activate"
+  },
+  {
+    "id": "plet-s3-source",
+    "name": "S3 Source",
+    "category": "Source",
+    "group": "storage",
+    "connector_type": "storage",
+    "required_execution_keys": ["objectKey"],
+    "execution_config": { "objectKey": "inventory/daily.csv", "batchSize": "1" },
+    "deployment_config": { "cloud": "local", "region": "us-east-1" },
+    "blurb": "Read one object from S3-compatible storage"
+  },
+  {
+    "id": "plet-csv-source",
+    "name": "CSV Source",
+    "category": "Source",
+    "group": "storage",
+    "connector_type": "storage",
+    "required_execution_keys": ["objectKey"],
+    "execution_config": {
+      "objectKey": "inventory/daily.csv",
+      "delimiter": ",",
+      "hasHeader": true
+    },
+    "deployment_config": { "cloud": "local", "region": "us-east-1" },
+    "blurb": "Fetch CSV from storage and emit records"
+  },
+  {
+    "id": "plet-rest-source",
+    "name": "REST Source",
+    "category": "Source",
+    "group": "http",
+    "connector_type": "rest",
+    "required_execution_keys": ["path"],
+    "execution_config": { "path": "/inventory/items", "method": "GET", "timeoutMs": 30000 },
+    "deployment_config": { "cloud": "local", "region": "us-east-1" },
+    "blurb": "HTTP GET/POST via REST connector baseUrl + path"
+  },
+  {
+    "id": "plet-csv-to-json",
+    "name": "CSV to JSON",
+    "category": "Processor",
+    "group": "transform",
+    "connector_type": null,
+    "required_execution_keys": ["delimiter"],
+    "execution_config": { "delimiter": ",", "hasHeader": true },
+    "deployment_config": { "cloud": "local", "region": "us-east-1" },
+    "blurb": "Parse CSV payload into JSON records"
+  },
+  {
+    "id": "plet-python-filter",
+    "name": "Python Filter",
+    "category": "Processor",
+    "group": "filter",
+    "connector_type": null,
+    "required_execution_keys": ["expression"],
+    "execution_config": { "expression": "True", "failOnError": false },
+    "deployment_config": { "cloud": "local", "region": "us-east-1" },
+    "blurb": "Keep records where Python expression is truthy; True = pass-through"
+  },
+  {
+    "id": "plet-field-mapper",
+    "name": "Field Mapper",
+    "category": "Processor",
+    "group": "transform",
+    "connector_type": null,
+    "required_execution_keys": ["mode"],
+    "execution_config": {
+      "mode": "rename",
+      "mapping": { "sku": "id", "qty": "quantity" }
+    },
+    "deployment_config": { "cloud": "local", "region": "us-east-1" },
+    "blurb": "Rename or project record fields via mapping"
+  },
+  {
+    "id": "plet-null-drop",
+    "name": "Null Drop",
+    "category": "Processor",
+    "group": "filter",
+    "connector_type": null,
+    "required_execution_keys": [],
+    "execution_config": { "failOnError": false },
+    "deployment_config": { "cloud": "local", "region": "us-east-1" },
+    "blurb": "Drop null/empty values for demos and cleanup"
+  },
+  {
+    "id": "plet-s3-destination",
+    "name": "S3 Destination",
+    "category": "Destination",
+    "group": "storage",
+    "connector_type": "storage",
+    "required_execution_keys": ["objectKey"],
+    "execution_config": { "objectKey": "out/result.json" },
+    "deployment_config": { "cloud": "local", "region": "us-east-1" },
+    "blurb": "Write JSON/object to S3-compatible bucket (not local file path)"
+  },
+  {
+    "id": "plet-file-destination",
+    "name": "File Destination",
+    "category": "Destination",
+    "group": "storage",
+    "connector_type": null,
+    "required_execution_keys": ["objectKey"],
+    "execution_config": {
+      "basePath": "/data/out",
+      "objectKey": "result.json",
+      "format": "json"
+    },
+    "deployment_config": { "cloud": "local", "region": "us-east-1" },
+    "blurb": "Write under mounted/local basePath + objectKey (not S3)"
+  },
+  {
+    "id": "plet-webhook-destination",
+    "name": "Webhook Destination",
+    "category": "Destination",
+    "group": "notify",
+    "connector_type": "rest",
+    "required_execution_keys": ["path"],
+    "execution_config": { "path": "/inventory", "method": "POST" },
+    "deployment_config": { "cloud": "local", "region": "us-east-1" },
+    "blurb": "POST records to REST connector baseUrl + path"
+  },
+  {
+    "id": "plet-null-destination",
+    "name": "Null Destination",
+    "category": "Destination",
+    "group": "util",
+    "connector_type": null,
+    "required_execution_keys": [],
+    "execution_config": {},
+    "deployment_config": { "cloud": "local", "region": "us-east-1" },
+    "blurb": "Discard sink for dry demos"
+  }
+]

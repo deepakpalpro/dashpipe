@@ -1,0 +1,41 @@
+# Azure assembly profile — AKS + Azure MySQL + Service Bus + Monitor.
+# Activate: spring.profiles.active=azure
+spring:
+  config:
+    activate:
+      on-profile: azure
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+  datasource:
+    url: ${DASHPIPE_MYSQL_URL:jdbc:mysql://localhost:3306/dashpipe?useSSL=true&requireSSL=true}
+    username: ${DASHPIPE_MYSQL_USER:dashpipe}
+    password: ${DASHPIPE_MYSQL_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: false
+
+dashpipe:
+  platform:
+    broker: servicebus
+    runtime: kubernetes
+    database: mysql
+    observability: azure-monitor
+    servicebus:
+      connection-string: ${DASHPIPE_SERVICEBUS_CONNECTION_STRING:}
+      fully-qualified-namespace: ${DASHPIPE_SERVICEBUS_NAMESPACE:}
+
+pipeline:
+  orchestration:
+    stub-stage-worker: false
+    amqp-url: ""
+  k8s:
+    enabled: true
+    image-pull-policy: IfNotPresent
+    # Override in AKS with full ACR pattern, e.g.:
+    # PIPELINE_K8S_DEFAULT_IMAGE_PATTERN=<acr>.azurecr.io/dashpipe/{pipeletId}:0.1.0
+    default-image-pattern: "dashpipe/{pipeletId}:${DASHPIPE_IMAGE_TAG:latest}"
+    create-namespace: true
+
+server:
+  port: 8080

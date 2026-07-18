@@ -1,0 +1,2949 @@
+[
+  {
+    "id": "plet-rest-source",
+    "name": "REST Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "imageRef": "dashpipe/plet-rest-source:local",
+    "description": "HTTP GET/POST against a REST connector baseUrl + path; emit JSON payload and records.",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "connectorType": "rest",
+    "active": true,
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1"
+    },
+    "executionConfiguration": {
+      "path": "/",
+      "method": "GET",
+      "timeoutMs": "30000",
+      "batchSize": "100"
+    },
+    "scope": "system",
+    "group": "http"
+  },
+  {
+    "id": "plet-webhook-source",
+    "name": "Webhook Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Ingress webhook events via provisioned connector URL.",
+    "configSchemaPreview": {
+      "type": "object",
+      "required": [
+        "connectorId"
+      ]
+    },
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000",
+      "connectorId": ""
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-webhook-source:local",
+    "connectorType": "event_listener",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "http"
+  },
+  {
+    "id": "plet-json-transform",
+    "name": "JSON Transform",
+    "category": "Processor",
+    "version": "1.2.0",
+    "runtime": "Python",
+    "description": "Map and reshape JSON records between stages.",
+    "configSchemaPreview": {
+      "type": "object",
+      "required": [
+        "mapping"
+      ]
+    },
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true",
+      "mapping": ""
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-json-transform:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "mapping"
+    ],
+    "scope": "system",
+    "group": "transform"
+  },
+  {
+    "id": "plet-python-filter",
+    "name": "Python Filter",
+    "category": "Processor",
+    "version": "0.9.0",
+    "runtime": "Python",
+    "active": true,
+    "imageRef": "dashpipe/plet-python-filter:local",
+    "description": "Filter records with a safe Python expression over each record (e.g. quantity > 0 and category in ('food','toys')). Bind connector/service as needed; set deployment.region and execution.expression on the step.",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "expression"
+    ],
+    "configSchemaPreview": {
+      "type": "object",
+      "required": [
+        "expression"
+      ],
+      "properties": {
+        "expression": {
+          "type": "string",
+          "description": "Filter expression; leave blank to use built-in inventory rules in the local image"
+        }
+      }
+    },
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true",
+      "expression": ""
+    },
+    "scope": "system",
+    "group": "filter"
+  },
+  {
+    "id": "plet-adls-destination",
+    "name": "ADLS Destination",
+    "category": "Destination",
+    "version": "1.1.0",
+    "runtime": "Python",
+    "description": "Write batches to Azure Data Lake Storage.",
+    "configSchemaPreview": {
+      "type": "object",
+      "required": [
+        "serviceId",
+        "path"
+      ]
+    },
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500",
+      "serviceId": "",
+      "path": ""
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-adls-destination:local",
+    "connectorType": "storage",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "objectKey"
+    ],
+    "scope": "system",
+    "group": "storage"
+  },
+  {
+    "id": "plet-s3-destination",
+    "name": "S3 Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Write objects to S3-compatible storage.",
+    "configSchemaPreview": {
+      "type": "object",
+      "required": [
+        "serviceId",
+        "bucket"
+      ]
+    },
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500",
+      "serviceId": "",
+      "bucket": ""
+    },
+    "active": true,
+    "imageRef": "dashpipe/plet-s3-destination:local",
+    "connectorType": "storage",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "objectKey"
+    ],
+    "scope": "system",
+    "group": "storage"
+  },
+  {
+    "id": "plet-kafka-source",
+    "name": "Kafka Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Consume records from Kafka topics.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-kafka-source:local",
+    "connectorType": "message_bus",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "topic"
+    ],
+    "scope": "system",
+    "group": "messaging"
+  },
+  {
+    "id": "plet-s3-source",
+    "name": "S3 Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "active": false,
+    "imageRef": "dashpipe/plet-s3-source:local",
+    "description": "Ingest a single object from an S3-compatible bucket. Set deployment.region and execution.objectKey on the pipeline step; bind a storage connector (bucket) and optional auth service for credentials.",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "objectKey"
+    ],
+    "connectorType": "storage",
+    "configSchemaPreview": {
+      "type": "object",
+      "required": [
+        "objectKey"
+      ],
+      "properties": {
+        "objectKey": {
+          "type": "string",
+          "description": "S3 object key to fetch"
+        },
+        "key": {
+          "type": "string",
+          "description": "Alias for objectKey"
+        },
+        "batchSize": {
+          "type": "string"
+        }
+      }
+    },
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "",
+      "endpoint": ""
+    },
+    "executionConfiguration": {
+      "objectKey": "",
+      "batchSize": "1"
+    },
+    "scope": "system",
+    "group": "storage"
+  },
+  {
+    "id": "plet-gcs-source",
+    "name": "GCS Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Ingest objects from Google Cloud Storage.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-gcs-source:local",
+    "connectorType": "storage",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "objectKey"
+    ],
+    "scope": "system",
+    "group": "storage"
+  },
+  {
+    "id": "plet-jdbc-source",
+    "name": "JDBC Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Query relational databases into the pipeline.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-jdbc-source:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "query"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-mongodb-source",
+    "name": "MongoDB Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Change-stream or collection scan from MongoDB.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-mongodb-source:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "query"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-salesforce-source",
+    "name": "Salesforce Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Pull CRM objects via Salesforce APIs.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-salesforce-source:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "http"
+  },
+  {
+    "id": "plet-file-watch-source",
+    "name": "File Watch Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Watch local or mounted paths for new files.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-file-watch-source:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "storage"
+  },
+  {
+    "id": "plet-ftp-source",
+    "name": "FTP Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Poll FTP/SFTP directories for inbound files.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-ftp-source:local",
+    "connectorType": "storage",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "objectKey"
+    ],
+    "scope": "system",
+    "group": "storage"
+  },
+  {
+    "id": "plet-pub-sub-source",
+    "name": "Pub/Sub Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Subscribe to Google Pub/Sub topics.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-pub-sub-source:local",
+    "connectorType": "message_bus",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "subscription"
+    ],
+    "scope": "system",
+    "group": "messaging"
+  },
+  {
+    "id": "plet-sqs-source",
+    "name": "SQS Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Consume messages from Amazon SQS.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-sqs-source:local",
+    "connectorType": "message_bus",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "queueName"
+    ],
+    "scope": "system",
+    "group": "messaging"
+  },
+  {
+    "id": "plet-event-hub-source",
+    "name": "Event Hub Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Ingest Azure Event Hubs events.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-event-hub-source:local",
+    "connectorType": "message_bus",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "hubName"
+    ],
+    "scope": "system",
+    "group": "messaging"
+  },
+  {
+    "id": "plet-snowflake-source",
+    "name": "Snowflake Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Extract rows from Snowflake tables.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-snowflake-source:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "query"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-bigquery-source",
+    "name": "BigQuery Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Extract rows from BigQuery tables.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-bigquery-source:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "query"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-csv-source",
+    "name": "CSV Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "active": false,
+    "imageRef": "dashpipe/plet-csv-source:local",
+    "description": "Fetch a delimited file from object storage and emit parsed JSON records.",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "objectKey"
+    ],
+    "connectorType": "storage",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "endpoint": ""
+    },
+    "executionConfiguration": {
+      "objectKey": "",
+      "delimiter": ",",
+      "hasHeader": "true",
+      "batchSize": "100"
+    },
+    "scope": "system",
+    "group": "storage"
+  },
+  {
+    "id": "plet-avro-source",
+    "name": "Avro Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Decode Avro-encoded payloads.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-avro-source:local",
+    "connectorType": "storage",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "objectKey"
+    ],
+    "scope": "system",
+    "group": "storage"
+  },
+  {
+    "id": "plet-parquet-source",
+    "name": "Parquet Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Read Parquet batches from object storage.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-parquet-source:local",
+    "connectorType": "storage",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "objectKey"
+    ],
+    "scope": "system",
+    "group": "storage"
+  },
+  {
+    "id": "plet-graphql-source",
+    "name": "GraphQL Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Poll GraphQL APIs for entities.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-graphql-source:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "http"
+  },
+  {
+    "id": "plet-imap-source",
+    "name": "IMAP Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Ingest email attachments and bodies.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-imap-source:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "http"
+  },
+  {
+    "id": "plet-iot-hub-source",
+    "name": "IoT Hub Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Ingest device telemetry from IoT Hub.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-iot-hub-source:local",
+    "connectorType": "message_bus",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "hubName"
+    ],
+    "scope": "system",
+    "group": "messaging"
+  },
+  {
+    "id": "plet-cdc-source",
+    "name": "CDC Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Capture change data from transactional DBs.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-cdc-source:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "query"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-schedule-source",
+    "name": "Schedule Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Emit timer ticks on a cron schedule. Set execution.cron (e.g. */15 * * * *) to fire every 15 minutes; the platform also honors pipeline execution_config.scheduleCron.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "cron": "*/15 * * * *",
+      "batchSize": "1"
+    },
+    "active": true,
+    "imageRef": "dashpipe/plet-schedule-source:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "trigger",
+    "requiredExecutionKeys": [
+      "cron"
+    ]
+  },
+  {
+    "id": "plet-manual-source",
+    "name": "Manual Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Accept ad-hoc JSON payloads when you click Run (or POST /run).",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": true,
+    "imageRef": "dashpipe/plet-manual-source:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "trigger"
+  },
+  {
+    "id": "plet-redis-stream-source",
+    "name": "Redis Stream Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Consume Redis Streams.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-redis-stream-source:local",
+    "connectorType": "message_bus",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "stream"
+    ],
+    "scope": "system",
+    "group": "messaging"
+  },
+  {
+    "id": "plet-nats-source",
+    "name": "NATS Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Subscribe to NATS subjects.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-nats-source:local",
+    "connectorType": "message_bus",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "subject"
+    ],
+    "scope": "system",
+    "group": "messaging"
+  },
+  {
+    "id": "plet-amqp-source",
+    "name": "AMQP Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Consume AMQP queues.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-amqp-source:local",
+    "connectorType": "message_bus",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "queue"
+    ],
+    "scope": "system",
+    "group": "messaging"
+  },
+  {
+    "id": "plet-http-poll-source",
+    "name": "HTTP Poll Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Periodically poll HTTP endpoints.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-http-poll-source:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "http"
+  },
+  {
+    "id": "plet-sharepoint-source",
+    "name": "SharePoint Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Ingest documents from SharePoint.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-sharepoint-source:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "http"
+  },
+  {
+    "id": "plet-dropbox-source",
+    "name": "Dropbox Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Ingest files from Dropbox folders.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-dropbox-source:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "http"
+  },
+  {
+    "id": "plet-onedrive-source",
+    "name": "OneDrive Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Ingest files from OneDrive.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-onedrive-source:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "http"
+  },
+  {
+    "id": "plet-slack-source",
+    "name": "Slack Source",
+    "category": "Source",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Receive Slack events and messages.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "batchSize": "100",
+      "pollIntervalMs": "5000"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-slack-source:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "http"
+  },
+  {
+    "id": "plet-field-mapper",
+    "name": "Field Mapper",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "active": false,
+    "imageRef": "dashpipe/plet-field-mapper:local",
+    "description": "Rename/project record fields via execution.mapping. Modes: map (records only) or upsert/replace (wrap as {mode, items}). Set deployment.region and execution.mode on the step.",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "mode"
+    ],
+    "configSchemaPreview": {
+      "type": "object",
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "upsert | replace for Petstore bulk upload"
+        },
+        "mapping": {
+          "type": "string",
+          "description": "Optional field mapping spec"
+        }
+      }
+    },
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true",
+      "mode": "upsert",
+      "mapping": ""
+    },
+    "scope": "system",
+    "group": "transform"
+  },
+  {
+    "id": "plet-schema-validator",
+    "name": "Schema Validator",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Validate records against a JSON schema.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-schema-validator:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "schema"
+    ],
+    "scope": "system",
+    "group": "filter"
+  },
+  {
+    "id": "plet-deduplicator",
+    "name": "Deduplicator",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Drop duplicate records by key.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-deduplicator:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "keyFields"
+    ],
+    "scope": "system",
+    "group": "filter"
+  },
+  {
+    "id": "plet-aggregator",
+    "name": "Aggregator",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Windowed aggregates over record streams.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-aggregator:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "groupBy"
+    ],
+    "scope": "system",
+    "group": "structure"
+  },
+  {
+    "id": "plet-joiner",
+    "name": "Joiner",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Join two streams on a key.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-joiner:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "structure"
+  },
+  {
+    "id": "plet-splitter",
+    "name": "Splitter",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Split array fields into multiple records.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-splitter:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "field"
+    ],
+    "scope": "system",
+    "group": "structure"
+  },
+  {
+    "id": "plet-enricher",
+    "name": "Enricher",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Lookup and enrich records from a service.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-enricher:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "enrich"
+  },
+  {
+    "id": "plet-masker",
+    "name": "Masker",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Mask PII fields before downstream stages.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-masker:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "fields"
+    ],
+    "scope": "system",
+    "group": "security"
+  },
+  {
+    "id": "plet-hasher",
+    "name": "Hasher",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Hash sensitive fields for anonymization.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-hasher:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "fields"
+    ],
+    "scope": "system",
+    "group": "security"
+  },
+  {
+    "id": "plet-rate-limiter",
+    "name": "Rate Limiter",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Throttle throughput to protect sinks.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-rate-limiter:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "quality"
+  },
+  {
+    "id": "plet-retry-buffer",
+    "name": "Retry Buffer",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Buffer failed records for retry.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-retry-buffer:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "quality"
+  },
+  {
+    "id": "plet-branch-router",
+    "name": "Branch Router",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Route records by expression to branches.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-branch-router:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "structure"
+  },
+  {
+    "id": "plet-xml-to-json",
+    "name": "XML to JSON",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Convert XML payloads to JSON.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-xml-to-json:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "transform"
+  },
+  {
+    "id": "plet-csv-to-json",
+    "name": "CSV to JSON",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "active": false,
+    "imageRef": "dashpipe/plet-csv-to-json:local",
+    "description": "Convert CSV text (message.csv / content) into JSON records. Set deployment.region and execution.delimiter on the step.",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "delimiter"
+    ],
+    "configSchemaPreview": {
+      "type": "object",
+      "required": [
+        "delimiter"
+      ],
+      "properties": {
+        "delimiter": {
+          "type": "string"
+        },
+        "hasHeader": {
+          "type": "string"
+        }
+      }
+    },
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true",
+      "delimiter": ",",
+      "hasHeader": "true"
+    },
+    "scope": "system",
+    "group": "transform"
+  },
+  {
+    "id": "plet-avro-codec",
+    "name": "Avro Codec",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Encode or decode Avro payloads.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-avro-codec:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "transform"
+  },
+  {
+    "id": "plet-compression",
+    "name": "Compression",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Compress or decompress payloads.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-compression:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "security"
+  },
+  {
+    "id": "plet-encryption",
+    "name": "Encryption",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Encrypt or decrypt field values.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-encryption:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "security"
+  },
+  {
+    "id": "plet-geo-enrich",
+    "name": "Geo Enrich",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Add geo metadata from IP or address.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-geo-enrich:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "enrich"
+  },
+  {
+    "id": "plet-time-window",
+    "name": "Time Window",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Assign records to tumbling windows.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-time-window:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "quality"
+  },
+  {
+    "id": "plet-sample-filter",
+    "name": "Sample Filter",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Keep a percentage sample of records.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-sample-filter:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "rate"
+    ],
+    "scope": "system",
+    "group": "filter"
+  },
+  {
+    "id": "plet-null-drop",
+    "name": "Null Drop",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Drop records with null required fields.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-null-drop:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "filter"
+  },
+  {
+    "id": "plet-type-coercer",
+    "name": "Type Coercer",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Coerce field types to a target schema.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-type-coercer:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "transform"
+  },
+  {
+    "id": "plet-regex-extract",
+    "name": "Regex Extract",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Extract fields with regular expressions.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-regex-extract:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "pattern"
+    ],
+    "scope": "system",
+    "group": "extract"
+  },
+  {
+    "id": "plet-lookup-cache",
+    "name": "Lookup Cache",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Cache remote lookups for enrichment.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-lookup-cache:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "enrich"
+  },
+  {
+    "id": "plet-script-transform",
+    "name": "Script Transform",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Run a sandboxed script transform.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-script-transform:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "quality"
+  },
+  {
+    "id": "plet-ml-scorer",
+    "name": "ML Scorer",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Score records with a registered model.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-ml-scorer:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "quality"
+  },
+  {
+    "id": "plet-anomaly-flag",
+    "name": "Anomaly Flag",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Flag anomalous records for review.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-anomaly-flag:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "quality"
+  },
+  {
+    "id": "plet-unit-converter",
+    "name": "Unit Converter",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Convert units across numeric fields.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-unit-converter:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "enrich"
+  },
+  {
+    "id": "plet-currency-fx",
+    "name": "Currency FX",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Convert currency amounts.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-currency-fx:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "enrich"
+  },
+  {
+    "id": "plet-html-strip",
+    "name": "HTML Strip",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Strip HTML tags from text fields.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-html-strip:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "extract"
+  },
+  {
+    "id": "plet-language-detect",
+    "name": "Language Detect",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Detect language of text fields.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-language-detect:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "extract"
+  },
+  {
+    "id": "plet-sentiment-tag",
+    "name": "Sentiment Tag",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Tag sentiment on text fields.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-sentiment-tag:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "extract"
+  },
+  {
+    "id": "plet-entity-extract",
+    "name": "Entity Extract",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Extract named entities from text.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-entity-extract:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "extract"
+  },
+  {
+    "id": "plet-json-path",
+    "name": "JSON Path",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Project nested JSON via JSONPath.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-json-path:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "transform"
+  },
+  {
+    "id": "plet-flatten",
+    "name": "Flatten",
+    "category": "Processor",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Flatten nested objects into columns.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "parallelism": "1",
+      "failOnError": "true"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-flatten:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "transform"
+  },
+  {
+    "id": "plet-kafka-destination",
+    "name": "Kafka Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Publish records to Kafka topics.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-kafka-destination:local",
+    "connectorType": "message_bus",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "topic"
+    ],
+    "scope": "system",
+    "group": "messaging"
+  },
+  {
+    "id": "plet-jdbc-destination",
+    "name": "JDBC Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Upsert rows into relational tables.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-jdbc-destination:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "table"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-mongodb-destination",
+    "name": "MongoDB Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Write documents to MongoDB.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-mongodb-destination:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "table"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-elasticsearch-destination",
+    "name": "Elasticsearch Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Index documents into Elasticsearch.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-elasticsearch-destination:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "table"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-snowflake-destination",
+    "name": "Snowflake Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Load batches into Snowflake.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-snowflake-destination:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "table"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-bigquery-destination",
+    "name": "BigQuery Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Load batches into BigQuery.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-bigquery-destination:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "table"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-gcs-destination",
+    "name": "GCS Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Write objects to Google Cloud Storage.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-gcs-destination:local",
+    "connectorType": "storage",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "objectKey"
+    ],
+    "scope": "system",
+    "group": "storage"
+  },
+  {
+    "id": "plet-azure-blob-destination",
+    "name": "Azure Blob Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Write blobs to Azure Blob Storage.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-azure-blob-destination:local",
+    "connectorType": "storage",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "objectKey"
+    ],
+    "scope": "system",
+    "group": "storage"
+  },
+  {
+    "id": "plet-webhook-destination",
+    "name": "Webhook Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "active": true,
+    "imageRef": "dashpipe/plet-webhook-destination:local",
+    "description": "POST JSON to connector baseUrl + execution.path. Bind a REST connector; set deployment.region and execution.path on the step.",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "connectorType": "rest",
+    "configSchemaPreview": {
+      "type": "object",
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Path under connector baseUrl, e.g. /inventory/upload"
+        },
+        "method": {
+          "type": "string"
+        },
+        "baseUrl": {
+          "type": "string",
+          "description": "Optional override of connector baseUrl"
+        }
+      }
+    },
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500",
+      "path": "",
+      "method": "POST"
+    },
+    "scope": "system",
+    "group": "notify"
+  },
+  {
+    "id": "plet-email-destination",
+    "name": "Email Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Send email notifications from records.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-email-destination:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "notify"
+  },
+  {
+    "id": "plet-slack-destination",
+    "name": "Slack Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Post messages to Slack channels.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-slack-destination:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "notify"
+  },
+  {
+    "id": "plet-teams-destination",
+    "name": "Teams Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Post messages to Microsoft Teams.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-teams-destination:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "notify"
+  },
+  {
+    "id": "plet-pub-sub-destination",
+    "name": "Pub/Sub Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Publish to Google Pub/Sub.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-pub-sub-destination:local",
+    "connectorType": "message_bus",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "topic"
+    ],
+    "scope": "system",
+    "group": "messaging"
+  },
+  {
+    "id": "plet-sqs-destination",
+    "name": "SQS Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Send messages to Amazon SQS.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-sqs-destination:local",
+    "connectorType": "message_bus",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "queueName"
+    ],
+    "scope": "system",
+    "group": "messaging"
+  },
+  {
+    "id": "plet-event-hub-destination",
+    "name": "Event Hub Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Publish to Azure Event Hubs.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-event-hub-destination:local",
+    "connectorType": "message_bus",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "hubName"
+    ],
+    "scope": "system",
+    "group": "messaging"
+  },
+  {
+    "id": "plet-redis-destination",
+    "name": "Redis Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Write keys or streams to Redis.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-redis-destination:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "table"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-dynamodb-destination",
+    "name": "DynamoDB Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Put items into DynamoDB.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-dynamodb-destination:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "table"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-cosmos-db-destination",
+    "name": "Cosmos DB Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Write documents to Cosmos DB.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-cosmos-db-destination:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "table"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-ftp-destination",
+    "name": "FTP Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Upload files to FTP/SFTP.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-ftp-destination:local",
+    "connectorType": "storage",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "objectKey"
+    ],
+    "scope": "system",
+    "group": "storage"
+  },
+  {
+    "id": "plet-sharepoint-destination",
+    "name": "SharePoint Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Upload documents to SharePoint.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-sharepoint-destination:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "saas"
+  },
+  {
+    "id": "plet-dropbox-destination",
+    "name": "Dropbox Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Upload files to Dropbox.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-dropbox-destination:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "saas"
+  },
+  {
+    "id": "plet-onedrive-destination",
+    "name": "OneDrive Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Upload files to OneDrive.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-onedrive-destination:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "saas"
+  },
+  {
+    "id": "plet-salesforce-destination",
+    "name": "Salesforce Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Upsert CRM objects in Salesforce.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-salesforce-destination:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "saas"
+  },
+  {
+    "id": "plet-hubspot-destination",
+    "name": "HubSpot Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Upsert contacts/deals in HubSpot.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-hubspot-destination:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "saas"
+  },
+  {
+    "id": "plet-databricks-destination",
+    "name": "Databricks Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Write to Databricks tables.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-databricks-destination:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "table"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-redshift-destination",
+    "name": "Redshift Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Load batches into Redshift.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-redshift-destination:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "table"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-clickhouse-destination",
+    "name": "ClickHouse Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Insert into ClickHouse tables.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-clickhouse-destination:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "table"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-prometheus-push",
+    "name": "Prometheus Push",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Push metrics to Prometheus gateway.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-prometheus-push:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "notify"
+  },
+  {
+    "id": "plet-opensearch-destination",
+    "name": "OpenSearch Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Index documents into OpenSearch.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-opensearch-destination:local",
+    "connectorType": "db",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "table"
+    ],
+    "scope": "system",
+    "group": "database"
+  },
+  {
+    "id": "plet-file-destination",
+    "name": "File Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Write files to a mounted path.",
+    "deploymentConfiguration": {
+      "cloud": "local",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "basePath": "/data/out",
+      "objectKey": "",
+      "format": "json",
+      "append": "false",
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": true,
+    "imageRef": "dashpipe/plet-file-destination:local",
+    "connectorType": "storage",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "objectKey"
+    ],
+    "scope": "system",
+    "group": "storage"
+  },
+  {
+    "id": "plet-null-destination",
+    "name": "Null Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Discard records (debug sink).",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-null-destination:local",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "scope": "system",
+    "group": "util"
+  },
+  {
+    "id": "plet-archive-destination",
+    "name": "Archive Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Archive payloads to cold storage.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-archive-destination:local",
+    "connectorType": "storage",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "objectKey"
+    ],
+    "scope": "system",
+    "group": "storage"
+  },
+  {
+    "id": "plet-pagerduty-destination",
+    "name": "PagerDuty Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Raise incidents from records.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-pagerduty-destination:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "notify"
+  },
+  {
+    "id": "plet-datadog-destination",
+    "name": "Datadog Destination",
+    "category": "Destination",
+    "version": "1.0.0",
+    "runtime": "Python",
+    "description": "Emit events/metrics to Datadog.",
+    "deploymentConfiguration": {
+      "cloud": "aws",
+      "region": "us-east-1",
+      "replicas": "1"
+    },
+    "executionConfiguration": {
+      "flushIntervalMs": "1000",
+      "maxBatchRecords": "500"
+    },
+    "active": false,
+    "imageRef": "dashpipe/plet-datadog-destination:local",
+    "connectorType": "rest",
+    "requiredDeploymentKeys": [
+      "region"
+    ],
+    "requiredExecutionKeys": [
+      "path"
+    ],
+    "scope": "system",
+    "group": "notify"
+  }
+]

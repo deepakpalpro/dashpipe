@@ -1,0 +1,18 @@
+{
+  "id": "plet-script-transform",
+  "name": "Script Transform",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-script-transform:local",
+  "category": "Processor",
+  "description": "Generated runnable implementation for plet-script-transform (proc_passthrough).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {}
+}

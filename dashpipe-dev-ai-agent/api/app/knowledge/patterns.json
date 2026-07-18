@@ -1,0 +1,65 @@
+[
+  {
+    "id": "manual-to-s3",
+    "match": ["manual", "trigger", "s3", "run"],
+    "name": "Manual Trigger → S3 Out",
+    "description": "Run emits payload, optional filter, write JSON to S3-compatible storage",
+    "steps": [
+      "plet-manual-source",
+      "plet-python-filter",
+      "plet-s3-destination"
+    ],
+    "notes": "Bind a storage connector on the S3 destination step. Optional Run payload JSON."
+  },
+  {
+    "id": "schedule-rest-webhook",
+    "match": ["schedule", "cron", "inventory", "sync", "every"],
+    "name": "Scheduled REST → Webhook",
+    "description": "Cron tick, pull REST, filter, POST webhook",
+    "steps": [
+      "plet-schedule-source",
+      "plet-rest-source",
+      "plet-python-filter",
+      "plet-webhook-destination"
+    ],
+    "notes": "Set matching cron on schedule source and pipeline scheduleCron. Activate for poller."
+  },
+  {
+    "id": "s3-csv-to-webhook",
+    "match": ["s3", "csv", "petstore", "inventory", "file"],
+    "name": "S3 CSV → Webhook",
+    "description": "Read S3 object, CSV→JSON, filter, map fields, POST webhook",
+    "steps": [
+      "plet-s3-source",
+      "plet-csv-to-json",
+      "plet-python-filter",
+      "plet-field-mapper",
+      "plet-webhook-destination"
+    ],
+    "notes": "Needs storage + REST connectors. Prefer ioMode queue."
+  },
+  {
+    "id": "rest-demo",
+    "match": ["rest", "http", "api", "pull"],
+    "name": "REST → Filter → Webhook",
+    "description": "Pull HTTP then push webhook",
+    "steps": [
+      "plet-rest-source",
+      "plet-python-filter",
+      "plet-webhook-destination"
+    ],
+    "notes": "Bind REST connectors on source and destination."
+  },
+  {
+    "id": "null-util",
+    "match": ["null", "discard", "dry", "demo"],
+    "name": "REST → Null Drop → Null Dest",
+    "description": "Simple processor/util demo that discards output",
+    "steps": [
+      "plet-rest-source",
+      "plet-null-drop",
+      "plet-null-destination"
+    ],
+    "notes": "Good for smoke-testing without external sinks."
+  }
+]

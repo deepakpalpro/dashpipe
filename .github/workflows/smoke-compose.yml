@@ -1,0 +1,22 @@
+name: smoke-compose
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start platform compose
+        run: docker compose up -d mysql rabbitmq localstack
+      - name: Wait for deps
+        run: |
+          for i in $(seq 1 90); do
+            curl -sf http://localhost:4567/_localstack/health && break
+            sleep 2
+          done
+      - name: Smoke compose deps
+        run: ./dashpipe-ci_cd/scripts/smoke-compose-deps.sh

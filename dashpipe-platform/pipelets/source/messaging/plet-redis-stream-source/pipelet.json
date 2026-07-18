@@ -1,0 +1,23 @@
+{
+  "id": "plet-redis-stream-source",
+  "name": "Redis Stream Source",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-redis-stream-source:local",
+  "category": "Source",
+  "description": "Generated runnable implementation for plet-redis-stream-source (source_bus).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "stream"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "stream": ""
+  },
+  "connectorType": "message_bus"
+}

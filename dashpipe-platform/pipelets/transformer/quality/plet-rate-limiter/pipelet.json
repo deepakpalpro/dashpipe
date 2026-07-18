@@ -1,0 +1,18 @@
+{
+  "id": "plet-rate-limiter",
+  "name": "Rate Limiter",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-rate-limiter:local",
+  "category": "Processor",
+  "description": "Generated runnable implementation for plet-rate-limiter (proc_passthrough).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {}
+}

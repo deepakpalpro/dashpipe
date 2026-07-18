@@ -1,0 +1,23 @@
+{
+  "id": "plet-schedule-source",
+  "name": "Schedule Source",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-schedule-source:local",
+  "category": "Source",
+  "description": "Emit timer ticks on a cron schedule (e.g. */15 * * * * every 15 minutes).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "cron"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "cron": "*/15 * * * *",
+    "batchSize": "1"
+  }
+}

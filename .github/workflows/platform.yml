@@ -1,0 +1,35 @@
+name: platform
+
+on:
+  push:
+    branches: [main, master, 'feature/**']
+  pull_request:
+
+jobs:
+  maven:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Maven test
+        run: ./dashpipe-platform/mvnw -f dashpipe-platform -pl dashpipe-api -am test
+
+  ui:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dashpipe-platform/dashpipe-ui
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: dashpipe-platform/dashpipe-ui/package-lock.json
+      - run: npm ci
+      - run: npm test -- --run
+      - run: npm run lint

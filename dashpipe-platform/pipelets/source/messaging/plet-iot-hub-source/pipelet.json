@@ -1,0 +1,23 @@
+{
+  "id": "plet-iot-hub-source",
+  "name": "Iot Hub Source",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-iot-hub-source:local",
+  "category": "Source",
+  "description": "Generated runnable implementation for plet-iot-hub-source (source_bus).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "hubName"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "hubName": ""
+  },
+  "connectorType": "message_bus"
+}

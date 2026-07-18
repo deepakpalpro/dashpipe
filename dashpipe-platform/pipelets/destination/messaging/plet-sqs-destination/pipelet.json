@@ -1,0 +1,23 @@
+{
+  "id": "plet-sqs-destination",
+  "name": "Sqs Destination",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-sqs-destination:local",
+  "category": "Destination",
+  "description": "Generated runnable implementation for plet-sqs-destination (dest_bus).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "queueName"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "queueName": ""
+  },
+  "connectorType": "message_bus"
+}

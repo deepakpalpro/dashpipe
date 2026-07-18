@@ -1,0 +1,23 @@
+{
+  "id": "plet-pub-sub-destination",
+  "name": "Pub Sub Destination",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-pub-sub-destination:local",
+  "category": "Destination",
+  "description": "Generated runnable implementation for plet-pub-sub-destination (dest_bus).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "topic"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "topic": ""
+  },
+  "connectorType": "message_bus"
+}

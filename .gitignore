@@ -8,8 +8,8 @@ target/
 *.log
 .mvn/wrapper/maven-wrapper.jar
 node_modules/
-dashflow-ui/dist/
-dashflow-ui/node_modules/
+dashpipe-ui/dist/
+dashpipe-ui/node_modules/
 pipelets/**/.venv/
 pipelets/**/__pycache__/
 **/__pycache__/

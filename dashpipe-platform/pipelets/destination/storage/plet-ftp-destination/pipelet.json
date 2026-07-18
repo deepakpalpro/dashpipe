@@ -1,0 +1,23 @@
+{
+  "id": "plet-ftp-destination",
+  "name": "Ftp Destination",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-ftp-destination:local",
+  "category": "Destination",
+  "description": "Generated runnable implementation for plet-ftp-destination (dest_storage).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "objectKey"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "objectKey": ""
+  },
+  "connectorType": "storage"
+}

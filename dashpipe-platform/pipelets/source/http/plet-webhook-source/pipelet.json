@@ -1,0 +1,23 @@
+{
+  "id": "plet-webhook-source",
+  "name": "Webhook Source",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-webhook-source:local",
+  "category": "Source",
+  "description": "Generated runnable implementation for plet-webhook-source (source_event).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "path"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "path": ""
+  },
+  "connectorType": "event_listener"
+}

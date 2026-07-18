@@ -1,0 +1,78 @@
+# Demo data plane: LocalStack + Petstore mocks
+services:
+  localstack:
+    image: localstack/localstack:4.3
+    container_name: df-localstack
+    ports:
+      - "${LOCALSTACK_HOST_PORT:-4567}:4566"
+    environment:
+      SERVICES: s3,sqs
+      DEFAULT_REGION: us-east-1
+      DEBUG: "0"
+    volumes:
+      - df-localstack-data:/var/lib/localstack
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 15s
+
+  petstore:
+    profiles: ["petstore"]
+    build:
+      context: ./petstore
+    container_name: df-petstore
+    ports:
+      - "4010:4010"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 4010
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: pipeline
+      MYSQL_PASSWORD: pipeline
+      MYSQL_DATABASE: petstore
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:4010/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 25s
+
+  petstore-inventory:
+    profiles: ["petstore"]
+    build:
+      context: ./petstore-inventory
+    container_name: df-petstore-inventory
+    ports:
+      - "4011:4011"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 4011
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:4011/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+volumes:
+  df-localstack-data:

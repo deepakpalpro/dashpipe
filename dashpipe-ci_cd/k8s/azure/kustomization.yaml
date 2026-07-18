@@ -1,0 +1,40 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dashpipe
+resources:
+  - namespace.yaml
+  - rbac.yaml
+  - secret.example.yaml
+  - mysql.yaml
+  - rabbitmq.yaml
+  - api.yaml
+  - ui.yaml
+  - ../../../dashpipe-demo/k8s/petstore.yaml
+  - ../../../dashpipe-demo/k8s/petstore-inventory.yaml
+  - ../../../dashpipe-tools/k8s/prometheus.yaml
+  - ../../../dashpipe-tools/k8s/grafana.yaml
+images:
+  - name: dashpipe/api
+    newName: dashpipe/api
+    newTag: latest
+  - name: dashpipe/ui
+    newName: dashpipe/ui
+    newTag: latest
+  - name: dashpipe/petstore
+    newName: dashpipe/petstore
+    newTag: latest
+  - name: dashpipe/petstore-inventory
+    newName: dashpipe/petstore-inventory
+    newTag: latest
+  - name: mysql
+    newName: mysql
+    newTag: "8.4"
+  - name: rabbitmq
+    newName: rabbitmq
+    newTag: "3.13-management"
+  - name: prom/prometheus
+    newName: prom/prometheus
+    newTag: v2.55.1
+  - name: grafana/grafana
+    newName: grafana/grafana
+    newTag: "11.3.1"

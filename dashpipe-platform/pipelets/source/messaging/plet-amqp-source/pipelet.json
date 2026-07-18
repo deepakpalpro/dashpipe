@@ -1,0 +1,23 @@
+{
+  "id": "plet-amqp-source",
+  "name": "Amqp Source",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-amqp-source:local",
+  "category": "Source",
+  "description": "Generated runnable implementation for plet-amqp-source (source_bus).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "queue"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "queue": ""
+  },
+  "connectorType": "message_bus"
+}

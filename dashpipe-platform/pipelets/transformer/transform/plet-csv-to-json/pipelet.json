@@ -1,0 +1,11 @@
+{
+  "id": "plet-csv-to-json",
+  "name": "CSV to JSON",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-csv-to-json:local",
+  "requiredDeploymentKeys": ["region"],
+  "requiredExecutionKeys": ["delimiter"],
+  "deploymentConfiguration": { "cloud": "aws", "region": "" },
+  "executionConfiguration": { "delimiter": ",", "hasHeader": "true" }
+}

@@ -1,0 +1,51 @@
+name: Feature Request
+description: Suggest an enhancement or new capability
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - dashpipe-platform (API / UI / pipelets)
+        - dashpipe-ci_cd (scripts / k8s / Azure)
+        - dashpipe-dev-ai-agent (AI / MCP)
+        - dashpipe-tools (Prometheus / Grafana / ELK)
+        - dashpipe-demo (Petstore / LocalStack)
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What problem does this solve? Who is affected?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How would you like this to work?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches you've thought about
+
+  - type: dropdown
+    id: contribute
+    attributes:
+      label: Willing to contribute a PR?
+      options:
+        - "Yes, I can open a PR"
+        - "Maybe, with guidance"
+        - "No, suggestion only"
+    validations:
+      required: true

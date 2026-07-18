@@ -1,0 +1,23 @@
+{
+  "id": "plet-nats-source",
+  "name": "Nats Source",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-nats-source:local",
+  "category": "Source",
+  "description": "Generated runnable implementation for plet-nats-source (source_bus).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "subject"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "subject": ""
+  },
+  "connectorType": "message_bus"
+}

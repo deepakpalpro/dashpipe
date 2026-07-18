@@ -1,0 +1,23 @@
+{
+  "id": "plet-snowflake-destination",
+  "name": "Snowflake Destination",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-snowflake-destination:local",
+  "category": "Destination",
+  "description": "Generated runnable implementation for plet-snowflake-destination (dest_jdbc).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "table"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "table": ""
+  },
+  "connectorType": "db"
+}

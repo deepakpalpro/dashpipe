@@ -1,0 +1,23 @@
+{
+  "id": "plet-adls-destination",
+  "name": "Adls Destination",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-adls-destination:local",
+  "category": "Destination",
+  "description": "Generated runnable implementation for plet-adls-destination (dest_storage).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "objectKey"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "objectKey": ""
+  },
+  "connectorType": "storage"
+}

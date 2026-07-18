@@ -1,0 +1,23 @@
+{
+  "id": "plet-snowflake-source",
+  "name": "Snowflake Source",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-snowflake-source:local",
+  "category": "Source",
+  "description": "Generated runnable implementation for plet-snowflake-source (source_jdbc).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "query"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "query": ""
+  },
+  "connectorType": "db"
+}

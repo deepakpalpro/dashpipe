@@ -1,0 +1,11 @@
+{
+  "id": "plet-python-filter",
+  "name": "Python Filter",
+  "version": "0.9.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-python-filter:local",
+  "requiredDeploymentKeys": ["region"],
+  "requiredExecutionKeys": ["expression"],
+  "deploymentConfiguration": { "cloud": "aws", "region": "" },
+  "executionConfiguration": { "expression": "", "failOnError": "true" }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "plet-webhook-destination",
+  "name": "Webhook Destination",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-webhook-destination:local",
+  "category": "Destination",
+  "description": "POST JSON to a REST connector baseUrl + path (webhook / HTTP sink).",
+  "requiredDeploymentKeys": ["region"],
+  "requiredExecutionKeys": ["path"],
+  "deploymentConfiguration": { "cloud": "aws", "region": "" },
+  "executionConfiguration": {
+    "path": "",
+    "method": "POST",
+    "bodyKey": "",
+    "timeoutMs": "30000"
+  },
+  "connectorType": "rest",
+  "env": {
+    "CONNECTOR_CONFIG": "REST connector JSON (required: baseUrl)",
+    "SERVICE_CONFIG": "Auth service JSON (optional: api_key, bearerToken)",
+    "DEPLOYMENT_CONFIG": "Required after merge: region",
+    "EXECUTION_CONFIG": "Required: path; optional: method, bodyKey, timeoutMs"
+  }
+}
