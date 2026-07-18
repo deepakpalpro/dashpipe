@@ -8,4 +8,5 @@ langchain-ollama>=0.3,<1
 langchain-openai>=0.3,<1
 langchain-anthropic>=0.3,<1
 langgraph>=0.2,<1
+-e ../dashpipe-mcp
 pytest>=8,<9

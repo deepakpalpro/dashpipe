@@ -29,7 +29,11 @@ Then **Settings → Pages → Custom domain** → `dashpipe.io` → **Enforce HT
 
 ## Local preview
 
+Doc links on the landing page point to `/docs/*.html` (Jekyll output). A plain `python3 -m http.server` will **not** build those HTML files.
+
 ```bash
-python3 -m http.server 8088
-# http://localhost:8088/index.html
+./scripts/preview-site.sh
+# http://127.0.0.1:8088/  — landing page with working doc links
 ```
+
+Requires Docker (for Jekyll). On GitHub Pages, the same paths work after the Actions deploy.

@@ -5,6 +5,7 @@ dashpipe_mcp/__main__.py
 dashpipe_mcp/catalog.py
 dashpipe_mcp/client.py
 dashpipe_mcp/config.py
+dashpipe_mcp/platform_ops.py
 dashpipe_mcp/server.py
 dashpipe_mcp.egg-info/PKG-INFO
 dashpipe_mcp.egg-info/SOURCES.txt
@@ -12,3 +13,4 @@ dashpipe_mcp.egg-info/dependency_links.txt
 dashpipe_mcp.egg-info/requires.txt
 dashpipe_mcp.egg-info/top_level.txt
 tests/test_catalog.py
+tests/test_platform_ops.py

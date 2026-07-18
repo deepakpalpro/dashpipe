@@ -82,3 +82,36 @@ class AgentModelsResponse(BaseModel):
     default_model: str
     models: list[AgentModelOption]
     note: str | None = None
+
+
+class OpsToolCallLog(BaseModel):
+    tool: str
+    args: dict[str, Any] = Field(default_factory=dict)
+    result: str | None = None
+
+
+class OpsAgentRequest(BaseModel):
+    message: str = Field(..., min_length=1)
+    provider: str | None = None
+    model: str | None = None
+    api_key: str | None = None
+    pipeline_id: str | None = None
+    execution_id: str | None = None
+    proposed_pipeline: dict[str, Any] | None = None
+
+
+class OpsAgentResponse(BaseModel):
+    reply: str
+    tool_calls: list[OpsToolCallLog] = Field(default_factory=list)
+    pipeline_id: str | None = None
+    execution_id: str | None = None
+    model: str | None = None
+
+
+class PlatformStatusResponse(BaseModel):
+    healthy: bool
+    api_url: str
+    tenant_id: str
+    health: dict[str, Any] = Field(default_factory=dict)
+    config: dict[str, Any] = Field(default_factory=dict)
+    error: str | None = None

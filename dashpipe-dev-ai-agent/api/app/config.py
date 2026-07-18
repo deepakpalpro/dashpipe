@@ -25,5 +25,8 @@ class Settings(BaseSettings):
     anthropic_base_url: str = "https://api.anthropic.com"
     anthropic_default_model: str = "claude-3-5-haiku-latest"
 
+    dashpipe_api_url: str = "http://localhost:8080"
+    dashpipe_tenant_id: str = "T001"
+
 
 settings = Settings()

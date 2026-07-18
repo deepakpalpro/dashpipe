@@ -244,9 +244,9 @@ Observability page also lists run history and links to Grafana when `PIPELINE_OB
 
 ---
 
-## Cursor MCP (agent debugging)
+## MCP (Cursor · Claude · OpenClaw · GitHub Copilot)
 
-The [`dashpipe-dev-ai-agent/dashpipe-mcp/`](../../dashpipe-dev-ai-agent/dashpipe-mcp/) package exposes dashpipe-api as MCP tools for Cursor.
+The [`dashpipe-dev-ai-agent/dashpipe-mcp/`](../../dashpipe-dev-ai-agent/dashpipe-mcp/) package exposes dashpipe-api as MCP tools for Cursor, Claude Desktop, OpenClaw, and VS Code / GitHub Copilot. See [dashpipe-mcp/README.md](../../dashpipe-dev-ai-agent/dashpipe-mcp/README.md).
 
 ```bash
 cd dashpipe-dev-ai-agent/dashpipe-mcp && python3 -m venv .venv && source .venv/bin/activate
