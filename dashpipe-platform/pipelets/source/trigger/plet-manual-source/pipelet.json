@@ -1,0 +1,18 @@
+{
+  "id": "plet-manual-source",
+  "name": "Manual Source",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-manual-source:local",
+  "category": "Source",
+  "description": "Accept ad-hoc JSON payloads when you click Run (or POST /run).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {}
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- W0-US04: structured JSON console (Logstash) via Boot structured appender.
+     Format selected by logging.structured.format.console=logstash in application.yml. -->
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+  <include resource="org/springframework/boot/logging/logback/structured-console-appender.xml"/>
+
+  <root level="INFO">
+    <appender-ref ref="CONSOLE"/>
+  </root>
+
+  <logger name="com.dashpipe" level="INFO"/>
+</configuration>

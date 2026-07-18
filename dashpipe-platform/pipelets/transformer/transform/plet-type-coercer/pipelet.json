@@ -1,0 +1,18 @@
+{
+  "id": "plet-type-coercer",
+  "name": "Type Coercer",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-type-coercer:local",
+  "category": "Processor",
+  "description": "Generated runnable implementation for plet-type-coercer (proc_passthrough).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {}
+}

@@ -1,0 +1,22 @@
+{
+  "id": "plet-deduplicator",
+  "name": "Deduplicator",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-deduplicator:local",
+  "category": "Processor",
+  "description": "Generated runnable implementation for plet-deduplicator (proc_dedupe).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "keyFields"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "keyFields": ""
+  }
+}

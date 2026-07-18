@@ -1,0 +1,18 @@
+{
+  "id": "plet-lookup-cache",
+  "name": "Lookup Cache",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-lookup-cache:local",
+  "category": "Processor",
+  "description": "Generated runnable implementation for plet-lookup-cache (proc_passthrough).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {}
+}

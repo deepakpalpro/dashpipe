@@ -1,5 +1,0 @@
-# `plet-dynamodb-destination`
-
-Category: **Destination**. Connector: `db`. Behavior: `dest_jdbc`.
-
-Build: `docker build -f pipelets/plet-dynamodb-destination/Dockerfile -t dashflow/plet-dynamodb-destination:local pipelets`

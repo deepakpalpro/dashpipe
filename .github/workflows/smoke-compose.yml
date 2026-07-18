@@ -19,4 +19,4 @@ jobs:
             sleep 2
           done
       - name: Smoke compose deps
-        run: ./dashflow-ci_cd/scripts/smoke-compose-deps.sh
+        run: ./dashpipe-ci_cd/scripts/smoke-compose-deps.sh

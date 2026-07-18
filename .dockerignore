@@ -5,6 +5,6 @@ target/
 **/node_modules/
 **/__pycache__/
 **/.venv/
-dashflow-ui/dist/
+dashpipe-ui/dist/
 *.log
 .DS_Store

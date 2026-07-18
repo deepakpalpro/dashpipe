@@ -14,5 +14,5 @@ jobs:
       - name: Azure release placeholder
         run: |
           echo "Tag ${{ github.ref_name }} — run manually:"
-          echo "  ./dashflow-ci_cd/scripts/azure/build-push-acr.sh <acrName> ${GITHUB_REF_NAME#v}"
-          echo "  ./dashflow-ci_cd/scripts/azure/apply-aks.sh <acrName> ${GITHUB_REF_NAME#v}"
+          echo "  ./dashpipe-ci_cd/scripts/azure/build-push-acr.sh <acrName> ${GITHUB_REF_NAME#v}"
+          echo "  ./dashpipe-ci_cd/scripts/azure/apply-aks.sh <acrName> ${GITHUB_REF_NAME#v}"

@@ -1,0 +1,23 @@
+{
+  "id": "plet-kafka-destination",
+  "name": "Kafka Destination",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-kafka-destination:local",
+  "category": "Destination",
+  "description": "Generated runnable implementation for plet-kafka-destination (dest_bus).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "topic"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "topic": ""
+  },
+  "connectorType": "message_bus"
+}

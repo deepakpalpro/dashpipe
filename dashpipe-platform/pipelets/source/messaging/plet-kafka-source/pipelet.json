@@ -1,0 +1,23 @@
+{
+  "id": "plet-kafka-source",
+  "name": "Kafka Source",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-kafka-source:local",
+  "category": "Source",
+  "description": "Generated runnable implementation for plet-kafka-source (source_bus).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "topic"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "topic": ""
+  },
+  "connectorType": "message_bus"
+}

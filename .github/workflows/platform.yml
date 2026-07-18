@@ -16,20 +16,20 @@ jobs:
           java-version: '21'
           cache: maven
       - name: Maven test
-        run: ./dashflow-platform/mvnw -f dashflow-platform -pl dashflow-api -am test
+        run: ./dashpipe-platform/mvnw -f dashpipe-platform -pl dashpipe-api -am test
 
   ui:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: dashflow-platform/dashflow-ui
+        working-directory: dashpipe-platform/dashpipe-ui
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: npm
-          cache-dependency-path: dashflow-platform/dashflow-ui/package-lock.json
+          cache-dependency-path: dashpipe-platform/dashpipe-ui/package-lock.json
       - run: npm ci
       - run: npm test -- --run
       - run: npm run lint

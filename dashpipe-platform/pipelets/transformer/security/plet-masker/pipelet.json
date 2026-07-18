@@ -1,0 +1,22 @@
+{
+  "id": "plet-masker",
+  "name": "Masker",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-masker:local",
+  "category": "Processor",
+  "description": "Generated runnable implementation for plet-masker (proc_masker).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "fields"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "fields": ""
+  }
+}

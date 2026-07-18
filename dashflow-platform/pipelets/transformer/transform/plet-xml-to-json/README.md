@@ -1,5 +1,0 @@
-# `plet-xml-to-json`
-
-Category: **Processor**. Connector: `none`. Behavior: `proc_passthrough`.
-
-Build: `docker build -f pipelets/plet-xml-to-json/Dockerfile -t dashflow/plet-xml-to-json:local pipelets`

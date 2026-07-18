@@ -1,0 +1,22 @@
+{
+  "id": "plet-sample-filter",
+  "name": "Sample Filter",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-sample-filter:local",
+  "category": "Processor",
+  "description": "Generated runnable implementation for plet-sample-filter (proc_sample).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "rate"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "rate": ""
+  }
+}

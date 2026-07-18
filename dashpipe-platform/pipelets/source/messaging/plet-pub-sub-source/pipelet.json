@@ -1,0 +1,23 @@
+{
+  "id": "plet-pub-sub-source",
+  "name": "Pub Sub Source",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-pub-sub-source:local",
+  "category": "Source",
+  "description": "Generated runnable implementation for plet-pub-sub-source (source_bus).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "subscription"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "subscription": ""
+  },
+  "connectorType": "message_bus"
+}

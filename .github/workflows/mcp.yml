@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: dashflow-dev-ai-agent/dashflow-mcp
+        working-directory: dashpipe-dev-ai-agent/dashpipe-mcp
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

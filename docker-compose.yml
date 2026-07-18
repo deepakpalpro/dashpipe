@@ -1,12 +1,12 @@
-# dashflow-suite root orchestrator
+# dashpipe-suite root orchestrator
 # Usage: docker compose up -d
 # Optional: docker compose --profile petstore --profile metrics --profile elk up -d
 #
 # Container/volume prefix is df-* so this stack can coexist with pipeline-platform (pp-*).
 
-name: dashflow-suite
+name: dashpipe-suite
 
 include:
-  - path: dashflow-ci_cd/docker-compose.platform.yml
-  - path: dashflow-demo/docker-compose.demo.yml
-  - path: dashflow-tools/docker-compose.tools.yml
+  - path: dashpipe-ci_cd/docker-compose.platform.yml
+  - path: dashpipe-demo/docker-compose.demo.yml
+  - path: dashpipe-tools/docker-compose.tools.yml

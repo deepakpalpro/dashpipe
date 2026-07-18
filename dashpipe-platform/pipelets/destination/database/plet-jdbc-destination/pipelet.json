@@ -1,0 +1,23 @@
+{
+  "id": "plet-jdbc-destination",
+  "name": "Jdbc Destination",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-jdbc-destination:local",
+  "category": "Destination",
+  "description": "Generated runnable implementation for plet-jdbc-destination (dest_jdbc).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "table"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "table": ""
+  },
+  "connectorType": "db"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "plet-parquet-source",
+  "name": "Parquet Source",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-parquet-source:local",
+  "category": "Source",
+  "description": "Generated runnable implementation for plet-parquet-source (source_storage_list).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "objectKey"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "objectKey": ""
+  },
+  "connectorType": "storage"
+}

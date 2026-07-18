@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petstore-inventory
+  namespace: dashpipe
+  labels:
+    app: petstore-inventory
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petstore-inventory
+  template:
+    metadata:
+      labels:
+        app: petstore-inventory
+    spec:
+      containers:
+        - name: inventory
+          image: dashpipe/petstore-inventory:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 4011
+              name: http
+          env:
+            - name: HOST
+              value: "0.0.0.0"
+            - name: PORT
+              value: "4011"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: petstore-inventory
+  namespace: dashpipe
+spec:
+  selector:
+    app: petstore-inventory
+  ports:
+    - name: http
+      port: 4011
+      targetPort: 4011

@@ -1,0 +1,73 @@
+# Inventory CSV → Petstore pipeline (pipelet Jobs)
+# Apply: kubectl apply -f deploy/k8s/inventory/
+# Or: ./scripts/inventory-pipeline-e2e.sh --k8s
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tenant-t001
+  labels:
+    dashpipe.io/tenant: T001
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: inventory-pipeline-config
+  namespace: tenant-t001
+data:
+  S3_CONNECTOR_CONFIG: |
+    {
+      "bucket": "demo-s3-source",
+      "endpoint": "http://host.docker.internal:4567",
+      "region": "us-east-1",
+      "accessKeyId": "test",
+      "secretAccessKey": "test",
+      "createBucketIfMissing": true
+    }
+  REST_CONNECTOR_CONFIG: |
+    {
+      "baseUrl": "http://host.docker.internal:4010/api/v3",
+      "pingPath": "/health",
+      "timeoutMs": 30000
+    }
+  EXECUTION_CONFIG: |
+    {
+      "bucket": "demo-s3-source",
+      "objectKey": "inventory/daily.csv",
+      "mode": "upsert",
+      "path": "/inventory/upload"
+    }
+  RUN_MODE: batch
+  PIPELET_ID: inventory-batch
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: inventory-s3-to-petstore
+  namespace: tenant-t001
+  labels:
+    dashpipe.io/pipeline: inventory-daily
+    dashpipe.io/pipelet: inventory-batch
+spec:
+  backoffLimit: 1
+  ttlSecondsAfterFinished: 600
+  template:
+    metadata:
+      labels:
+        app: inventory-pipelet
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: pipelet
+          image: dashpipe/inventory-pipelet:local
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: inventory-pipeline-config
+          env:
+            - name: TENANT_ID
+              value: T001
+            - name: PIPELINE_ID
+              value: inventory-daily
+      # Kind / Docker Desktop: reach host LocalStack + Petstore
+      # host.docker.internal is set via extraHosts on Linux Kind nodes when needed

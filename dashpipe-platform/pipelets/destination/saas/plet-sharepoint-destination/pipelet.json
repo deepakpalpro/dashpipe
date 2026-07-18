@@ -1,0 +1,24 @@
+{
+  "id": "plet-sharepoint-destination",
+  "name": "Sharepoint Destination",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-sharepoint-destination:local",
+  "category": "Destination",
+  "description": "Generated runnable implementation for plet-sharepoint-destination (dest_rest).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [
+    "path"
+  ],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {
+    "path": "",
+    "method": "POST"
+  },
+  "connectorType": "rest"
+}

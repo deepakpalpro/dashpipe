@@ -1,0 +1,18 @@
+{
+  "id": "plet-encryption",
+  "name": "Encryption",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-encryption:local",
+  "category": "Processor",
+  "description": "Generated runnable implementation for plet-encryption (proc_passthrough).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {}
+}

@@ -1,0 +1,18 @@
+{
+  "id": "plet-html-strip",
+  "name": "Html Strip",
+  "version": "1.0.0",
+  "runtime": "Python",
+  "imageRef": "dashpipe/plet-html-strip:local",
+  "category": "Processor",
+  "description": "Generated runnable implementation for plet-html-strip (proc_html_strip).",
+  "requiredDeploymentKeys": [
+    "region"
+  ],
+  "requiredExecutionKeys": [],
+  "deploymentConfiguration": {
+    "cloud": "aws",
+    "region": "us-east-1"
+  },
+  "executionConfiguration": {}
+}
