@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "dashflow": {
+      "command": "python",
+      "args": ["-m", "dashflow_mcp"],
+      "cwd": "/Users/deepakpal/Projects/dashflow/dashflow-mcp",
+      "env": {
+        "DASHFLOW_API_URL": "http://localhost:8080",
+        "DASHFLOW_TENANT_ID": "T001"
+      }
+    }
+  }
+}
