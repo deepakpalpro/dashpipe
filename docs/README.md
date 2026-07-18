@@ -5,7 +5,7 @@ title: dashpipe-suite Documentation
 
 # dashpipe-suite Documentation
 
-[← Back to home](/)
+[← Back to home](../index.html)
 
 Welcome to the Dashpipe documentation hub. Pick a path based on your role.
 
