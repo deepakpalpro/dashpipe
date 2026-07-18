@@ -3,7 +3,7 @@
 Developer guide to stand up the stack, **build pipelet images**, run the API in **`local,k8s`**, and verify that **Inventory Daily → Petstore** actually executes Jobs (not the stub “completed” path).
 
 Companion scripts: [`../../dashpipe-ci_cd/scripts/localdev.sh`](../../dashpipe-ci_cd/scripts/localdev.sh), [`../../dashpipe-ci_cd/scripts/inventory-pipeline-e2e.sh`](../../dashpipe-ci_cd/scripts/inventory-pipeline-e2e.sh).  
-Sample bundle: [`samples/pipelines/inventory-s3-to-petstore.pipeline.json`](../samples/pipelines/inventory-s3-to-petstore.pipeline.json).  
+Sample bundle: [`dashpipe-demo/pipelines/inventory-s3-to-petstore.pipeline.json`](../../dashpipe-demo/pipelines/inventory-s3-to-petstore.pipeline.json).  
 Pipelet image map: [`pipelets/REGISTRY.md`](../pipelets/REGISTRY.md).
 
 ---
@@ -133,7 +133,7 @@ aws --endpoint-url=http://localhost:4567 s3 ls s3://demo-s3-source/inventory/
 ## 4. Import / open pipeline in UI
 
 1. Open http://localhost:5173 — tenant **T001**
-2. **Pipelines → Import** → `samples/pipelines/inventory-s3-to-petstore.pipeline.json`  
+2. **Pipelines → Import** → `dashpipe-demo/pipelines/inventory-s3-to-petstore.pipeline.json`  
    (or open an already-imported **Inventory Daily to Petstore**)
 3. Confirm connector endpoints use **`host.docker.internal`** (not `localhost`):
    - S3: `http://host.docker.internal:4567`

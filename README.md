@@ -11,7 +11,7 @@ Built for data engineers, platform teams, and integrators who need repeatable, t
 
 | Directory | Purpose |
 |-----------|---------|
-| [`dashpipe-platform/`](dashpipe-platform/) | Core product — API, UI, SPI, broker, pipelets, samples |
+| [`dashpipe-platform/`](dashpipe-platform/) | Core product — API, UI, SPI, broker, pipelets |
 | [`dashpipe-ci_cd/`](dashpipe-ci_cd/) | Docker/K8s/Azure deploy, localdev orchestration, smoke/e2e scripts |
 | [`dashpipe-dev-ai-agent/`](dashpipe-dev-ai-agent/) | AI pipeline/pipelet generation (LangGraph) + MCP control-plane tools |
 | [`dashpipe-tools/`](dashpipe-tools/) | Observability — Prometheus, Grafana, ELK |

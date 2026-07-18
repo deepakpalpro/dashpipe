@@ -47,7 +47,7 @@ done
 
 ### Import in UI
 
-1. **Pipelines** → **Import** → `samples/pipelines/manual-trigger-s3-out.pipeline.json`
+1. **Pipelines** → **Import** → `dashpipe-demo/pipelines/manual-trigger-s3-out.pipeline.json`
 2. Open the pipeline → **Activate** → **Run**
 3. Verify the object:
    ```bash
@@ -93,7 +93,7 @@ Prefer: `./dashpipe-ci_cd/scripts/localdev.sh build-pipelets` once.
 
 ### Import in UI
 
-1. Open **Pipelines** → **Import** → choose `samples/pipelines/inventory-schedule-sync.pipeline.json`
+1. Open **Pipelines** → **Import** → choose `dashpipe-demo/pipelines/inventory-schedule-sync.pipeline.json`
 2. Open the pipeline → **Activate** (status ACTIVE) so the schedule poller can fire it
 3. Optional: **Run** once immediately to verify pull → upload
 4. Watch **Observability** / builder Debug for runs every 15 minutes
@@ -130,12 +130,12 @@ cd dashpipe-platform
 # or: ... -Dspring-boot.run.profiles=local,k8s
 ```
 
-Prefer the full walkthrough: [`docs/LOCALDEV_PIPELINE_GUIDE.md`](../../docs/LOCALDEV_PIPELINE_GUIDE.md) (`./dashpipe-ci_cd/scripts/localdev.sh start --k8s --with-metrics`).
+Prefer the full walkthrough: [`dashpipe-platform/docs/LOCALDEV_PIPELINE_GUIDE.md`](../../dashpipe-platform/docs/LOCALDEV_PIPELINE_GUIDE.md) (`./dashpipe-ci_cd/scripts/localdev.sh start --k8s --with-metrics`).
 
 ### Import in UI
 
 1. Open **Pipelines**
-2. Click **Import** and choose `samples/pipelines/inventory-s3-to-petstore.pipeline.json`
+2. Click **Import** and choose `dashpipe-demo/pipelines/inventory-s3-to-petstore.pipeline.json`
 3. Leave **Reuse existing connectors/services** checked if you already have matching names; otherwise uncheck to create new ones
 4. Open the imported pipeline → **Deploy** → **Run**
 5. Use the builder **Debug / logs** panel for status, indexed logs, and kubectl hints
