@@ -8,7 +8,7 @@ Concrete flows you can run today with the local dev stack.
 
 | Asset | Location |
 |-------|----------|
-| Sample pipeline JSON | [inventory-s3-to-petstore.pipeline.json](../../dashpipe-platform/samples/pipelines/inventory-s3-to-petstore.pipeline.json) |
+| Sample pipeline JSON | [inventory-s3-to-petstore.pipeline.json](../../dashpipe-demo/pipelines/inventory-s3-to-petstore.pipeline.json) |
 | E2E script | [inventory-pipeline-e2e.sh](../../dashpipe-ci_cd/scripts/inventory-pipeline-e2e.sh) |
 | Demo services | [dashpipe-demo/petstore](../../dashpipe-demo/petstore/), LocalStack in Compose |
 
@@ -30,7 +30,7 @@ See [LOCALDEV_PIPELINE_GUIDE.md](../../dashpipe-platform/docs/LOCALDEV_PIPELINE_
 
 | Asset | Location |
 |-------|----------|
-| Sample pipeline | [manual-trigger-s3-out.pipeline.json](../../dashpipe-platform/samples/pipelines/manual-trigger-s3-out.pipeline.json) |
+| Sample pipeline | [manual-trigger-s3-out.pipeline.json](../../dashpipe-demo/pipelines/manual-trigger-s3-out.pipeline.json) |
 
 Good for testing a minimal two- or three-step pipeline without external APIs.
 
@@ -42,7 +42,7 @@ Good for testing a minimal two- or three-step pipeline without external APIs.
 
 | Asset | Location |
 |-------|----------|
-| Sample pipeline | [rest-source-demo.pipeline.json](../../dashpipe-platform/samples/pipelines/rest-source-demo.pipeline.json) |
+| Sample pipeline | [rest-source-demo.pipeline.json](../../dashpipe-demo/pipelines/rest-source-demo.pipeline.json) |
 | Inventory catalog mock | [petstore-inventory](../../dashpipe-demo/petstore-inventory/) on port 4011 |
 
 Requires a REST connector configured in the builder with `baseUrl` pointing at the mock service.
@@ -72,4 +72,4 @@ See [AI and MCP](../getting-started/AI_AND_MCP.md).
 
 ## Sample pipeline index
 
-All bundled samples: [dashpipe-platform/samples/pipelines/README.md](../../dashpipe-platform/samples/pipelines/README.md)
+All bundled samples: [dashpipe-demo/pipelines/README.md](../../dashpipe-demo/pipelines/README.md)

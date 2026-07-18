@@ -6,6 +6,7 @@ Mock data-plane services for end-to-end pipeline demos.
 
 | Path | Purpose |
 |------|---------|
+| [pipelines/](pipelines/) | Importable sample pipeline JSON bundles |
 | [petstore/](petstore/) | Petstore inventory upload sink (port 4010) |
 | [petstore-inventory/](petstore-inventory/) | GET-only inventory catalog for REST source demos (port 4011) |
 | [localstack/](localstack/) | LocalStack notes (S3/SQS via upstream image) |
@@ -43,7 +44,7 @@ Inventory CSV from S3 to Petstore — see [docs/overview/USE_CASES.md](../docs/o
 
 ## Docs
 
-- [Sample pipelines](../dashpipe-platform/samples/pipelines/README.md)
+- [Sample pipelines](pipelines/README.md)
 - [Local development](../docs/getting-started/LOCAL_DEVELOPMENT.md)
 
 **Note:** Demo services are for development and testing, not production deployment.

@@ -26,7 +26,7 @@ flowchart TB
 | **dashpipe-ci_cd** | `scripts/localdev.sh`, Azure Bicep, K8s manifests, assemblies, smoke/e2e tests | Business logic, UI features |
 | **dashpipe-dev-ai-agent** | LangGraph agents, AI UI, Ollama compose, `dashpipe-mcp` | Runtime pipeline execution |
 | **dashpipe-tools** | Prometheus, Grafana, ELK configs and compose profiles | API metrics emission (that stays in platform) |
-| **dashpipe-demo** | Petstore mocks, LocalStack compose service, demo K8s overlays | Production data plane |
+| **dashpipe-demo** | Petstore mocks, LocalStack compose service, demo K8s overlays, sample pipeline JSON | Production data plane |
 
 ## When to change which component
 
@@ -37,7 +37,7 @@ flowchart TB
 | Builder UI feature | `dashpipe-platform/dashpipe-ui` |
 | Localdev script or Azure deploy fix | `dashpipe-ci_cd` |
 | Grafana dashboard or Prometheus scrape config | `dashpipe-tools` |
-| Mock API for demos | `dashpipe-demo` |
+| Mock API or sample pipeline JSON for demos | `dashpipe-demo` |
 | MCP tool or AI prompt | `dashpipe-dev-ai-agent` |
 
 ## Docker Compose

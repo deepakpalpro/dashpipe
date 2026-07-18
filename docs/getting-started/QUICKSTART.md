@@ -40,7 +40,7 @@ Default tenant header used by localdev: **`T001`**.
 ## 3. Import a sample pipeline
 
 1. Go to **Pipelines** in the UI.
-2. Use **Import** (or create new) with a sample from [dashpipe-platform/samples/pipelines/](../../dashpipe-platform/samples/pipelines/).
+2. Use **Import** (or create new) with a sample from [dashpipe-demo/pipelines/](../../dashpipe-demo/pipelines/).
 3. Recommended first sample: `inventory-s3-to-petstore.pipeline.json`.
 
 ## 4. Verify the API
